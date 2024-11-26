@@ -13,7 +13,7 @@ export function Auth() {
       <Flex
         alignItems="center"
         justifyContent="center"
-        rounded="md"
+        rounded="lg"
         shadow="md"
         overflow="hidden"
       >
