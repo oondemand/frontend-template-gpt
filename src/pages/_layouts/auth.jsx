@@ -5,5 +5,5 @@ import { Navigate } from "react-router-dom";
 export function AuthLayout() {
   const { user, isLoading } = useAuth();
 
-  return !user && isLoading === false ? <Navigate to="/auth" /> : <Outlet />;
+  return !user && isLoading === false ? <Navigate to="/login" /> : <Outlet />;
 }
