@@ -1,12 +1,7 @@
 import { Flex, Box, Heading, HStack, VStack, Text } from "@chakra-ui/react";
-import { Formik, Field, ErrorMessage } from "formik";
 import { Form } from "./form";
 
-import { env } from "../../config/env";
-
 export function Auth() {
-  console.log("ENV", env);
-
   return (
     <Flex
       height="100vh"

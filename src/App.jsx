@@ -3,12 +3,18 @@ import { RouterProvider } from "react-router-dom";
 
 import { router } from "./routes";
 
+import { AuthProvider } from "./hooks/auth";
+import { Toaster } from "sonner";
+
 function App() {
   return (
     <>
-      <ChakraProvider value={defaultSystem}>
-        <RouterProvider router={router} />
-      </ChakraProvider>
+      <AuthProvider>
+        <Toaster richColors position="top-right" />
+        <ChakraProvider value={defaultSystem}>
+          <RouterProvider router={router} />
+        </ChakraProvider>
+      </AuthProvider>
     </>
   );
 }

@@ -18,6 +18,11 @@ import {
 
 import * as Yup from "yup";
 
+import { useAuth } from "../../hooks/auth";
+import { useNavigate } from "react-router-dom";
+
+import { toast } from "sonner";
+
 const schema = Yup.object({
   email: Yup.string().email("Email inválido!").required("Email obrigatório!"),
   password: Yup.string()
@@ -26,14 +31,34 @@ const schema = Yup.object({
 });
 
 export function Form() {
+  const { signIn, isLoading } = useAuth();
+  const navigate = useNavigate();
+
+  const onSubmit = async (data) => {
+    try {
+      await signIn(data.email, data.password);
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+
+      if (error.response?.status === 400) {
+        return toast.error("Credenciais inválidas!");
+      }
+
+      if (error.response?.status === 404) {
+        return toast.error("Usuário não encontrado!");
+      }
+
+      toast.error("Não foi possível realizar o login!");
+    }
+  };
+
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
     },
-    onSubmit: (values) => {
-      console.log("Values", values);
-    },
+    onSubmit: onSubmit,
     validateOnChange: false,
     validationSchema: schema,
   });
