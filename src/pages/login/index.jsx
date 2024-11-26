@@ -1,7 +1,7 @@
 import { Flex, Box, Heading, HStack, VStack, Text } from "@chakra-ui/react";
 import { Form } from "./form";
 
-export function Auth() {
+export function Login() {
   return (
     <Flex
       height="100vh"
