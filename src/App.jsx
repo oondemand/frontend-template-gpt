@@ -4,6 +4,8 @@ import { RouterProvider } from "react-router-dom";
 import { router } from "./routes";
 
 import { AuthProvider } from "./hooks/auth";
+import { ConfirmationProvider } from "./hooks/confirmationModal";
+
 import { Toaster } from "sonner";
 
 function App() {
@@ -12,7 +14,9 @@ function App() {
       <AuthProvider>
         <Toaster richColors position="top-right" />
         <ChakraProvider value={defaultSystem}>
-          <RouterProvider router={router} />
+          <ConfirmationProvider>
+            <RouterProvider router={router} />
+          </ConfirmationProvider>
         </ChakraProvider>
       </AuthProvider>
     </>

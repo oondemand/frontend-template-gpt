@@ -1,12 +1,23 @@
-import { HStack, Button, Box } from "@chakra-ui/react";
+import {
+  HStack,
+  Button,
+  Flex,
+  Box,
+  Center,
+  Heading,
+  VStack,
+} from "@chakra-ui/react";
+import { FileSliders } from "lucide-react";
 
 export function Home() {
   return (
-    <>
-      <Box h="12" w="full" bg="orange.400" />
-      <div>
-        <h1>HOME</h1>
-      </div>
-    </>
+    <Center rounded="md" bg="white" h="full" flex="1">
+      <VStack mt="-10" color="orange.500" textAlign="center">
+        <FileSliders size={72} />
+        <Heading textAlign="center" lineHeight="1.1" fontSize="5xl">
+          Fatura personalizada
+        </Heading>
+      </VStack>
+    </Center>
   );
 }

@@ -1,5 +1,6 @@
 import { Flex, Box, Heading, HStack, VStack, Text } from "@chakra-ui/react";
 import { Form } from "./form";
+import { FileSliders } from "lucide-react";
 
 export function Login() {
   return (
@@ -16,8 +17,16 @@ export function Login() {
         shadow="md"
         overflow="hidden"
       >
-        <Flex alignItems="center" px="8" h="96" bg="orange.400">
-          <Heading color="white">Poc Template Gpt</Heading>
+        <Flex
+          color="white"
+          gap="2"
+          alignItems="center"
+          px="8"
+          h="96"
+          bg="orange.400"
+        >
+          <FileSliders size={22} />
+          <Heading>Fatura personalizada</Heading>
         </Flex>
         <VStack px="8" gap="8">
           <VStack>
