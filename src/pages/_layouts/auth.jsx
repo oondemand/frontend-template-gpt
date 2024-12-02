@@ -11,14 +11,16 @@ export function AuthLayout() {
     return <Navigate to="/login" />;
   }
 
-  return (
-    <Grid templateColumns="repeat(8, 1fr)" bg="gray.50" minH="vh" minW="vw">
-      <GridItem colSpan={1}>
-        <Navbar />
-      </GridItem>
-      <GridItem colSpan={7} m="2" rounded="md" bg="white">
-        <Outlet />
-      </GridItem>
-    </Grid>
-  );
+  if (user && isLoading === false) {
+    return (
+      <Grid templateColumns="repeat(8, 1fr)" bg="gray.50" minH="vh" minW="vw">
+        <GridItem colSpan={1}>
+          <Navbar />
+        </GridItem>
+        <GridItem colSpan={7} m="2" rounded="md" bg="white">
+          <Outlet />
+        </GridItem>
+      </Grid>
+    );
+  }
 }
