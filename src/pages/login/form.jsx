@@ -21,6 +21,8 @@ import * as Yup from "yup";
 import { useAuth } from "../../hooks/auth";
 import { useNavigate } from "react-router-dom";
 
+import { TextInput } from "../../components/input/textInput";
+
 import { toast } from "sonner";
 
 const schema = Yup.object({
@@ -66,37 +68,23 @@ export function Form() {
   return (
     <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
       <VStack gap="2">
-        <Box>
-          <Text color="orange.600">Email</Text>
-          <Input
-            w="xs"
-            type="text"
-            name="email"
-            placeholder="exemplo@exemplo.com"
-            onChange={formik.handleChange}
-            value={formik.values.email}
-          />
-          {formik.errors.email && (
-            <Text color="red.500" fontSize="sm">
-              {formik.errors.email}
-            </Text>
-          )}
-        </Box>
-        <Box>
-          <Text color="orange.600">Senha</Text>
-          <Input
-            w="xs"
-            type="password"
-            name="password"
-            onChange={formik.handleChange}
-            value={formik.values.password}
-          />
-          {formik.errors.password && (
-            <Text color="red.500" fontSize="sm">
-              {formik.errors.password}
-            </Text>
-          )}
-        </Box>
+        <TextInput
+          label="Email *"
+          name="email"
+          onChange={formik.handleChange}
+          error={formik.errors.email}
+          value={formik.values.email}
+          w="xs"
+          placeholder="exemplo@exemplo.com"
+        />
+        <TextInput
+          label="Senha *"
+          name="password"
+          onChange={formik.handleChange}
+          error={formik.errors.password}
+          value={formik.values.password}
+          w="xs"
+        />
         <Button mt="8" bg="orange.400" w="xs" type="submit">
           Login
         </Button>
