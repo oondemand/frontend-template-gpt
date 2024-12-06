@@ -40,11 +40,8 @@ export function Navbar() {
   return (
     <Box position="relative" w="11/12" m="auto" py="2" minHeight="vh">
       <VStack justifyContent="space-between" alignItems="center">
-        <Heading color="orange.500">
-          <FileSliders style={{ display: "inline" }} size={18} /> Fatura
-          Personalizada
-        </Heading>
-        <Flex w="full" flexDir="column" gap="4">
+        <Heading color="orange.500">Fatura Personalizada</Heading>
+        <Flex mt="8" w="full" flexDir="column" gap="4">
           {navItems.map((item, i) => (
             <Link
               asChild
