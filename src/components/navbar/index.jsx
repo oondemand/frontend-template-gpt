@@ -12,7 +12,6 @@ import { LogOut } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useConfirmation } from "../../hooks/confirmationModal";
 import { useAuth } from "../../hooks/auth";
-import { FileSliders } from "lucide-react";
 
 export function Navbar() {
   const location = useLocation();

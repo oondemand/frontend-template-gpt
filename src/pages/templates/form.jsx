@@ -27,18 +27,20 @@ import {
   SelectValueText,
 } from "../../components/ui/select";
 
-import * as Yup from "yup";
-
-const schema = Yup.object({
-  nome: Yup.string().required("Nome obrigatório!"),
-  codigo: Yup.string().required("Código obrigatório!"),
-  descricao: Yup.string().required("Descrição obrigatória!"),
-  conteudo: Yup.string().required("Conteúdo obrigatório!"),
-  contentType: Yup.string().required("Content Type obrigatório!"),
-  status: Yup.string().required("Status obrigatório!"),
-});
+import { useForm, Controller } from "react-hook-form";
 
 import { TextInput } from "../../components/input/textInput";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { z } from "zod";
+
+const schema = z.object({
+  nome: z.string().nonempty("Nome obrigatório!"),
+  codigo: z.string().nonempty("Código obrigatório!"),
+  descricao: z.string().nonempty("Descrição obrigatória!"),
+  templateEjs: z.string().nonempty("Conteúdo obrigatório!"),
+  status: z.string().nonempty("Status obrigatório!").array(),
+});
 
 const statusOptions = createListCollection({
   items: [
@@ -49,92 +51,76 @@ const statusOptions = createListCollection({
 });
 
 export function TemplateForm({ onSubmit, formId, data }) {
-  const formik = useFormik({
-    initialValues: {
-      nome: data?.nome || "",
-      codigo: data?.codigo || "",
-      descricao: data?.descricao || "",
-      conteudo: data?.conteudo || "",
-      status: data?.status || "ativo",
-    },
-    onSubmit: onSubmit,
-    validateOnChange: false,
-    validationSchema: schema,
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    control,
+  } = useForm({
+    resolver: zodResolver(schema),
+    defaultValues: { ...data, status: data?.status || ["ativo"] },
   });
 
   return (
-    <form
-      id={formId}
-      onSubmit={(value) => {
-        formik.handleSubmit(value);
-        !data && formik.handleReset();
-      }}
-      onReset={formik.handleReset}
-    >
+    <form id={formId} onSubmit={handleSubmit(onSubmit)}>
       <Flex flexDir="column" gap="2">
         <HStack>
           <TextInput
-            name="nome"
             label="Nome *"
-            onChange={formik.handleChange}
-            error={formik.errors.nome}
-            value={formik.values.nome}
+            {...register("nome")}
+            error={errors.nome?.message}
           />
 
           <TextInput
-            name="codigo"
             label="Código *"
-            onChange={formik.handleChange}
-            error={formik.errors.codigo}
-            value={formik.values.codigo}
+            {...register("codigo")}
+            error={errors.codigo?.message}
           />
 
-          <SelectRoot
-            w="sm"
-            onValueChange={({ items, value }) =>
-              formik.setFieldValue("status", value[0])
-            }
-            collection={statusOptions}
-          >
-            <SelectLabel fontSize="md" color="orange.500">
-              Status
-            </SelectLabel>
-            <SelectTrigger>
-              <SelectValueText placeholder={formik.values.status} />
-            </SelectTrigger>
-            <SelectContent>
-              {statusOptions.items.map((status) => (
-                <SelectItem item={status} key={status.value}>
-                  {status.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </SelectRoot>
+          <Controller
+            control={control}
+            name="status"
+            render={({ field }) => (
+              <SelectRoot
+                name={field.name}
+                value={field.value}
+                onValueChange={({ value }) => field.onChange(value)}
+                onInteractOutside={() => field.onBlur()}
+                collection={statusOptions}
+              >
+                <SelectLabel fontSize="md" color="orange.500">
+                  Status
+                </SelectLabel>
+                <SelectTrigger>
+                  <SelectValueText placeholder={field.value} />
+                </SelectTrigger>
+                <SelectContent>
+                  {statusOptions.items.map((status) => (
+                    <SelectItem item={status} key={status.value}>
+                      {status.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </SelectRoot>
+            )}
+          />
         </HStack>
 
         <Box>
           <Text color="orange.600">Descrição *</Text>
-          <Textarea
-            name="descricao"
-            onChange={formik.handleChange}
-            value={formik.values.descricao}
-          />
-          {formik.errors.descricao && (
+          <Textarea {...register("descricao")} />
+          {errors.descricao?.message && (
             <Text color="red.500" fontSize="sm">
-              {formik.errors.descricao}
+              {errors.descricao?.message}
             </Text>
           )}
         </Box>
         <Box>
           <Text color="orange.600">Conteúdo *</Text>
-          <Textarea
-            name="conteudo"
-            onChange={formik.handleChange}
-            value={formik.values.conteudo}
-          />
-          {formik.errors.conteudo && (
+          <Textarea {...register("templateEjs")} />
+          {errors.templateEjs?.message && (
             <Text color="red.500" fontSize="sm">
-              {formik.errors.conteudo}
+              {errors.templateEjs?.message}
             </Text>
           )}
         </Box>

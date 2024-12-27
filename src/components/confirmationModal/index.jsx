@@ -7,9 +7,7 @@ import {
   DialogHeader,
   DialogRoot,
   DialogTitle,
-  DialogTrigger,
 } from "../ui/dialog";
-import { useState } from "react";
 
 import { Button, Heading } from "@chakra-ui/react";
 

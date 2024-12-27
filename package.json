@@ -11,17 +11,23 @@
   "dependencies": {
     "@chakra-ui/react": "^3.2.0",
     "@emotion/react": "^11.13.5",
+    "@hookform/resolvers": "^3.9.1",
+    "@tanstack/react-query": "^4.36.1",
     "axios": "^1.7.8",
     "formik": "^2.4.6",
     "lucide-react": "^0.462.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-hook-form": "^7.54.2",
     "react-icons": "^5.3.0",
-    "react-router-dom": "^7.0.1",
+    "react-router-dom": "^6.28.0",
     "sonner": "^1.7.0",
-    "yup": "^1.4.0"
+    "yup": "^1.4.0",
+    "sse.js": "^0.5.0",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@tanstack/react-query-devtools": "^4.36.1",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.3",

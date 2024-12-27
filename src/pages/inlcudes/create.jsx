@@ -1,20 +1,35 @@
-import {
-  Box,
-  Heading,
-  Button,
-  Flex,
-  Table,
-  IconButton,
-} from "@chakra-ui/react";
+import { Box, Heading, Button, Flex } from "@chakra-ui/react";
 
 import { IaChat } from "../../components/iaChat";
 import { IncludeForm } from "./form";
+import { IncludeService } from "../../services/include";
+import { useMutation } from "@tanstack/react-query";
+import { queryClient } from "../../config/react-query";
+
+import { toast } from "sonner";
 
 export function CreateInclude() {
-  const onSubmit = async (data) => {
-    console.log("[DATA]:", data);
+  const { mutateAsync: createIncludeMutation } = useMutation({
+    mutationFn: IncludeService.createInclude,
+    onSuccess() {
+      queryClient.invalidateQueries({
+        queryKey: ["list-includes"],
+      });
+    },
+  });
 
-    return true;
+  const onSubmit = async (data) => {
+    try {
+      const response = await createIncludeMutation({
+        ...data,
+        status: data.status[0],
+      });
+      if (response.status === 201) {
+        toast.success("Include criada com sucesso!");
+      }
+    } catch (error) {
+      toast.error("Erro ao criar include!");
+    }
   };
 
   return (

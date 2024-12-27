@@ -1,22 +1,4 @@
-import {
-  Formik,
-  Field,
-  ErrorMessage,
-  Form as FormikForm,
-  useFormik,
-} from "formik";
-
-import {
-  Button,
-  Input,
-  VStack,
-  Text,
-  Box,
-  HStack,
-  Flex,
-} from "@chakra-ui/react";
-
-import * as Yup from "yup";
+import { Button, VStack } from "@chakra-ui/react";
 
 import { useAuth } from "../../hooks/auth";
 import { useNavigate } from "react-router-dom";
@@ -24,12 +6,18 @@ import { useNavigate } from "react-router-dom";
 import { TextInput } from "../../components/input/textInput";
 
 import { toast } from "sonner";
+import { useForm } from "react-hook-form";
 
-const schema = Yup.object({
-  email: Yup.string().email("Email inválido!").required("Email obrigatório!"),
-  password: Yup.string()
-    .min(6, "Email precisa ter no mínimo 6 caracteres!")
-    .required("Senha obrigatória!"),
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+
+const schema = z.object({
+  email: z
+    .string({ message: "Email obrigatório!" })
+    .email({ message: "Email inválido!" }),
+  password: z
+    .string({ message: "Senha obrigatória!" })
+    .min(6, { message: "A senha precisa ter no mínimo 6 caracteres!" }),
 });
 
 export function Form() {
@@ -55,35 +43,29 @@ export function Form() {
     }
   };
 
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-    onSubmit: onSubmit,
-    validateOnChange: false,
-    validationSchema: schema,
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(schema),
   });
 
   return (
-    <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <VStack gap="2">
         <TextInput
-          label="Email *"
-          name="email"
-          onChange={formik.handleChange}
-          error={formik.errors.email}
-          value={formik.values.email}
           w="xs"
+          label="Email *"
+          {...register("email")}
           placeholder="exemplo@exemplo.com"
+          error={errors.email?.message}
         />
         <TextInput
-          label="Senha *"
-          name="password"
-          onChange={formik.handleChange}
-          error={formik.errors.password}
-          value={formik.values.password}
           w="xs"
+          label="Senha *"
+          {...register("password")}
+          error={errors.password?.message}
         />
         <Button mt="8" bg="orange.400" w="xs" type="submit">
           Login
