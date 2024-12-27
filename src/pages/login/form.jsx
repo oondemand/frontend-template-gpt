@@ -26,8 +26,15 @@ export function Form() {
 
   const onSubmit = async (data) => {
     try {
-      await signIn(data.email, data.password);
-      navigate("/");
+      const { success, multiTenant } = await signIn(data.email, data.password);
+
+      if (success && multiTenant) {
+        return navigate("/multi-tenant");
+      }
+
+      if (success && !multiTenant) {
+        return navigate("/");
+      }
     } catch (error) {
       console.log(error);
 
@@ -52,25 +59,27 @@ export function Form() {
   });
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <VStack gap="2">
-        <TextInput
-          w="xs"
-          label="Email *"
-          {...register("email")}
-          placeholder="exemplo@exemplo.com"
-          error={errors.email?.message}
-        />
-        <TextInput
-          w="xs"
-          label="Senha *"
-          {...register("password")}
-          error={errors.password?.message}
-        />
-        <Button mt="8" bg="orange.400" w="xs" type="submit">
-          Login
-        </Button>
-      </VStack>
-    </form>
+    <>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <VStack gap="2">
+          <TextInput
+            w="xs"
+            label="Email *"
+            {...register("email")}
+            placeholder="exemplo@exemplo.com"
+            error={errors.email?.message}
+          />
+          <TextInput
+            w="xs"
+            label="Senha *"
+            {...register("password")}
+            error={errors.password?.message}
+          />
+          <Button mt="8" bg="orange.400" w="xs" type="submit">
+            Login
+          </Button>
+        </VStack>
+      </form>
+    </>
   );
 }

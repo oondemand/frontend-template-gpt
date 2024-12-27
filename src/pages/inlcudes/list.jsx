@@ -84,7 +84,7 @@ export function ListIncludes() {
             </Table.Header>
             <Table.Body>
               {includes.map((include) => (
-                <Table.Row>
+                <Table.Row key={include._id}>
                   <Table.Cell>{include.nome}</Table.Cell>
                   <Table.Cell>{include.conteudo}</Table.Cell>
                   <Table.Cell>{include.descricao}</Table.Cell>

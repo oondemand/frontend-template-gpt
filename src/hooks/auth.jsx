@@ -7,6 +7,7 @@ import {
 } from "react";
 
 import { logIn, validateToken } from "../services/auth";
+import { queryClient } from "../config/react-query";
 
 export const AuthContext = createContext({});
 
@@ -21,15 +22,21 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("authToken", data.token);
       await loadContext();
 
-      return true;
+      if (data?.usuario?.tenants.length > 1) {
+        return { success: true, multiTenant: true };
+      }
+
+      localStorage.setItem("tenant", data.usuario.tenants[0].tenant._id);
+      return { success: true, multiTenant: false };
     }
 
-    return false;
+    return { success: false };
   };
 
   const signOut = async () => {
     setUser(null);
     localStorage.clear();
+    queryClient.clear();
   };
 
   const loadContext = async () => {
@@ -42,6 +49,7 @@ export const AuthProvider = ({ children }) => {
         setUser(data);
       } catch (error) {
         console.log(error);
+        error.status === 401 && signOut();
       }
     }
 

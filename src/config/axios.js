@@ -8,12 +8,16 @@ export const api = axios.create({
 
 api.interceptors.request.use(async (req) => {
   const token = localStorage.getItem("authToken");
+  const tenant = localStorage.getItem("tenant");
+
+  console.log(tenant);
 
   if (token) {
     req.headers = {
       ...req.headers,
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
+      tenant: tenant,
     };
   }
 

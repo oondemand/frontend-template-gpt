@@ -12,6 +12,9 @@ import { UpdateInclude } from "./pages/inlcudes/update";
 
 import { CreateTemplate } from "./pages/templates/create";
 import { UpdateTemplate } from "./pages/templates/update";
+import { MultiTenant } from "./pages/login/multiTenant";
+import { ListTenants } from "./pages/tenant";
+import { MasterLayout } from "./pages/_layouts/master";
 
 export const router = createBrowserRouter([
   {
@@ -46,12 +49,19 @@ export const router = createBrowserRouter([
         path: "/template/:id",
         element: <UpdateTemplate />,
       },
+      {
+        path: "/",
+        element: <MasterLayout />,
+        children: [{ path: "/tenants/", element: <ListTenants /> }],
+      },
     ],
   },
-
   {
     path: "/",
     element: <MainLayout />,
-    children: [{ path: "/login", element: <Login /> }],
+    children: [
+      { path: "/login", element: <Login /> },
+      { path: "/multi-tenant", element: <MultiTenant /> },
+    ],
   },
 ]);
