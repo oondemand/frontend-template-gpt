@@ -58,7 +58,10 @@ export function TemplateForm({ onSubmit, formId, data }) {
     control,
   } = useForm({
     resolver: zodResolver(schema),
-    defaultValues: { ...data, status: data?.status || ["ativo"] },
+    defaultValues: {
+      ...data,
+      status: data?.status ? [data.status] : ["ativo"],
+    },
   });
 
   return (

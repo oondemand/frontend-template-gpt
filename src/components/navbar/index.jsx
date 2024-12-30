@@ -8,16 +8,25 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-import { LogOut } from "lucide-react";
-import { NavLink, useLocation } from "react-router-dom";
+import { LogOut, ArrowLeftRight } from "lucide-react";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useConfirmation } from "../../hooks/confirmationModal";
 import { useAuth } from "../../hooks/auth";
+import { useTenant } from "../../hooks/tenant";
+import { queryClient } from "../../config/react-query";
 
 export function Navbar() {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const { requestConfirmation } = useConfirmation();
   const { signOut, user } = useAuth();
+  const { getTenant, setTenant } = useTenant();
+
+  const handleChangeTenant = () => {
+    navigate("/multi-tenant");
+    queryClient.clear();
+  };
 
   const navItems = [
     { name: "Home", path: "/" },
@@ -73,22 +82,31 @@ export function Navbar() {
         </Flex>
       </VStack>
       <Flex w="full" flexDir="column" position="absolute" gap="2" bottom="2">
-        {/* <Button
-          onClick={handleLogOut}
-          display="flex"
-          color="gray.900"
-          alignItems="center"
-          w="full"
-          bg="gray.200"
-          p="2"
-          px="4"
-          rounded="md"
-          justifyContent="space-between"
-          _hover={{ bg: "gray.300" }}
-        >
-          <Text fontSize="md">Sair</Text>
-          <LogOut />
-        </Button> */}
+        {user.tenants.length > 1 && (
+          <>
+            <Text px="1" fontSize="sm" color="gray.700" fontWeight="700">
+              Logado com:
+            </Text>
+            <Button
+              onClick={handleChangeTenant}
+              display="flex"
+              color="gray.700"
+              alignItems="center"
+              bg="gray.50"
+              w="full"
+              border="1px solid"
+              borderColor="gray.200"
+              p="2"
+              px="4"
+              rounded="md"
+              justifyContent="space-between"
+              _hover={{ bg: "gray.200" }}
+            >
+              <Text fontSize="sm">{getTenant().nome}</Text>
+              <ArrowLeftRight />
+            </Button>
+          </>
+        )}
         <Button
           onClick={handleLogOut}
           display="flex"

@@ -3,12 +3,18 @@ import { useAuth } from "../../hooks/auth";
 import { Navigate } from "react-router-dom";
 import { Grid, GridItem } from "@chakra-ui/react";
 import { Navbar } from "../../components/navbar";
+import { useTenant } from "../../hooks/tenant";
 
 export function AuthLayout() {
   const { user, isLoading } = useAuth();
+  const { getTenant } = useTenant();
 
   if (!user && isLoading === false) {
     return <Navigate to="/login" />;
+  }
+
+  if (user && isLoading === false && user.tenants.length > 1 && !getTenant()) {
+    return <Navigate to="/multi-tenant" />;
   }
 
   if (user && isLoading === false) {

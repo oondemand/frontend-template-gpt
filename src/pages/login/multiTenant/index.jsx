@@ -1,14 +1,17 @@
-import { Flex, Heading, VStack, Text, Button } from "@chakra-ui/react";
+import { Flex, Heading, VStack, Text, Button, Box } from "@chakra-ui/react";
 import { FileSliders } from "lucide-react";
 import { useAuth } from "../../../hooks/auth";
 import { useNavigate, Navigate } from "react-router-dom";
+import { useTenant } from "../../../hooks/tenant";
 
 export function MultiTenant() {
   const { user, isLoading } = useAuth();
   const navigate = useNavigate();
 
-  const selectTenant = (tenantId) => {
-    localStorage.setItem("tenant", tenantId);
+  const { getTenant, setTenant } = useTenant();
+
+  const selectTenant = (tenant) => {
+    setTenant({ tenant });
     navigate("/");
   };
 
@@ -19,50 +22,47 @@ export function MultiTenant() {
   return (
     <Flex
       height="100vh"
+      width="100vw"
       alignItems="center"
       justifyContent="center"
+      padding="4"
       bg="gray.50"
     >
-      <Flex
-        alignItems="center"
-        justifyContent="center"
+      <Box
+        borderLeft="4px solid"
+        borderColor="orange.500"
         rounded="lg"
         shadow="md"
         overflow="hidden"
-        // py="8"
-        // px="12"
+        h="full"
+        w="full"
+        p="8"
+        pl="10"
+        overflowY="auto"
       >
-        <Flex
-          color="white"
-          gap="2"
-          alignItems="center"
-          px="8"
-          h="96"
-          bg="orange.400"
-        >
-          <FileSliders size={22} />
-          <Heading>Fatura personalizada</Heading>
+        <Heading fontSize="2xl" color="orange.600">
+          Agora só falta mais um passo! :)
+        </Heading>
+        <Text mt="3" fontSize="lg" fontWeight="600" color="gray.500">
+          Em que ambiente você deseja trabalhar?
+        </Text>
+        <Box p="4" />
+        <Flex gap="2" wrap="wrap">
+          {user?.tenants?.map((e, i) => (
+            <Button
+              onClick={() => selectTenant(e.tenant)}
+              variant="outline"
+              key={e._id}
+              colorPalette="gray"
+              size="2xl"
+              rounded="lg"
+              w="xs"
+            >
+              {e.tenant?.nome}
+            </Button>
+          ))}
         </Flex>
-        <VStack px="8" gap="8">
-          <VStack>
-            <Heading color="orange.600">Agora só falta mais um passo!:</Heading>
-            <Text color="gray.700">Em que ambiente você deseja trabalhar?</Text>
-          </VStack>
-          <Flex w="full" flexDir="column" gap="2">
-            {user?.tenants?.map((e, i) => (
-              <Button
-                onClick={() => selectTenant(e.tenant._id)}
-                variant="outline"
-                key={e._id}
-                colorPalette="gray"
-                w="full"
-              >
-                {e.tenant.nome}
-              </Button>
-            ))}
-          </Flex>
-        </VStack>
-      </Flex>
+      </Box>
     </Flex>
   );
 }

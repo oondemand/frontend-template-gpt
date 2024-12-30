@@ -8,16 +8,18 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-import { FilePenLine, Trash2 } from "lucide-react";
+import { FilePenLine, Trash2, CopyPlus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { TemplateService } from "../../services/template";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 import { queryClient } from "../../config/react-query";
+import { useConfirmation } from "../../hooks/confirmationModal";
 
 export function ListTemplates() {
   const navigate = useNavigate();
+  const { requestConfirmation } = useConfirmation();
 
   const {
     data: templates,
@@ -39,15 +41,20 @@ export function ListTemplates() {
   });
 
   const onDelete = async (id) => {
-    try {
-      const response = await deleteTemplateMutation({ id });
-      if (response.status === 204) {
-        toast.success("Include deletada com sucesso");
-      }
-    } catch (error) {
-      console.log(error);
+    const response = await requestConfirmation({
+      title: "Tem certeza que deseja deletar template?",
+      description: "Essa operação não pode ser desfeita!",
+    });
 
-      toast.error("Erro ao deletar include!");
+    if (response.action === "confirmed") {
+      try {
+        const response = await deleteTemplateMutation({ id });
+        if (response.status === 204) {
+          toast.success("Template deletada com sucesso");
+        }
+      } catch (error) {
+        toast.error("Erro ao deletar template!");
+      }
     }
   };
 
@@ -97,6 +104,15 @@ export function ListTemplates() {
                         size="xs"
                       >
                         <FilePenLine />
+                      </IconButton>
+                      <IconButton
+                        onClick={() =>
+                          navigate(`/template/${template._id}/clone`)
+                        }
+                        colorPalette="green"
+                        size="xs"
+                      >
+                        <CopyPlus />
                       </IconButton>
                       <IconButton
                         onClick={() => onDelete(template._id)}

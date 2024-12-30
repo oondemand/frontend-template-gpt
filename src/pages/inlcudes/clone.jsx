@@ -10,7 +10,7 @@ import { toast } from "sonner";
 
 import { useParams } from "react-router-dom";
 
-export function UpdateInclude() {
+export function CloneInclude() {
   const { id } = useParams();
   const {
     data: include,
@@ -22,8 +22,8 @@ export function UpdateInclude() {
     queryFn: async () => await IncludeService.getInclude({ id }),
   });
 
-  const { mutateAsync: updateIncludeMutation } = useMutation({
-    mutationFn: IncludeService.updateInclude,
+  const { mutateAsync: cloneIncludeMutation } = useMutation({
+    mutationFn: IncludeService.createInclude,
     onSuccess() {
       queryClient.invalidateQueries({
         queryKey: ["list-includes"],
@@ -32,22 +32,17 @@ export function UpdateInclude() {
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
-
     try {
-      const response = await updateIncludeMutation({
-        id,
-        dados: {
-          ...data,
-          status: data.status[0],
-        },
+      const response = await cloneIncludeMutation({
+        ...data,
+        status: data.status[0],
       });
       if (response) {
-        toast.success("Include atualizar com sucesso!");
+        toast.success("Include criada com sucesso!");
       }
     } catch (error) {
       console.log(error);
-      toast.error("Erro ao atualizar include!");
+      toast.error("Erro ao criar include!");
     }
   };
 
@@ -55,17 +50,17 @@ export function UpdateInclude() {
     <Box>
       <Flex alignItems="center" justifyContent="space-between" mb="8">
         <Heading fontSize="2xl" color="orange.500">
-          Detalhes do include
+          Clonar include
         </Heading>
-        <Button type="submit" form="update-include-form" colorPalette="cyan">
-          Atualizar
+        <Button type="submit" form="clone-include-form" colorPalette="cyan">
+          Salvar
         </Button>
       </Flex>
       {!isLoading && include && (
         <IncludeForm
           data={include}
           onSubmit={onSubmit}
-          formId="update-include-form"
+          formId="clone-include-form"
         />
       )}
       <IaChat />

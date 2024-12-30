@@ -9,11 +9,14 @@ import {
 import { logIn, validateToken } from "../services/auth";
 import { queryClient } from "../config/react-query";
 
+import { useTenant } from "./tenant";
+
 export const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const { getTenant, setTenant } = useTenant();
 
   const signIn = async (email, password) => {
     const data = await logIn({ email, password });
@@ -26,7 +29,7 @@ export const AuthProvider = ({ children }) => {
         return { success: true, multiTenant: true };
       }
 
-      localStorage.setItem("tenant", data.usuario.tenants[0].tenant._id);
+      setTenant({ tenant: data.usuario.tenants[0].tenant });
       return { success: true, multiTenant: false };
     }
 
@@ -48,7 +51,7 @@ export const AuthProvider = ({ children }) => {
         const data = await validateToken();
         setUser(data);
       } catch (error) {
-        console.log(error);
+        console.log("ERROR", error);
         error.status === 401 && signOut();
       }
     }

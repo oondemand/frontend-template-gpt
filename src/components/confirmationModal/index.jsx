@@ -22,7 +22,7 @@ export const ConfirmationModal = ({
     <DialogRoot placement="center" lazyMount open={visible}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>
+          <DialogTitle asChild>
             <Heading>{title}</Heading>
           </DialogTitle>
         </DialogHeader>

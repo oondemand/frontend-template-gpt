@@ -8,7 +8,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-import { FilePenLine, Trash2 } from "lucide-react";
+import { FilePenLine, Trash2, CopyPlus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { IncludeService } from "../../services/include";
 import { useQuery } from "@tanstack/react-query";
@@ -16,9 +16,11 @@ import { toast } from "sonner";
 
 import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "../../config/react-query";
+import { useConfirmation } from "../../hooks/confirmationModal";
 
 export function ListIncludes() {
   const navigate = useNavigate();
+  const { requestConfirmation } = useConfirmation();
 
   const {
     data: includes,
@@ -40,13 +42,20 @@ export function ListIncludes() {
   });
 
   const onDelete = async (id) => {
-    try {
-      const response = await deleteIncludeMutation({ id });
-      if (response.status === 200) {
-        toast.success("Include deletada com sucesso");
+    const response = await requestConfirmation({
+      title: "Tem certeza que deseja deletar include?",
+      description: "Essa operação não pode ser desfeita!",
+    });
+
+    if (response.action === "confirmed") {
+      try {
+        const response = await deleteIncludeMutation({ id });
+        if (response.status === 200) {
+          toast.success("Include deletada com sucesso");
+        }
+      } catch (error) {
+        toast.error("Erro ao deletar include!");
       }
-    } catch (error) {
-      toast.error("Erro ao deletar include!");
     }
   };
 
@@ -98,6 +107,15 @@ export function ListIncludes() {
                         size="xs"
                       >
                         <FilePenLine />
+                      </IconButton>
+                      <IconButton
+                        onClick={() =>
+                          navigate(`/include/${include._id}/clone`)
+                        }
+                        colorPalette="green"
+                        size="xs"
+                      >
+                        <CopyPlus />
                       </IconButton>
                       <IconButton
                         onClick={() => {

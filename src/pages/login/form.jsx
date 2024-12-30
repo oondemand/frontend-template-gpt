@@ -27,6 +27,7 @@ export function Form() {
   const onSubmit = async (data) => {
     try {
       const { success, multiTenant } = await signIn(data.email, data.password);
+      console.log(success, multiTenant);
 
       if (success && multiTenant) {
         return navigate("/multi-tenant");

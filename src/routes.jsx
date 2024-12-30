@@ -6,15 +6,22 @@ import { Login } from "./pages/login";
 import { Home } from "./pages/home";
 
 import { ListIncludes } from "./pages/inlcudes/list";
-import { ListTemplates } from "./pages/templates/list";
 import { CreateInclude } from "./pages/inlcudes/create";
 import { UpdateInclude } from "./pages/inlcudes/update";
+import { CloneInclude } from "./pages/inlcudes/clone";
 
+import { ListTemplates } from "./pages/templates/list";
 import { CreateTemplate } from "./pages/templates/create";
 import { UpdateTemplate } from "./pages/templates/update";
+import { CloneTemplate } from "./pages/templates/clone";
+
 import { MultiTenant } from "./pages/login/multiTenant";
+
 import { ListTenants } from "./pages/tenant";
 import { MasterLayout } from "./pages/_layouts/master";
+import { CreateTenant } from "./pages/tenant/create";
+import { UpdateTenant } from "./pages/tenant/update";
+import { CloneTenant } from "./pages/tenant/clone";
 
 export const router = createBrowserRouter([
   {
@@ -38,6 +45,10 @@ export const router = createBrowserRouter([
         element: <UpdateInclude />,
       },
       {
+        path: "/include/:id/clone",
+        element: <CloneInclude />,
+      },
+      {
         path: "/templates",
         element: <ListTemplates />,
       },
@@ -50,9 +61,18 @@ export const router = createBrowserRouter([
         element: <UpdateTemplate />,
       },
       {
+        path: "/template/:id/clone",
+        element: <CloneTemplate />,
+      },
+      {
         path: "/",
         element: <MasterLayout />,
-        children: [{ path: "/tenants/", element: <ListTenants /> }],
+        children: [
+          { path: "/tenants/", element: <ListTenants /> },
+          { path: "/tenants/create", element: <CreateTenant /> },
+          { path: "/tenant/:id", element: <UpdateTenant /> },
+          { path: "/tenant/:id/clone", element: <CloneTenant /> },
+        ],
       },
     ],
   },

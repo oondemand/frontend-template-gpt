@@ -10,7 +10,7 @@ import { toast } from "sonner";
 
 import { useParams } from "react-router-dom";
 
-export function UpdateTemplate() {
+export function CloneTemplate() {
   const { id } = useParams();
   const {
     data: template,
@@ -22,8 +22,8 @@ export function UpdateTemplate() {
     queryFn: async () => await TemplateService.getTemplate({ id }),
   });
 
-  const { mutateAsync: updateTemplateMutation } = useMutation({
-    mutationFn: TemplateService.updateTemplate,
+  const { mutateAsync: cloneTemplateMutation } = useMutation({
+    mutationFn: TemplateService.createTemplate,
     onSuccess() {
       queryClient.invalidateQueries({
         queryKey: ["list-templates"],
@@ -33,18 +33,17 @@ export function UpdateTemplate() {
 
   const onSubmit = async (data) => {
     try {
-      const response = await updateTemplateMutation({
-        id,
+      const response = await cloneTemplateMutation({
         dados: {
           ...data,
           status: data.status[0],
         },
       });
-      if (response.status === 200) {
-        toast.success("Template atualizar com sucesso!");
+      if (response.status === 201) {
+        toast.success("Template criada com sucesso!");
       }
     } catch (error) {
-      toast.error("Erro ao atualizar template!");
+      toast.error("Erro ao criar template!");
     }
   };
 
@@ -52,17 +51,17 @@ export function UpdateTemplate() {
     <Box>
       <Flex alignItems="center" justifyContent="space-between" mb="8">
         <Heading fontSize="2xl" color="orange.500">
-          Detalhes do template
+          Clonar template
         </Heading>
-        <Button type="submit" form="update-template-form" colorPalette="cyan">
-          Atualizar
+        <Button type="submit" form="clone-template-form" colorPalette="cyan">
+          Salvar
         </Button>
       </Flex>
       {!isLoading && template && (
         <TemplateForm
           data={template}
           onSubmit={onSubmit}
-          formId="update-template-form"
+          formId="clone-template-form"
         />
       )}
       <IaChat />
