@@ -32,6 +32,11 @@ import { CreateCoins } from "./pages/coins/create";
 import { UpdateCoins } from "./pages/coins/update";
 import { CloneCoins } from "./pages/coins/clone";
 
+import { ListBaseOmies } from "./pages/baseOmie/list";
+import { CreateBaseOmies } from "./pages/baseOmie/create";
+import { UpdateBaseOmies } from "./pages/baseOmie/update";
+import { CloneBaseOmies } from "./pages/baseOmie/clone";
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -54,6 +59,10 @@ export const router = createBrowserRouter([
       { path: "/moedas/create", element: <CreateCoins /> },
       { path: "/moeda/:id", element: <UpdateCoins /> },
       { path: "/moeda/:id/clone", element: <CloneCoins /> },
+      { path: "/base-omies", element: <ListBaseOmies /> },
+      { path: "/base-omies/create", element: <CreateBaseOmies /> },
+      { path: "/base-omie/:id", element: <UpdateBaseOmies /> },
+      { path: "/base-omie/:id/clone", element: <CloneBaseOmies /> },
       {
         path: "/",
         element: <MasterLayout />,
