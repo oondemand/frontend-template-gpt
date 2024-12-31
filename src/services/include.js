@@ -14,8 +14,8 @@ const createInclude = async (data) => {
   return await api.post("/includes", data);
 };
 
-const updateInclude = async ({ id, dados }) => {
-  return await api.patch(`/includes/${id}`, dados);
+const updateInclude = async ({ id, body }) => {
+  return await api.patch(`/includes/${id}`, body);
 };
 
 const deletarInclude = async ({ id }) => {

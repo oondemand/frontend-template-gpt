@@ -13,8 +13,8 @@ const deleteTenantById = async ({ id }) => {
   return api.delete(`/tenants/${id}`);
 };
 
-const updateTenant = async ({ id, dados }) => {
-  return api.patch(`/tenants/${id}`, dados);
+const updateTenant = async ({ id, body }) => {
+  return api.patch(`/tenants/${id}`, body);
 };
 
 const getTenant = async ({ id }) => {

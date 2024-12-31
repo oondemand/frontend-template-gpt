@@ -34,7 +34,7 @@ export function CloneTemplate() {
   const onSubmit = async (data) => {
     try {
       const response = await cloneTemplateMutation({
-        dados: {
+        body: {
           ...data,
           status: data.status[0],
         },

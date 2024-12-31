@@ -10,12 +10,12 @@ const getTemplate = async ({ id }) => {
   return data;
 };
 
-const createTemplate = async ({ dados }) => {
-  return await api.post("/templates", dados);
+const createTemplate = async ({ body }) => {
+  return await api.post("/templates", body);
 };
 
-const updateTemplate = async ({ id, dados }) => {
-  return api.patch(`/templates/${id}`, dados);
+const updateTemplate = async ({ id, body }) => {
+  return api.patch(`/templates/${id}`, body);
 };
 
 const deleteTemplete = async ({ id }) => {

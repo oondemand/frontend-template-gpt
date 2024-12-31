@@ -41,7 +41,7 @@ export const useStream = (question) => {
       eventSource.onerror = (error) => {
         console.error("Erro no SSE:", error);
         eventSource.close();
-        setResponse("Erro ao receber dados.");
+        setResponse("Erro ao receber body.");
       };
 
       return () => {

@@ -37,7 +37,7 @@ export function UpdateTenant() {
     try {
       const response = await updateTenantMutation({
         id,
-        dados: {
+        body: {
           ...data,
         },
       });

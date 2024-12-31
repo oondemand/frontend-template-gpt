@@ -35,7 +35,7 @@ export function UpdateTemplate() {
     try {
       const response = await updateTemplateMutation({
         id,
-        dados: {
+        body: {
           ...data,
           status: data.status[0],
         },

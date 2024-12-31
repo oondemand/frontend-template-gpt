@@ -29,7 +29,7 @@ export function CreateTemplate() {
   const onSubmit = async (data) => {
     try {
       const response = await createTemplateMutation({
-        dados: { ...data, status: data.status[0] },
+        body: { ...data, status: data.status[0] },
       });
 
       if (response.status === 201) {
