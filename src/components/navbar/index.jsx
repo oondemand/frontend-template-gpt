@@ -33,6 +33,7 @@ export function Navbar() {
     { name: "Includes", path: "/includes" },
     { name: "Templates", path: "/templates" },
     { name: "Usuários", path: "/usuarios" },
+    { name: "Moedas", path: "/moedas" },
     { name: "Tenants", path: "/tenants", role: "master" },
   ];
 

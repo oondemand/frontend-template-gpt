@@ -27,50 +27,33 @@ import { ListUsers } from "./pages/users/list";
 import { CreateUsers } from "./pages/users/create";
 import { UpdateUsers } from "./pages/users/update";
 
+import { ListCoins } from "./pages/coins/list";
+import { CreateCoins } from "./pages/coins/create";
+import { UpdateCoins } from "./pages/coins/update";
+import { CloneCoins } from "./pages/coins/clone";
+
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <AuthLayout />,
     children: [
-      {
-        path: "/",
-        element: <Home />,
-      },
-      {
-        path: "/includes",
-        element: <ListIncludes />,
-      },
-      {
-        path: "/includes/create",
-        element: <CreateInclude />,
-      },
-      {
-        path: "/include/:id",
-        element: <UpdateInclude />,
-      },
-      {
-        path: "/include/:id/clone",
-        element: <CloneInclude />,
-      },
-      {
-        path: "/templates",
-        element: <ListTemplates />,
-      },
-      {
-        path: "/templates/create",
-        element: <CreateTemplate />,
-      },
-      {
-        path: "/template/:id",
-        element: <UpdateTemplate />,
-      },
-      {
-        path: "/template/:id/clone",
-        element: <CloneTemplate />,
-      },
+      { path: "/", element: <Home /> },
+      { path: "/includes", element: <ListIncludes /> },
+      { path: "/includes/create", element: <CreateInclude /> },
+      { path: "/include/:id", element: <UpdateInclude /> },
+      { path: "/include/:id/clone", element: <CloneInclude /> },
+      { path: "/templates", element: <ListTemplates /> },
+      { path: "/templates/create", element: <CreateTemplate /> },
+      { path: "/template/:id", element: <UpdateTemplate /> },
+      { path: "/template/:id/clone", element: <CloneTemplate /> },
       { path: "/usuarios", element: <ListUsers /> },
       { path: "/usuarios/create", element: <CreateUsers /> },
       { path: "/usuario/:id", element: <UpdateUsers /> },
+      { path: "/usuario/:id/clone", element: <UpdateUsers /> },
+      { path: "/moedas", element: <ListCoins /> },
+      { path: "/moedas/create", element: <CreateCoins /> },
+      { path: "/moeda/:id", element: <UpdateCoins /> },
+      { path: "/moeda/:id/clone", element: <CloneCoins /> },
       {
         path: "/",
         element: <MasterLayout />,
