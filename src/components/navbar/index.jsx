@@ -30,8 +30,9 @@ export function Navbar() {
 
   const navItems = [
     { name: "Home", path: "/" },
-    { name: "Gerenciar includes", path: "/includes" },
-    { name: "Gerenciar templates", path: "/templates" },
+    { name: "Includes", path: "/includes" },
+    { name: "Templates", path: "/templates" },
+    { name: "Usuários", path: "/usuarios" },
     { name: "Tenants", path: "/tenants", role: "master" },
   ];
 
@@ -84,9 +85,6 @@ export function Navbar() {
       <Flex w="full" flexDir="column" position="absolute" gap="2" bottom="2">
         {user.tenants.length > 1 && (
           <>
-            <Text px="1" fontSize="sm" color="gray.700" fontWeight="700">
-              Logado com:
-            </Text>
             <Button
               onClick={handleChangeTenant}
               display="flex"

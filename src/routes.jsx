@@ -16,12 +16,16 @@ import { UpdateTemplate } from "./pages/templates/update";
 import { CloneTemplate } from "./pages/templates/clone";
 
 import { MultiTenant } from "./pages/login/multiTenant";
-
 import { ListTenants } from "./pages/tenant";
+
 import { MasterLayout } from "./pages/_layouts/master";
 import { CreateTenant } from "./pages/tenant/create";
 import { UpdateTenant } from "./pages/tenant/update";
 import { CloneTenant } from "./pages/tenant/clone";
+
+import { ListUsers } from "./pages/users/list";
+import { CreateUsers } from "./pages/users/create";
+import { UpdateUsers } from "./pages/users/update";
 
 export const router = createBrowserRouter([
   {
@@ -64,6 +68,9 @@ export const router = createBrowserRouter([
         path: "/template/:id/clone",
         element: <CloneTemplate />,
       },
+      { path: "/usuarios", element: <ListUsers /> },
+      { path: "/usuarios/create", element: <CreateUsers /> },
+      { path: "/usuario/:id", element: <UpdateUsers /> },
       {
         path: "/",
         element: <MasterLayout />,
