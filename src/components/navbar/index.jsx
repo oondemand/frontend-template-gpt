@@ -34,6 +34,7 @@ export function Navbar() {
     { name: "Templates", path: "/templates" },
     { name: "Moedas", path: "/moedas" },
     { name: "Base omies", path: "/base-omies" },
+    { name: "Configurações", path: "/settings" },
     { name: "Usuários", path: "/usuarios" },
     { name: "Tenants", path: "/tenants", role: "master" },
   ];

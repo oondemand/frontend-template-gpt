@@ -36,6 +36,10 @@ import { ListBaseOmies } from "./pages/baseOmie/list";
 import { CreateBaseOmies } from "./pages/baseOmie/create";
 import { UpdateBaseOmies } from "./pages/baseOmie/update";
 import { CloneBaseOmies } from "./pages/baseOmie/clone";
+import { ListSettings } from "./pages/setting/list";
+import { CreateSettings } from "./pages/setting/create";
+import { UpdateSettings } from "./pages/setting/update";
+import { CloneSettings } from "./pages/setting/clone";
 
 export const router = createBrowserRouter([
   {
@@ -63,6 +67,10 @@ export const router = createBrowserRouter([
       { path: "/base-omies/create", element: <CreateBaseOmies /> },
       { path: "/base-omie/:id", element: <UpdateBaseOmies /> },
       { path: "/base-omie/:id/clone", element: <CloneBaseOmies /> },
+      { path: "/settings", element: <ListSettings /> },
+      { path: "/settings/create", element: <CreateSettings /> },
+      { path: "/setting/:id", element: <UpdateSettings /> },
+      { path: "/setting/:id/clone", element: <CloneSettings /> },
       {
         path: "/",
         element: <MasterLayout />,
