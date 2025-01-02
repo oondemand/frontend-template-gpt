@@ -1,14 +1,5 @@
-import {
-  Box,
-  Heading,
-  Button,
-  Flex,
-  Table,
-  IconButton,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Heading, Button, Flex, Text } from "@chakra-ui/react";
 
-import { FilePenLine, Trash2, CopyPlus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -17,6 +8,8 @@ import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "../../config/react-query";
 import { SettingService } from "../../services/settings";
 import { useConfirmation } from "../../hooks/confirmationModal";
+
+import { SettingsTable } from "./table";
 
 export function ListSettings() {
   const navigate = useNavigate();
@@ -78,62 +71,11 @@ export function ListSettings() {
           {!isLoading && error && (
             <Text>Ouve um erro ao listar configurações!</Text>
           )}
-          {!isLoading && !error && settings.length == 0 && (
+          {!isLoading && !error && !settings && (
             <Text>Não foram encontradas configurações</Text>
           )}
-          {!isLoading && settings && settings.length > 0 && (
-            <Table.Root variant="line" striped>
-              <Table.Header>
-                <Table.Row>
-                  <Table.ColumnHeader>Nome</Table.ColumnHeader>
-                  <Table.ColumnHeader>Codigo</Table.ColumnHeader>
-                  <Table.ColumnHeader>Valor</Table.ColumnHeader>
-                  <Table.ColumnHeader>Base omie</Table.ColumnHeader>
-                  <Table.ColumnHeader />
-                </Table.Row>
-              </Table.Header>
-              <Table.Body>
-                {settings.map((setting) => (
-                  <Table.Row key={setting._id}>
-                    <Table.Cell>{setting.nome}</Table.Cell>
-                    <Table.Cell>{setting.codigo}</Table.Cell>
-                    <Table.Cell>
-                      {setting?.valor?.intervaloSincronizacao}
-                    </Table.Cell>
-                    <Table.Cell>{setting.baseOmie}</Table.Cell>
-                    <Table.Cell placeItems="end">
-                      <Flex gap="4">
-                        <IconButton
-                          onClick={() => navigate(`/setting/${setting._id}`)}
-                          colorPalette="cyan"
-                          size="xs"
-                        >
-                          <FilePenLine />
-                        </IconButton>
-                        <IconButton
-                          onClick={() =>
-                            navigate(`/setting/${setting._id}/clone`)
-                          }
-                          colorPalette="green"
-                          size="xs"
-                        >
-                          <CopyPlus />
-                        </IconButton>
-                        <IconButton
-                          onClick={() => {
-                            onDelete(setting._id);
-                          }}
-                          colorPalette="red"
-                          size="xs"
-                        >
-                          <Trash2 />
-                        </IconButton>
-                      </Flex>
-                    </Table.Cell>
-                  </Table.Row>
-                ))}
-              </Table.Body>
-            </Table.Root>
+          {!isLoading && settings && settings && (
+            <SettingsTable data={settings} />
           )}
         </Box>
       </Box>

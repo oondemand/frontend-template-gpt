@@ -67,24 +67,6 @@ export function SettingsForm({ onSubmit, formId, data }) {
   return (
     <form id={formId} onSubmit={handleSubmit(onSubmit)}>
       <Flex wrap="wrap" alignItems="center" gap="2">
-        <TextInput
-          label="Nome *"
-          {...register("nome")}
-          error={errors.nome?.message}
-        />
-
-        <TextInput
-          label="Código *"
-          {...register("codigo")}
-          error={errors.codigo?.message}
-        />
-
-        <TextInput
-          label="Valor"
-          {...register("valor")}
-          error={errors.valor?.message}
-        />
-
         <Controller
           control={control}
           name="baseOmie"
@@ -112,6 +94,24 @@ export function SettingsForm({ onSubmit, formId, data }) {
               </SelectContent>
             </SelectRoot>
           )}
+        />
+
+        <TextInput
+          label="Nome *"
+          {...register("nome")}
+          error={errors.nome?.message}
+        />
+
+        <TextInput
+          label="Código *"
+          {...register("codigo")}
+          error={errors.codigo?.message}
+        />
+
+        <TextInput
+          label="Valor"
+          {...register("valor")}
+          error={errors.valor?.message}
         />
       </Flex>
     </form>
