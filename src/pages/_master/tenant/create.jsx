@@ -1,10 +1,9 @@
 import { Box, Heading, Button, Flex } from "@chakra-ui/react";
 
-import { IaChat } from "../../components/iaChat";
 import { TenantForm } from "./form";
-import { TenantService } from "../../services/tenant";
 import { useMutation } from "@tanstack/react-query";
-import { queryClient } from "../../config/react-query";
+import { queryClient } from "../../../config/react-query";
+import { TenantService } from "../../../services/tenant";
 
 import { toast } from "sonner";
 
@@ -43,7 +42,6 @@ export function CreateTenant() {
         </Button>
       </Flex>
       <TenantForm onSubmit={onSubmit} formId="create-tenant-form" />
-      <IaChat />
     </Box>
   );
 }

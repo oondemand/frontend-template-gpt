@@ -3,6 +3,7 @@ import { FileSliders } from "lucide-react";
 import { useAuth } from "../../../hooks/auth";
 import { useNavigate, Navigate } from "react-router-dom";
 import { useTenant } from "../../../hooks/tenant";
+import { Server } from "lucide-react";
 
 export function MultiTenant() {
   const { user, isLoading } = useAuth();
@@ -12,7 +13,7 @@ export function MultiTenant() {
 
   const selectTenant = (tenant) => {
     setTenant({ tenant });
-    navigate("/");
+    navigate("/", { viewTransition: true });
   };
 
   if (!user && isLoading === false) {
@@ -48,6 +49,21 @@ export function MultiTenant() {
         </Text>
         <Box p="4" />
         <Flex gap="2" wrap="wrap">
+          {user?.tipo === "master" && (
+            <Button
+              onClick={() =>
+                navigate("/adm/usuarios", { viewTransition: true })
+              }
+              variant="surface"
+              colorPalette="orange"
+              size="2xl"
+              rounded="lg"
+              w="xs"
+            >
+              Painel do administrador
+              <Server />
+            </Button>
+          )}
           {user?.tenants?.map((e, i) => (
             <Button
               onClick={() => selectTenant(e.tenant)}

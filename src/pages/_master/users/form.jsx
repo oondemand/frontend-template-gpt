@@ -25,11 +25,11 @@ import {
   SelectRoot,
   SelectTrigger,
   SelectValueText,
-} from "../../components/ui/select";
+} from "../../../components/ui/select";
 
 import { useForm, Controller } from "react-hook-form";
 
-import { TextInput } from "../../components/input/textInput";
+import { TextInput } from "../../../components/input/textInput";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { z } from "zod";

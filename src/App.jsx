@@ -22,7 +22,7 @@ function App() {
           <ReactQueryDevtools initialIsOpen={false} />
         )} */}
         <AuthProvider>
-          <Toaster richColors position="top-right" />
+          <Toaster richColors position="bottom-right" />
           <ChakraProvider value={defaultSystem}>
             <ConfirmationProvider>
               <RouterProvider router={router} />

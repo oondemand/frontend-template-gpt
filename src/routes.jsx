@@ -16,16 +16,19 @@ import { UpdateTemplate } from "./pages/templates/update";
 import { CloneTemplate } from "./pages/templates/clone";
 
 import { MultiTenant } from "./pages/login/multiTenant";
-import { ListTenants } from "./pages/tenant";
-
 import { MasterLayout } from "./pages/_layouts/master";
-import { CreateTenant } from "./pages/tenant/create";
-import { UpdateTenant } from "./pages/tenant/update";
-import { CloneTenant } from "./pages/tenant/clone";
+
+import { ListTenants } from "./pages/_master/tenant";
+import { CreateTenant } from "./pages/_master/tenant/create";
+import { UpdateTenant } from "./pages/_master/tenant/update";
+import { CloneTenant } from "./pages/_master/tenant/clone";
 
 import { ListUsers } from "./pages/users/list";
-import { CreateUsers } from "./pages/users/create";
-import { UpdateUsers } from "./pages/users/update";
+
+import { ListUsers as AdmListUsers } from "./pages/_master/users/list";
+import { CreateUsers as AdmCreateUsers } from "./pages/_master/users/create";
+import { UpdateUsers as AdmUpdateUsers } from "./pages/_master/users/update";
+import { CloneUsers as AdmCloneUsers } from "./pages/_master/users/clone";
 
 import { ListCoins } from "./pages/coins/list";
 import { CreateCoins } from "./pages/coins/create";
@@ -56,9 +59,7 @@ export const router = createBrowserRouter([
       { path: "/template/:id", element: <UpdateTemplate /> },
       { path: "/template/:id/clone", element: <CloneTemplate /> },
       { path: "/usuarios", element: <ListUsers /> },
-      { path: "/usuarios/create", element: <CreateUsers /> },
-      { path: "/usuario/:id", element: <UpdateUsers /> },
-      { path: "/usuario/:id/clone", element: <UpdateUsers /> },
+
       { path: "/moedas", element: <ListCoins /> },
       { path: "/moedas/create", element: <CreateCoins /> },
       { path: "/moeda/:id", element: <UpdateCoins /> },
@@ -71,16 +72,20 @@ export const router = createBrowserRouter([
       { path: "/settings/create", element: <CreateSettings /> },
       { path: "/setting/:id", element: <UpdateSettings /> },
       { path: "/setting/:id/clone", element: <CloneSettings /> },
-      {
-        path: "/",
-        element: <MasterLayout />,
-        children: [
-          { path: "/tenants/", element: <ListTenants /> },
-          { path: "/tenants/create", element: <CreateTenant /> },
-          { path: "/tenant/:id", element: <UpdateTenant /> },
-          { path: "/tenant/:id/clone", element: <CloneTenant /> },
-        ],
-      },
+    ],
+  },
+  {
+    path: "/adm",
+    element: <MasterLayout />,
+    children: [
+      { path: "/adm/tenants/", element: <ListTenants /> },
+      { path: "/adm/tenants/create", element: <CreateTenant /> },
+      { path: "/adm/tenant/:id", element: <UpdateTenant /> },
+      { path: "/adm/tenant/:id/clone", element: <CloneTenant /> },
+      { path: "/adm/usuarios", element: <AdmListUsers /> },
+      { path: "/adm/usuarios/create", element: <AdmCreateUsers /> },
+      { path: "/adm/usuario/:id", element: <AdmUpdateUsers /> },
+      { path: "/adm/usuario/:id/clone", element: <AdmCloneUsers /> },
     ],
   },
   {

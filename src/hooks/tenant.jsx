@@ -6,6 +6,10 @@ const setTenant = ({ tenant }) => {
   return localStorage.setItem("tenant", JSON.stringify(tenant));
 };
 
+const clear = () => {
+  return localStorage.removeItem("tenant");
+};
+
 export const useTenant = () => {
-  return { getTenant, setTenant };
+  return { getTenant, setTenant, clear };
 };

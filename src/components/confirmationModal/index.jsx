@@ -9,7 +9,8 @@ import {
   DialogTitle,
 } from "../ui/dialog";
 
-import { Button, Heading } from "@chakra-ui/react";
+import { Button, Flex, Heading, Box } from "@chakra-ui/react";
+import { CircleAlert } from "lucide-react";
 
 export const ConfirmationModal = ({
   visible,
@@ -20,20 +21,28 @@ export const ConfirmationModal = ({
 }) => {
   return (
     <DialogRoot placement="center" lazyMount open={visible}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle asChild>
+      <DialogContent alignItems="center" rounded="lg" pb="4" pt="1">
+        <DialogHeader display="flex" flexDir="column" alignItems="center">
+          <CircleAlert size={100} />
+          <DialogTitle mt="6" asChild>
             <Heading>{title}</Heading>
           </DialogTitle>
         </DialogHeader>
-        <DialogBody fontSize="md">{description}</DialogBody>
+        <DialogBody
+          textAlign="center"
+          fontSize="md"
+          fontWeight="600"
+          color="gray.600"
+        >
+          {description}
+        </DialogBody>
         <DialogFooter>
           <DialogActionTrigger asChild>
             <Button
               onClick={handleClose}
               fontWeight="semibold"
               fontSize="md"
-              colorPalette="red"
+              variant="surface"
             >
               Cancelar
             </Button>
@@ -42,7 +51,7 @@ export const ConfirmationModal = ({
             onClick={handleConfirm}
             fontWeight="semibold"
             fontSize="md"
-            colorPalette="cyan"
+            colorPalette="red"
           >
             Confirmar
           </Button>

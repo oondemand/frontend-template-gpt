@@ -14,9 +14,9 @@ import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 import { useMutation } from "@tanstack/react-query";
-import { queryClient } from "../../config/react-query";
-import { TenantService } from "../../services/tenant";
-import { useConfirmation } from "../../hooks/confirmationModal";
+import { queryClient } from "../../../config/react-query";
+import { TenantService } from "../../../services/tenant";
+import { useConfirmation } from "../../../hooks/confirmationModal";
 
 export function ListTenants() {
   const navigate = useNavigate();
@@ -66,7 +66,7 @@ export function ListTenants() {
             Tenants
           </Heading>
           <Button
-            onClick={() => navigate("/tenants/create")}
+            onClick={() => navigate("/adm/tenants/create")}
             colorPalette="cyan"
           >
             Criar tenant
@@ -96,16 +96,15 @@ export function ListTenants() {
                     <Table.Cell placeItems="end">
                       <Flex gap="4">
                         <IconButton
-                          onClick={() => navigate(`/tenant/${tenant._id}`)}
+                          onClick={() => navigate(`/adm/tenant/${tenant._id}`)}
                           colorPalette="cyan"
                           size="xs"
                         >
                           <FilePenLine />
                         </IconButton>
                         <IconButton
-                          disabled={true}
                           onClick={() =>
-                            navigate(`/tenant/${tenant._id}/clone`)
+                            navigate(`/adm/tenant/${tenant._id}/clone`)
                           }
                           colorPalette="green"
                           size="xs"

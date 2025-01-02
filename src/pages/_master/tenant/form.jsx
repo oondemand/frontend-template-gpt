@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { TextInput } from "../../components/input/textInput";
+import { TextInput } from "../../../components/input/textInput";
 
 const schema = z.object({
   nome: z.string().nonempty("Nome obrigatório!"),

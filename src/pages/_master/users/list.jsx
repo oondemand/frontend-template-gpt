@@ -14,10 +14,9 @@ import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 import { useMutation } from "@tanstack/react-query";
-import { queryClient } from "../../config/react-query";
-import { UserService } from "../../services/users";
-import { useConfirmation } from "../../hooks/confirmationModal";
-import { InviteUserModal } from "./dialog";
+import { queryClient } from "../../../config/react-query";
+import { UserService } from "../../../services/users";
+import { useConfirmation } from "../../../hooks/confirmationModal";
 
 export function ListUsers() {
   const navigate = useNavigate();
@@ -66,13 +65,12 @@ export function ListUsers() {
           <Heading fontSize="2xl" color="orange.500">
             Usuários
           </Heading>
-          {/* <Button
+          <Button
             onClick={() => toast.info("Enviar convite")}
             colorPalette="cyan"
           >
-            Convidar usuário
-          </Button> */}
-          <InviteUserModal />
+            Criar usuário
+          </Button>
         </Flex>
 
         <Box mt="8">
@@ -101,6 +99,22 @@ export function ListUsers() {
                     <Table.Cell>{user.status}</Table.Cell>
                     <Table.Cell placeItems="end">
                       <Flex gap="4">
+                        <IconButton
+                          onClick={() => navigate(`/adm/usuario/${user._id}`)}
+                          colorPalette="cyan"
+                          size="xs"
+                        >
+                          <FilePenLine />
+                        </IconButton>
+                        <IconButton
+                          onClick={() =>
+                            navigate(`/adm/usuario/${user._id}/clone`)
+                          }
+                          colorPalette="green"
+                          size="xs"
+                        >
+                          <CopyPlus />
+                        </IconButton>
                         <IconButton
                           onClick={() => {
                             onDelete(user._id);

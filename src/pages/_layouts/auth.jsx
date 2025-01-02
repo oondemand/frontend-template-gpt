@@ -1,13 +1,26 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/auth";
 import { Navigate } from "react-router-dom";
-import { Grid, GridItem } from "@chakra-ui/react";
+import { Grid, GridItem, Button, Text } from "@chakra-ui/react";
 import { Navbar } from "../../components/navbar";
 import { useTenant } from "../../hooks/tenant";
+
+import { Airplay } from "lucide-react";
+
+const routes = [
+  { name: "Home", path: "/" },
+  { name: "Includes", path: "/includes" },
+  { name: "Templates", path: "/templates" },
+  { name: "Moedas", path: "/moedas" },
+  { name: "Base omies", path: "/base-omies" },
+  { name: "Configurações", path: "/settings" },
+  { name: "Usuários", path: "/usuarios" },
+];
 
 export function AuthLayout() {
   const { user, isLoading } = useAuth();
   const { getTenant } = useTenant();
+  const navigate = useNavigate();
 
   if (!user && isLoading === false) {
     return <Navigate to="/login" />;
@@ -21,7 +34,31 @@ export function AuthLayout() {
     return (
       <Grid templateColumns="repeat(8, 1fr)" bg="gray.50" minH="vh" minW="vw">
         <GridItem colSpan={1}>
-          <Navbar />
+          <Navbar.root navItems={routes} title="Fatura Personalizada">
+            <Navbar.footer>
+              {user?.tipo === "master" && (
+                <Button
+                  onClick={() =>
+                    navigate("/adm/usuarios", { viewTransition: true })
+                  }
+                  display="flex"
+                  colorPalette="orange"
+                  alignItems="center"
+                  rounded="md"
+                  justifyContent="space-between"
+                  variant="surface"
+                  w="full"
+                  p="2"
+                  px="4"
+                >
+                  <Text fontSize="sm">Painel do administrador</Text>
+                  <Airplay />
+                </Button>
+              )}
+              {user.tenants.length > 1 && <Navbar.changeTenantButton />}
+              <Navbar.logOutButton />
+            </Navbar.footer>
+          </Navbar.root>
         </GridItem>
         <GridItem p="4" colSpan={7} m="2" rounded="md" bg="white">
           <Outlet />
