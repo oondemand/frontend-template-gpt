@@ -73,7 +73,7 @@ export function ListUsers() {
           </Button>
         </Flex>
 
-        <Box mt="8">
+        <Box mt="8" maxH="800px" overflow="auto">
           {isLoading && <Text>Listando usuários...</Text>}
           {!isLoading && error && <Text>Ouve um erro ao listar usuários!</Text>}
           {!isLoading && !error && users.length == 0 && (

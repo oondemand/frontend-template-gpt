@@ -62,7 +62,7 @@ export function ListCoins() {
 
   return (
     <>
-      <Box>
+      <Box maxH="800px" overflow="auto">
         <Flex alignItems="center" justifyContent="space-between">
           <Heading fontSize="2xl" color="orange.500">
             Moedas

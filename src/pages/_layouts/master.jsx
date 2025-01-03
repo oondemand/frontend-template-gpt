@@ -17,14 +17,18 @@ export function MasterLayout() {
   const { clear } = useTenant();
   const navigate = useNavigate();
 
-  if (user?.tipo !== "master" && isLoading === false) {
-    return <Navigate to="/" />;
-  }
-
   //importante para não mandar um tenantId via header das requisições
   useEffect(() => {
     clear();
   }, []);
+
+  if (!user && isLoading === false) {
+    return <Navigate to="/login" />;
+  }
+
+  if (user?.tipo !== "master" && isLoading === false) {
+    return <Navigate to="/" />;
+  }
 
   if (user?.tipo === "master" && isLoading === false) {
     return (

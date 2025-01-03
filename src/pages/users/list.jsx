@@ -20,7 +20,6 @@ import { useConfirmation } from "../../hooks/confirmationModal";
 import { InviteUserModal } from "./dialog";
 
 export function ListUsers() {
-  const navigate = useNavigate();
   const { requestConfirmation } = useConfirmation();
 
   const {
@@ -31,6 +30,8 @@ export function ListUsers() {
     queryKey: ["list-users"],
     queryFn: UserService.listUsers,
   });
+
+  console.log("USERS", users);
 
   const { mutateAsync: deleteUserMutation } = useMutation({
     mutationFn: UserService.deleteUserById,
@@ -66,16 +67,10 @@ export function ListUsers() {
           <Heading fontSize="2xl" color="orange.500">
             Usuários
           </Heading>
-          {/* <Button
-            onClick={() => toast.info("Enviar convite")}
-            colorPalette="cyan"
-          >
-            Convidar usuário
-          </Button> */}
           <InviteUserModal />
         </Flex>
 
-        <Box mt="8">
+        <Box mt="8" maxH="800px" overflow="auto">
           {isLoading && <Text>Listando usuários...</Text>}
           {!isLoading && error && <Text>Ouve um erro ao listar usuários!</Text>}
           {!isLoading && !error && users.length == 0 && (

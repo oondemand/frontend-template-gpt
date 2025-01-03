@@ -18,6 +18,7 @@ import { z } from "zod";
 
 import { useQuery } from "@tanstack/react-query";
 import { BaseOmieService } from "../../services/baseOmie";
+import { SelectBaseOmie } from "./selectBaseOmie";
 
 const schema = z.object({
   nome: z.string().min(1, "Nome é obrigatório"),
@@ -28,15 +29,6 @@ const schema = z.object({
 
 export function SettingsForm({ onSubmit, formId, data }) {
   const {
-    data: baseOmies,
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: ["list-base-omies"],
-    queryFn: BaseOmieService.listBaseOmies,
-  });
-
-  const {
     register,
     handleSubmit,
     formState: { errors },
@@ -45,23 +37,9 @@ export function SettingsForm({ onSubmit, formId, data }) {
     resolver: zodResolver(schema),
     defaultValues: {
       ...data,
-      valor: data?.valor ? data.valor.intervaloSincronizacao.toString() : "",
+      valor: data?.valor ? data.valor.intervaloSincronizacao?.toString() : "",
       baseOmie: data?.baseOmie ? [data.baseOmie] : "",
     },
-  });
-
-  if (!baseOmies && !isLoading) {
-    return <div>Base omies não encontradas</div>;
-  }
-
-  if (isLoading) {
-    return <div>Listando base omies</div>;
-  }
-
-  const baseOmiesCollection = createListCollection({
-    items: baseOmies.map((e) => {
-      return { label: e.nome, value: e._id };
-    }),
   });
 
   return (
@@ -71,28 +49,14 @@ export function SettingsForm({ onSubmit, formId, data }) {
           control={control}
           name="baseOmie"
           render={({ field }) => (
-            <SelectRoot
+            <SelectBaseOmie
+              label="Base omie"
               name={field.name}
               value={field.value}
               onValueChange={({ value }) => field.onChange(value)}
               onInteractOutside={() => field.onBlur()}
-              collection={baseOmiesCollection}
               w="xs"
-            >
-              <SelectLabel fontSize="md" color="orange.500">
-                Base omie
-              </SelectLabel>
-              <SelectTrigger>
-                <SelectValueText placeholder="Selecione base omie" />
-              </SelectTrigger>
-              <SelectContent>
-                {baseOmiesCollection.items.map((baseOmie) => (
-                  <SelectItem item={baseOmie} key={baseOmie.value}>
-                    {baseOmie.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </SelectRoot>
+            />
           )}
         />
 

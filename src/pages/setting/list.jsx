@@ -66,16 +66,16 @@ export function ListSettings() {
           </Button>
         </Flex>
 
-        <Box mt="8">
+        <Box mt="8" maxH="800px" overflow="auto">
           {isLoading && <Text>Listando configurações...</Text>}
           {!isLoading && error && (
             <Text>Ouve um erro ao listar configurações!</Text>
           )}
-          {!isLoading && !error && !settings && (
+          {!isLoading && !error && settings.length <= 1 && (
             <Text>Não foram encontradas configurações</Text>
           )}
-          {!isLoading && settings && settings && (
-            <SettingsTable data={settings} />
+          {!isLoading && settings && settings.length > 1 && (
+            <SettingsTable data={settings} onDelete={onDelete} />
           )}
         </Box>
       </Box>

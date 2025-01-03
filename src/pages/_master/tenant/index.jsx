@@ -73,7 +73,7 @@ export function ListTenants() {
           </Button>
         </Flex>
 
-        <Box mt="8">
+        <Box mt="8" maxH="800px" overflow="auto">
           {isLoading && <Text>Listando tenants...</Text>}
           {!isLoading && error && <Text>Ouve um erro ao listar tenants!</Text>}
           {!isLoading && !error && tenants.length == 0 && (

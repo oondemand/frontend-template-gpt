@@ -72,7 +72,7 @@ export function ListTemplates() {
         </Button>
       </Flex>
 
-      <Box mt="8">
+      <Box mt="8" maxH="800px" overflow="auto">
         {isLoading && <Text>Listando templates...</Text>}
         {!isLoading && error && <Text>Ouve um erro ao listar templates!</Text>}
         {!isLoading && !error && templates.length == 0 && (
@@ -83,8 +83,8 @@ export function ListTemplates() {
             <Table.Header>
               <Table.Row>
                 <Table.ColumnHeader>Nome</Table.ColumnHeader>
-                <Table.ColumnHeader>Conteúdo</Table.ColumnHeader>
                 <Table.ColumnHeader>Descrição</Table.ColumnHeader>
+                {/* <Table.ColumnHeader>Conteúdo</Table.ColumnHeader> */}
                 <Table.ColumnHeader>Status</Table.ColumnHeader>
                 <Table.ColumnHeader />
               </Table.Row>
@@ -94,7 +94,7 @@ export function ListTemplates() {
                 <Table.Row key={template._id}>
                   <Table.Cell>{template.nome}</Table.Cell>
                   <Table.Cell>{template.descricao}</Table.Cell>
-                  <Table.Cell>{template.templateEjs}</Table.Cell>
+                  {/* <Table.Cell>{template.templateEjs}</Table.Cell> */}
                   <Table.Cell>{template.status}</Table.Cell>
                   <Table.Cell placeItems="end">
                     <Flex gap="4">

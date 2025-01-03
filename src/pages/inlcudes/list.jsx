@@ -73,7 +73,7 @@ export function ListIncludes() {
         </Button>
       </Flex>
 
-      <Box mt="8">
+      <Box mt="8" maxH="800px" overflow="auto">
         {isLoading && <Text>Listando includes...</Text>}
         {!isLoading && error && <Text>Ouve um erro ao listar includes!</Text>}
         {!isLoading && !error && includes.length == 0 && (
@@ -95,7 +95,9 @@ export function ListIncludes() {
               {includes.map((include) => (
                 <Table.Row key={include._id}>
                   <Table.Cell>{include.nome}</Table.Cell>
-                  <Table.Cell>{include.conteudo}</Table.Cell>
+                  <Table.Cell maxW="300px">
+                    <Text truncate>{include.conteudo}</Text>
+                  </Table.Cell>
                   <Table.Cell>{include.descricao}</Table.Cell>
                   <Table.Cell>{include.contenType}</Table.Cell>
                   <Table.Cell>{include.status}</Table.Cell>

@@ -1,19 +1,20 @@
-import { Flex, Table, IconButton, Text, Input } from "@chakra-ui/react";
+import { Flex, Table, IconButton, Text, Input, Box } from "@chakra-ui/react";
 import { FilePenLine, Trash2, CopyPlus, Search } from "lucide-react";
 import { useState } from "react";
 import { DebouncedInput } from "../../components/ui/debounced-input";
 import { InputGroup } from "../../components/ui/input-group";
+import { useNavigate } from "react-router-dom";
+import { SelectBaseOmie } from "./selectBaseOmie";
 
-export function SettingsTable({ data }) {
+export function SettingsTable({ data, onDelete }) {
+  const navigate = useNavigate();
   const [settings, setSettings] = useState(data);
 
-  console.log(settings);
+  console.log("Settings", settings);
 
-  const handleSearch = (value) => {
-    console.log(value);
-
+  const handleSearch = ({ value }) => {
     const results = data.filter((e) => {
-      return e.baseOmie.nome.toLowerCase().includes(value.toLowerCase());
+      return e?.baseOmie?._id === value[0];
     });
 
     setSettings(results);
@@ -26,17 +27,12 @@ export function SettingsTable({ data }) {
           <Table.ColumnHeader>
             <Flex alignItems="center" gap="4">
               <Text>Base omie </Text>
-              <InputGroup startElement={<Search size={16} />}>
-                <DebouncedInput
-                  placeholder="Procurar..."
-                  value=""
-                  w="48"
-                  h="6"
-                  size="xs"
-                  onChange={handleSearch}
-                  debounce={700}
-                />
-              </InputGroup>
+              <SelectBaseOmie
+                onValueChange={handleSearch}
+                w="80"
+                variant="subtle"
+                size="xs"
+              />
             </Flex>
           </Table.ColumnHeader>
           <Table.ColumnHeader>Nome</Table.ColumnHeader>
@@ -45,10 +41,12 @@ export function SettingsTable({ data }) {
           <Table.ColumnHeader />
         </Table.Row>
       </Table.Header>
-      <Table.Body>
+      <Table.Body maxH="720px" overflow="auto">
         {settings.map((setting) => (
           <Table.Row key={setting._id}>
-            <Table.Cell>{setting.baseOmie.nome}</Table.Cell>
+            <Table.Cell>
+              {setting.baseOmie?.nome || "Configuração geral"}
+            </Table.Cell>
             <Table.Cell>{setting.nome}</Table.Cell>
             <Table.Cell>{setting.codigo}</Table.Cell>
             <Table.Cell>{setting?.valor?.intervaloSincronizacao}</Table.Cell>
