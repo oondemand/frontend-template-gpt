@@ -40,6 +40,17 @@ const schema = z.object({
   descricao: z.string().nonempty("Descrição obrigatória!"),
   templateEjs: z.string().nonempty("Conteúdo obrigatório!"),
   status: z.string().nonempty("Status obrigatório!").array(),
+  variables: z.string().refine(
+    (value) => {
+      try {
+        JSON.parse(value);
+        return true;
+      } catch (error) {
+        return false;
+      }
+    },
+    { message: "String não é um JSON válido" }
+  ),
 });
 
 const statusOptions = createListCollection({
@@ -63,6 +74,8 @@ export function TemplateForm({ onSubmit, formId, data }) {
       status: data?.status ? [data.status] : ["ativo"],
     },
   });
+
+  console.log(data);
 
   return (
     <form id={formId} onSubmit={handleSubmit(onSubmit)}>
@@ -124,6 +137,16 @@ export function TemplateForm({ onSubmit, formId, data }) {
           {errors.templateEjs?.message && (
             <Text color="red.500" fontSize="sm">
               {errors.templateEjs?.message}
+            </Text>
+          )}
+        </Box>
+
+        <Box>
+          <Text color="orange.600">Json Schema *</Text>
+          <Textarea fontSize="sm" h="56" {...register("variables")} />
+          {errors.variables?.message && (
+            <Text color="red.500" fontSize="sm">
+              {errors.variables?.message}
             </Text>
           )}
         </Box>

@@ -16,9 +16,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { z } from "zod";
 
-import { useQuery } from "@tanstack/react-query";
 import { BaseOmieService } from "../../services/baseOmie";
 import { SelectBaseOmie } from "./selectBaseOmie";
+import { SelectCode } from "../../components/selectCode";
+import { useQuery } from "@tanstack/react-query";
+import { SettingService } from "../../services/settings";
 
 const schema = z.object({
   nome: z.string().min(1, "Nome é obrigatório"),
@@ -33,13 +35,24 @@ export function SettingsForm({ onSubmit, formId, data }) {
     handleSubmit,
     formState: { errors },
     control,
+    setValue,
   } = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
       ...data,
       valor: data?.valor ? data.valor.intervaloSincronizacao?.toString() : "",
       baseOmie: data?.baseOmie ? [data.baseOmie] : "",
+      codigo: data?.codigo ? data.codigo : "",
     },
+  });
+
+  const {
+    data: settings,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: ["list-unique-settings"],
+    queryFn: SettingService.listUniqueSettings,
   });
 
   return (
@@ -60,17 +73,38 @@ export function SettingsForm({ onSubmit, formId, data }) {
           )}
         />
 
+        {settings && (
+          <Controller
+            control={control}
+            name="codigo"
+            render={({ field }) => (
+              <SelectCode
+                name={field.name}
+                value={field.value}
+                onChange={({ value }) => {
+                  field.onChange(value);
+                  setValue(
+                    "nome",
+                    settings.find((e) => e.codigo === value)?.nome || ""
+                  );
+                }}
+                data={settings.map((e) => e?.codigo)}
+              />
+            )}
+          />
+        )}
+
         <TextInput
           label="Nome *"
           {...register("nome")}
           error={errors.nome?.message}
         />
 
-        <TextInput
+        {/* <TextInput
           label="Código *"
           {...register("codigo")}
           error={errors.codigo?.message}
-        />
+        /> */}
 
         <TextInput
           label="Valor"

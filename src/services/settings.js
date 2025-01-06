@@ -22,10 +22,16 @@ const updateSetting = async ({ id, body }) => {
   return await api.put(`/configuracoes/${id}`, body);
 };
 
+const listUniqueSettings = async () => {
+  const { data } = await api.get("configuracoes/listar-configuracoes-unicas");
+  return data;
+};
+
 export const SettingService = {
   listSettings,
   createSetting,
   deleteSettingById,
   getSetting,
   updateSetting,
+  listUniqueSettings,
 };

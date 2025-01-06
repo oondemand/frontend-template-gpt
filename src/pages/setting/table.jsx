@@ -1,4 +1,12 @@
-import { Flex, Table, IconButton, Text, Input, Box } from "@chakra-ui/react";
+import {
+  Flex,
+  Table,
+  IconButton,
+  Text,
+  Input,
+  Box,
+  Button,
+} from "@chakra-ui/react";
 import { FilePenLine, Trash2, CopyPlus, Search } from "lucide-react";
 import { useState } from "react";
 import { DebouncedInput } from "../../components/ui/debounced-input";
@@ -9,8 +17,6 @@ import { SelectBaseOmie } from "./selectBaseOmie";
 export function SettingsTable({ data, onDelete }) {
   const navigate = useNavigate();
   const [settings, setSettings] = useState(data);
-
-  console.log("Settings", settings);
 
   const handleSearch = ({ value }) => {
     const results = data.filter((e) => {
@@ -33,6 +39,13 @@ export function SettingsTable({ data, onDelete }) {
                 variant="subtle"
                 size="xs"
               />
+              <Button
+                onClick={() => setSettings(data)}
+                variant="surface"
+                size="xs"
+              >
+                Limpar filtros
+              </Button>
             </Flex>
           </Table.ColumnHeader>
           <Table.ColumnHeader>Nome</Table.ColumnHeader>

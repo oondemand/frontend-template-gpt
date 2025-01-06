@@ -37,7 +37,13 @@ export function SelectBaseOmie({ label, ...props }) {
       </SelectTrigger>
       <SelectContent>
         {baseOmiesCollection?.items?.map((baseOmie) => (
-          <SelectItem item={baseOmie} key={baseOmie.value}>
+          <SelectItem
+            cursor="pointer"
+            rounded="sm"
+            _hover={{ bg: "gray.100" }}
+            item={baseOmie}
+            key={baseOmie.value}
+          >
             {baseOmie.label}
           </SelectItem>
         ))}
