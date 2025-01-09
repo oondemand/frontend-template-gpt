@@ -1,4 +1,4 @@
-import { ChakraProvider, defaultSystem } from "@chakra-ui/react";
+import { ChakraProvider, defaultSystem, useDialog } from "@chakra-ui/react";
 import { RouterProvider } from "react-router-dom";
 
 import { router } from "./routes";
@@ -7,6 +7,7 @@ import { AuthProvider } from "./hooks/auth";
 import { ConfirmationProvider } from "./hooks/confirmationModal";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { QueryClientProvider } from "@tanstack/react-query";
+import { DialogProvider } from "./hooks/dialogContext";
 
 import { env } from "./config/env";
 
@@ -25,7 +26,9 @@ function App() {
           <Toaster richColors position="bottom-right" />
           <ChakraProvider value={defaultSystem}>
             <ConfirmationProvider>
-              <RouterProvider router={router} />
+              <DialogProvider>
+                <RouterProvider router={router} />
+              </DialogProvider>
             </ConfirmationProvider>
           </ChakraProvider>
         </AuthProvider>

@@ -17,7 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import { BaseOmieService } from "../../services/baseOmie";
-import { SelectBaseOmie } from "./selectBaseOmie";
+import { SelectBaseOmie } from "../../components/selectBaseOmie";
 import { SelectCode } from "../../components/selectCode";
 import { useQuery } from "@tanstack/react-query";
 import { SettingService } from "../../services/settings";

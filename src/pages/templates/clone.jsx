@@ -9,9 +9,14 @@ import { queryClient } from "../../config/react-query";
 import { toast } from "sonner";
 
 import { useParams } from "react-router-dom";
+import { useDialog } from "../../hooks/dialogContext";
+
+import { Eye } from "lucide-react";
 
 export function CloneTemplate() {
   const { id } = useParams();
+  const { openDialog } = useDialog();
+
   const {
     data: template,
     isFetching,
@@ -53,9 +58,14 @@ export function CloneTemplate() {
         <Heading fontSize="2xl" color="orange.500">
           Clonar template
         </Heading>
-        <Button type="submit" form="clone-template-form" colorPalette="cyan">
-          Salvar
-        </Button>
+        <Flex gap="2" alignItems="center">
+          <Button variant="surface" onClick={() => openDialog()}>
+            <Eye /> Preview
+          </Button>
+          <Button type="submit" form="clone-template-form" colorPalette="cyan">
+            Salvar
+          </Button>
+        </Flex>
       </Flex>
       {!isLoading && template && (
         <TemplateForm
@@ -64,7 +74,6 @@ export function CloneTemplate() {
           formId="clone-template-form"
         />
       )}
-      <IaChat />
     </Box>
   );
 }

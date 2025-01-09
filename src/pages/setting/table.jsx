@@ -12,7 +12,7 @@ import { useState } from "react";
 import { DebouncedInput } from "../../components/ui/debounced-input";
 import { InputGroup } from "../../components/ui/input-group";
 import { useNavigate } from "react-router-dom";
-import { SelectBaseOmie } from "./selectBaseOmie";
+import { SelectBaseOmie } from "../../components/selectBaseOmie";
 
 export function SettingsTable({ data, onDelete }) {
   const navigate = useNavigate();

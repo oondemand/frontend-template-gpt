@@ -9,9 +9,12 @@ import { queryClient } from "../../config/react-query";
 import { toast } from "sonner";
 
 import { useParams } from "react-router-dom";
+import { Eye } from "lucide-react";
+import { useDialog } from "../../hooks/dialogContext";
 
 export function UpdateTemplate() {
   const { id } = useParams();
+  const { openDialog } = useDialog();
   const {
     data: template,
     isFetching,
@@ -54,9 +57,14 @@ export function UpdateTemplate() {
         <Heading fontSize="2xl" color="orange.500">
           Detalhes do template
         </Heading>
-        <Button type="submit" form="update-template-form" colorPalette="cyan">
-          Atualizar
-        </Button>
+        <Flex gap="2" alignItems="center">
+          <Button variant="surface" onClick={() => openDialog()}>
+            <Eye /> Preview
+          </Button>
+          <Button type="submit" form="update-template-form" colorPalette="cyan">
+            Atualizar
+          </Button>
+        </Flex>
       </Flex>
       {!isLoading && template && (
         <TemplateForm
@@ -65,7 +73,6 @@ export function UpdateTemplate() {
           formId="update-template-form"
         />
       )}
-      <IaChat />
     </Box>
   );
 }

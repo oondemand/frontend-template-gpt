@@ -20,19 +20,16 @@ export function ChangeTenantButton() {
       display="flex"
       colorPalette="orange"
       variant="surface"
-      // color="gray.700"
       alignItems="center"
-      // border="1px solid"
-      // borderColor="gray.200"
       rounded="md"
       justifyContent="space-between"
-      // _hover={{ bg: "gray.200" }}
-      // bg="gray.50"
       w="full"
       p="2"
       px="4"
     >
-      <Text fontSize="sm">{getTenant().nome}</Text>
+      <Text truncate fontSize="sm">
+        {getTenant().nome}
+      </Text>
       <ArrowLeftRight />
     </Button>
   );

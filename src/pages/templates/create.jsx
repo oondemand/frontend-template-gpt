@@ -15,8 +15,14 @@ import { toast } from "sonner";
 import { useMutation } from "@tanstack/react-query";
 
 import { queryClient } from "../../config/react-query";
+import { PreviewDialog } from "./previewDialog";
+
+import { Eye } from "lucide-react";
+import { useDialog } from "../../hooks/dialogContext";
 
 export function CreateTemplate() {
+  const { openDialog } = useDialog();
+
   const { mutateAsync: createTemplateMutation } = useMutation({
     mutationFn: TemplateService.createTemplate,
     onSuccess() {
@@ -46,12 +52,16 @@ export function CreateTemplate() {
         <Heading fontSize="2xl" color="orange.500">
           Criar template
         </Heading>
-        <Button type="submit" form="create-template-form" colorPalette="cyan">
-          Salvar
-        </Button>
+        <Flex gap="2" alignItems="center">
+          <Button variant="surface" onClick={() => openDialog()}>
+            <Eye /> Preview
+          </Button>
+          <Button type="submit" form="create-template-form" colorPalette="cyan">
+            Salvar
+          </Button>
+        </Flex>
       </Flex>
       <TemplateForm onSubmit={onSubmit} formId="create-template-form" />
-      <IaChat />
     </Box>
   );
 }

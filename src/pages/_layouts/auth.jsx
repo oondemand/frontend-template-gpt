@@ -51,7 +51,9 @@ export function AuthLayout() {
                   p="2"
                   px="4"
                 >
-                  <Text fontSize="sm">Painel do administrador</Text>
+                  <Text truncate fontSize="sm">
+                    Painel do administrador
+                  </Text>
                   <Airplay />
                 </Button>
               )}

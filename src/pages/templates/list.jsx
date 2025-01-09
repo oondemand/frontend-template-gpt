@@ -16,10 +16,19 @@ import { toast } from "sonner";
 
 import { queryClient } from "../../config/react-query";
 import { useConfirmation } from "../../hooks/confirmationModal";
+import { PreviewDialog } from "./previewDialog";
+import { useDialog } from "../../hooks/dialogContext";
+import { useState } from "react";
+import { Eye } from "lucide-react";
 
 export function ListTemplates() {
   const navigate = useNavigate();
   const { requestConfirmation } = useConfirmation();
+  const { openDialog } = useDialog();
+  const [modalValues, setModalValues] = useState({
+    jsonSchema: null,
+    content: null,
+  });
 
   const {
     data: templates,
@@ -59,7 +68,7 @@ export function ListTemplates() {
   };
 
   return (
-    <Box>
+    <>
       <Flex alignItems="center" justifyContent="space-between">
         <Heading fontSize="2xl" color="orange.500">
           Templates
@@ -98,6 +107,20 @@ export function ListTemplates() {
                   <Table.Cell>{template.status}</Table.Cell>
                   <Table.Cell placeItems="end">
                     <Flex gap="4">
+                      <Button
+                        size="xs"
+                        variant="surface"
+                        onClick={() => {
+                          setModalValues({
+                            content: template?.templateEjs || "",
+                            jsonSchema: template?.variables || "",
+                          });
+
+                          openDialog();
+                        }}
+                      >
+                        <Eye /> Preview
+                      </Button>
                       <IconButton
                         onClick={() => navigate(`/template/${template._id}`)}
                         colorPalette="cyan"
@@ -129,6 +152,12 @@ export function ListTemplates() {
           </Table.Root>
         )}
       </Box>
-    </Box>
+      {modalValues.content && modalValues.jsonSchema && (
+        <PreviewDialog
+          content={modalValues.content}
+          jsonSchema={modalValues.jsonSchema}
+        />
+      )}
+    </>
   );
 }
