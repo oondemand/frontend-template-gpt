@@ -39,6 +39,10 @@ import { z } from "zod";
 import { FaturaService } from "../../services/fatura";
 import { ExternalIframe } from "./iframe";
 import { IntegrationGptService } from "../../services/integration-gpt";
+import { useState } from "react";
+import Markdown from "react-markdown";
+
+import { Prose } from "../../components/ui/prose";
 
 const previewSchema = z.object({
   baseOmie: z.string().min(1, "Base omie é obrigatória").array(),
@@ -47,10 +51,12 @@ const previewSchema = z.object({
 
 const iaSchema = z.object({
   question: z.string().min(1, "Escreva sua pergunta."),
+  file: z.any(),
 });
 
 export function PreviewDialog({ content, jsonSchema, children }) {
   const { isDialogOpen, setIsDialogOpen } = useDialog();
+  const [iaResponse, setIaResponse] = useState();
 
   const previewForm = useForm({
     resolver: zodResolver(previewSchema),
@@ -101,6 +107,8 @@ export function PreviewDialog({ content, jsonSchema, children }) {
   };
 
   const iaSubmit = async (values) => {
+    console.log(values);
+
     try {
       const response = await questionIaMutation({
         body: {
@@ -111,20 +119,23 @@ export function PreviewDialog({ content, jsonSchema, children }) {
 
       const regex = /```ejs([\s\S]*?)```/;
 
-      previewForm.setValue(
-        "content",
-        response.data.data.match(regex)[1].trim()
-      );
+      if (response.data.data.match(regex)[1]) {
+        previewForm.setValue(
+          "content",
+          response.data.data.match(regex)[1].trim()
+        );
+      }
 
       const text = response.data.data.replace(regex, "");
-
-      console.log("Log da hora:", response, text);
+      setIaResponse(text);
 
       if (response.status === 200) {
-        toast.success("Preview gerada com sucesso!");
+        toast.success("Tudo certo!");
       }
     } catch (error) {
-      toast.error("Ouve um erro ao gerar preview!");
+      console.log(error);
+
+      toast.error("Ouve um erro na conexão com openIa");
     }
   };
 
@@ -134,9 +145,9 @@ export function PreviewDialog({ content, jsonSchema, children }) {
       size="full"
       open={isDialogOpen}
       onOpenChange={(e) => {
-        previewForm.reset();
+        // previewForm.reset();
         setIsDialogOpen(e.open);
-        reset();
+        // reset();
       }}
     >
       <DialogContent position="relative" h="full">
@@ -149,9 +160,27 @@ export function PreviewDialog({ content, jsonSchema, children }) {
               w="1/3"
               px="2"
             >
-              <Heading color="gray.400" mt="12">
-                Chat ia
-              </Heading>
+              <Box>
+                <Heading color="gray.400" my="12">
+                  Chat ia
+                </Heading>
+
+                {iaResponse && (
+                  <Flex
+                    rounded="md"
+                    px="2"
+                    max-h="96"
+                    gap="2"
+                    border="1px dashed"
+                    borderColor="gray.200"
+                    overflow="auto"
+                  >
+                    <Prose fontSize="sm">
+                      <Markdown>{iaResponse}</Markdown>
+                    </Prose>
+                  </Flex>
+                )}
+              </Box>
 
               <form onSubmit={iaForm.handleSubmit(iaSubmit)}>
                 <Flex alignItems="center" gap="2" mb="2">
@@ -161,17 +190,37 @@ export function PreviewDialog({ content, jsonSchema, children }) {
                     placeholder="Faça uma pergunta"
                     resize="none"
                   />
-                  <Button type="submit" variant="surface" size="xl">
+                  <Button
+                    disabled={isLoading || isQuestionIaMutationLoading}
+                    type="submit"
+                    variant="surface"
+                    size="xl"
+                  >
                     {!isQuestionIaMutationLoading && "Enviar"}
                     {isQuestionIaMutationLoading && <Spinner />}
                   </Button>
                 </Flex>
-                <FileUploadRoot maxW="full" alignItems="stretch" maxFiles={5}>
-                  <FileUploadDropzone
-                    label="Drag and drop here to upload"
-                    description=".png, .jpg up to 5MB"
-                  />
-                </FileUploadRoot>
+                <Controller
+                  name="file"
+                  control={iaForm.control}
+                  render={({ field }) => (
+                    <FileUploadRoot
+                      accept="image/*"
+                      onFileAccept={(e) => {
+                        field.onChange(e.files);
+                      }}
+                      maxW="full"
+                      alignItems="stretch"
+                      maxFiles={1}
+                    >
+                      <FileUploadList />
+                      <FileUploadDropzone
+                        label="Drag and drop here to upload"
+                        description=".png, .jpg up to 5MB"
+                      />
+                    </FileUploadRoot>
+                  )}
+                />
               </form>
             </Flex>
             <Separator orientation="vertical" />
@@ -207,12 +256,16 @@ export function PreviewDialog({ content, jsonSchema, children }) {
                       <Collapsible.Trigger>
                         <Text fontSize="lg">Conteúdo</Text>
                       </Collapsible.Trigger>
-                      <Button variant="surface" size="xs">
+                      {/* <Button variant="surface" size="xs">
                         Salvar alterações
-                      </Button>
+                      </Button> */}
                     </Flex>
                     <Collapsible.Content>
-                      <Textarea {...previewForm.register("content")} h="80" />
+                      <Textarea
+                        fontSize="md"
+                        {...previewForm.register("content")}
+                        h="80"
+                      />
                     </Collapsible.Content>
                   </Collapsible.Root>
 
@@ -223,7 +276,13 @@ export function PreviewDialog({ content, jsonSchema, children }) {
                       Preview
                     </Text>
 
-                    <Button w="24" type="submit" size="xs" variant="surface">
+                    <Button
+                      disabled={isLoading || isQuestionIaMutationLoading}
+                      w="24"
+                      type="submit"
+                      size="xs"
+                      variant="surface"
+                    >
                       {!isLoading && "Gerar preview"}
                       {isLoading && <Spinner />}
                     </Button>
