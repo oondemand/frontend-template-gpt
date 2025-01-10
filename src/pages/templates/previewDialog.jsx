@@ -41,6 +41,7 @@ import { ExternalIframe } from "./iframe";
 import { IntegrationGptService } from "../../services/integration-gpt";
 import { useState } from "react";
 import Markdown from "react-markdown";
+import { Save } from "lucide-react";
 
 import { Prose } from "../../components/ui/prose";
 
@@ -54,7 +55,7 @@ const iaSchema = z.object({
   file: z.any(),
 });
 
-export function PreviewDialog({ content, jsonSchema, children }) {
+export function PreviewDialog({ content, systemVar, omieVar, children }) {
   const { isDialogOpen, setIsDialogOpen } = useDialog();
   const [iaResponse, setIaResponse] = useState();
 
@@ -62,6 +63,7 @@ export function PreviewDialog({ content, jsonSchema, children }) {
     resolver: zodResolver(previewSchema),
     defaultValues: {
       content,
+      omieVar,
     },
   });
 
@@ -93,7 +95,7 @@ export function PreviewDialog({ content, jsonSchema, children }) {
       const response = await generatePreviewMutation({
         body: {
           content: values.content,
-          variables: jsonSchema,
+          systemVar: systemVar,
           baseOmie: values.baseOmie[0],
         },
       });
@@ -107,8 +109,6 @@ export function PreviewDialog({ content, jsonSchema, children }) {
   };
 
   const iaSubmit = async (values) => {
-    console.log(values);
-
     try {
       const response = await questionIaMutation({
         body: {
@@ -133,8 +133,6 @@ export function PreviewDialog({ content, jsonSchema, children }) {
         toast.success("Tudo certo!");
       }
     } catch (error) {
-      console.log(error);
-
       toast.error("Ouve um erro na conexão com openIa");
     }
   };
@@ -169,7 +167,7 @@ export function PreviewDialog({ content, jsonSchema, children }) {
                   <Flex
                     rounded="md"
                     px="2"
-                    max-h="96"
+                    maxH="96"
                     gap="2"
                     border="1px dashed"
                     borderColor="gray.200"
@@ -213,7 +211,7 @@ export function PreviewDialog({ content, jsonSchema, children }) {
                       alignItems="stretch"
                       maxFiles={1}
                     >
-                      <FileUploadList />
+                      <FileUploadList showSize clearable />
                       <FileUploadDropzone
                         label="Drag and drop here to upload"
                         description=".png, .jpg up to 5MB"
@@ -253,12 +251,37 @@ export function PreviewDialog({ content, jsonSchema, children }) {
                 <Flex flexDir="column" w="full">
                   <Collapsible.Root mt="2">
                     <Flex gap="4" mb="3">
+                      <Collapsible.Trigger cursor="pointer">
+                        <Text fontSize="lg">Variáveis (Json)</Text>
+                      </Collapsible.Trigger>
+                    </Flex>
+                    <Collapsible.Content display="flex" gap="4">
+                      <Flex w="full" flexDir="column">
+                        <Text>Variáveis omie</Text>
+                        <Textarea
+                          fontSize="md"
+                          {...previewForm.register("omieVar")}
+                          h="44"
+                        />
+                      </Flex>
+                      <Flex w="full" flexDir="column">
+                        <Text>Variáveis do sistema</Text>
+                        <Textarea
+                          fontSize="md"
+                          {...previewForm.register("systemVar")}
+                          h="44"
+                        />
+                      </Flex>
+                    </Collapsible.Content>
+                  </Collapsible.Root>
+
+                  <Separator mt="2" variant="dashed" />
+
+                  <Collapsible.Root mt="2">
+                    <Flex gap="4" mb="3">
                       <Collapsible.Trigger>
                         <Text fontSize="lg">Conteúdo</Text>
                       </Collapsible.Trigger>
-                      {/* <Button variant="surface" size="xs">
-                        Salvar alterações
-                      </Button> */}
                     </Flex>
                     <Collapsible.Content>
                       <Textarea
@@ -294,12 +317,25 @@ export function PreviewDialog({ content, jsonSchema, children }) {
           </Flex>
         </DialogBody>
 
-        <DialogCloseTrigger
+        <Flex
+          gap="2"
+          alignItems="center"
+          position="absolute"
+          top="2"
+          right="2"
           zIndex="10"
-          bg="orange.500"
-          color="white"
-          fontWeight="600"
-        />
+        >
+          <Button variant="subtle" size="sm">
+            <Save />
+            Salvar
+          </Button>
+          <DialogCloseTrigger
+            position="static"
+            bg="orange.500"
+            color="white"
+            fontWeight="600"
+          />
+        </Flex>
       </DialogContent>
     </DialogRoot>
   );

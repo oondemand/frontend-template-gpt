@@ -29,7 +29,7 @@ export function SelectBaseOmie({ label, ...props }) {
 
   return (
     <Box>
-      <SelectRoot collection={baseOmiesCollection} {...props}>
+      <SelectRoot rounded="md" collection={baseOmiesCollection} {...props}>
         {label && (
           <SelectLabel fontSize="md" color="orange.500">
             {label}

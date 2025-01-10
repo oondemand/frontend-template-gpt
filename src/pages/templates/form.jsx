@@ -1,15 +1,4 @@
 import {
-  Formik,
-  Field,
-  ErrorMessage,
-  Form as FormikForm,
-  useFormik,
-} from "formik";
-
-import {
-  Button,
-  Input,
-  VStack,
   Text,
   Box,
   HStack,
@@ -34,6 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { z } from "zod";
 import { PreviewDialog } from "./previewDialog";
+import { ImportOmieVariables } from "./importOmieVariables";
 
 const schema = z.object({
   nome: z.string().nonempty("Nome obrigatório!"),
@@ -41,7 +31,7 @@ const schema = z.object({
   descricao: z.string().nonempty("Descrição obrigatória!"),
   templateEjs: z.string().nonempty("Conteúdo obrigatório!"),
   status: z.string().nonempty("Status obrigatório!").array(),
-  variables: z.string().refine(
+  omieVar: z.string().refine(
     (value) => {
       try {
         JSON.parse(value);
@@ -75,12 +65,15 @@ export function TemplateForm({ onSubmit, formId, data, dialogId }) {
     defaultValues: {
       ...data,
       status: data?.status ? [data.status] : ["ativo"],
+      omieVar: data.variables,
     },
   });
 
   const fieldValues = watch();
 
-  console.log(fieldValues);
+  const onImportOmieVariables = ({ baseOmie, os }) => {
+    console.log(baseOmie, os);
+  };
 
   return (
     <>
@@ -137,6 +130,7 @@ export function TemplateForm({ onSubmit, formId, data, dialogId }) {
               </Text>
             )}
           </Box>
+
           <Box>
             <Text color="orange.600">Conteúdo *</Text>
             <Textarea h="60" {...register("templateEjs")} />
@@ -148,11 +142,17 @@ export function TemplateForm({ onSubmit, formId, data, dialogId }) {
           </Box>
 
           <Box>
-            <Text color="orange.600">Json Schema *</Text>
-            <Textarea fontSize="sm" h="56" {...register("variables")} />
-            {errors.variables?.message && (
+            <Flex alignItems="center" gap="4" mb="2">
+              <Text color="orange.600">Variáveis OMIE (JSON)</Text>
+              <ImportOmieVariables
+                onImportOmieVariables={onImportOmieVariables}
+                // isLoading
+              />
+            </Flex>
+            <Textarea fontSize="sm" h="56" {...register("omieVar")} />
+            {errors.omieVar?.message && (
               <Text color="red.500" fontSize="sm">
-                {errors.variables?.message}
+                {errors.omieVar?.message}
               </Text>
             )}
           </Box>
@@ -160,7 +160,7 @@ export function TemplateForm({ onSubmit, formId, data, dialogId }) {
       </form>
       <PreviewDialog
         content={fieldValues.templateEjs}
-        jsonSchema={fieldValues.variables}
+        omieVar={fieldValues.omieVar}
       />
     </>
   );
