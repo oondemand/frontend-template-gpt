@@ -10,6 +10,7 @@ import { Server } from "lucide-react";
 const routes = [
   { name: "Usuários", path: "/adm/usuarios" },
   { name: "Tenants", path: "/adm/tenants" },
+  { name: "Prompts", path: "/adm/prompts" },
 ];
 
 export function MasterLayout() {

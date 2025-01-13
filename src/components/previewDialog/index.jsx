@@ -32,21 +32,22 @@ import {
 import { toast } from "sonner";
 
 import { SelectBaseOmie } from "../../components/selectBaseOmie";
-import { useDialog } from "../../hooks/dialogContext";
 import { z } from "zod";
 import { FaturaService } from "../../services/fatura";
-import { ExternalIframe } from "./iframe";
+import { ExternalIframe } from "../iframe";
 import { IntegrationGptService } from "../../services/integration-gpt";
 import { useState } from "react";
 import Markdown from "react-markdown";
 import { Save } from "lucide-react";
-import { TemplateService } from "../../services/template";
 
 import { Prose } from "../../components/ui/prose";
 
+import { TemplateService } from "../../services/template";
+import { queryClient } from "../../config/react-query";
+
 const previewSchema = z.object({
   baseOmie: z.string().min(1, "Base omie é obrigatória").array(),
-  content: z.string().min(1, "Content é obrigatório."),
+  templateEjs: z.string().min(1, "templateEjs é obrigatório."),
   omieVar: z.string(),
 });
 
@@ -54,17 +55,22 @@ const chatSchema = z.object({
   baseOmie: z.string().min(1, "Base omie é obrigatória").array(),
   question: z.string().min(1, "Escreva sua pergunta."),
   file: z.any(),
-  content: z.string().min(1, "Content é obrigatório."),
+  templateEjs: z.string().min(1, "templateEjs é obrigatório."),
   omieVar: z.string(),
   systemVar: z.string(),
 });
 
 const saveSchema = z.object({
-  content: z.string().min(1, "Content é obrigatório."),
+  templateEjs: z.string().min(1, "templateEjs é obrigatório."),
 });
 
-export function PreviewDialog({ content, omieVar, onSaveFn }) {
-  const { isDialogOpen, setIsDialogOpen } = useDialog();
+export function PreviewDialog({
+  templateId,
+  isOpen,
+  templateEjs,
+  omieVar,
+  onClose,
+}) {
   const [iaResponse, setIaResponse] = useState();
   const [actionType, setActionType] = useState();
 
@@ -84,13 +90,11 @@ export function PreviewDialog({ content, omieVar, onSaveFn }) {
     reset: formReset,
   } = useForm({
     resolver: zodResolver(submitTypeSchema[actionType]),
-    defaultValues: {
-      content,
+    values: {
+      templateEjs,
       omieVar,
     },
   });
-
-  const formValues = watch();
 
   const {
     mutateAsync: generatePreviewMutation,
@@ -115,6 +119,33 @@ export function PreviewDialog({ content, omieVar, onSaveFn }) {
     mutationFn: FaturaService.getSystemVars,
   });
 
+  const { mutateAsync: updateTemplateMutation } = useMutation({
+    mutationFn: TemplateService.updateTemplate,
+    onSuccess() {
+      queryClient.invalidateQueries({
+        queryKey: ["list-templates"],
+      });
+    },
+  });
+
+  const onSaveSubmit = async (values) => {
+    try {
+      const response = await updateTemplateMutation({
+        id: templateId,
+        body: {
+          ...values,
+        },
+      });
+      if (response.status === 200) {
+        toast.success("Template atualizado com sucesso!");
+      }
+    } catch (error) {
+      console.log(error);
+
+      toast.error("Erro ao atualizar template!");
+    }
+  };
+
   const handleBaseOmieChange = async (value) => {
     if (value.length === 0) return;
     try {
@@ -137,7 +168,7 @@ export function PreviewDialog({ content, omieVar, onSaveFn }) {
     try {
       const response = await generatePreviewMutation({
         body: {
-          content: values.content,
+          content: values.templateEjs,
           omieVar: values.omieVar,
           baseOmie: values.baseOmie[0],
         },
@@ -156,14 +187,14 @@ export function PreviewDialog({ content, omieVar, onSaveFn }) {
       const response = await questionIaMutation({
         body: {
           ...values,
-          templateEjs: formValues.content,
+          templateEjs: values.templateEjs,
         },
       });
 
       const regex = /```ejs([\s\S]*?)```/;
 
       if (response.data.data.match(regex)[1]) {
-        setValue("content", response.data.data.match(regex)[1].trim());
+        setValue("templateEjs", response.data.data.match(regex)[1].trim());
       }
 
       const text = response.data.data.replace(regex, "");
@@ -177,15 +208,10 @@ export function PreviewDialog({ content, omieVar, onSaveFn }) {
     }
   };
 
-  const onSave = async (values) => {
-    console.log(values);
-    await onSaveFn({ templateEjs: values.content });
-  };
-
   const submitTypeMap = {
     CHAT: onChatSubmit,
     PREVIEW: onPreviewSubmit,
-    SAVE: onSave,
+    SAVE: onSaveSubmit,
   };
 
   const onSubmit = async (values) => {
@@ -196,10 +222,10 @@ export function PreviewDialog({ content, omieVar, onSaveFn }) {
     <DialogRoot
       placement="center"
       size="full"
-      open={isDialogOpen}
+      open={isOpen}
       onOpenChange={(e) => {
         formReset();
-        setIsDialogOpen(e.open);
+        onClose();
         reset();
       }}
     >
@@ -348,7 +374,11 @@ export function PreviewDialog({ content, omieVar, onSaveFn }) {
                     </Collapsible.Trigger>
                   </Flex>
                   <Collapsible.Content>
-                    <Textarea fontSize="md" {...register("content")} h="80" />
+                    <Textarea
+                      fontSize="md"
+                      {...register("templateEjs")}
+                      h="80"
+                    />
                   </Collapsible.Content>
                 </Collapsible.Root>
 

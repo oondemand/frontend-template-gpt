@@ -9,13 +9,11 @@ import { queryClient } from "../../config/react-query";
 import { toast } from "sonner";
 
 import { useParams } from "react-router-dom";
-import { useDialog } from "../../hooks/dialogContext";
 
 import { Eye } from "lucide-react";
 
 export function CloneTemplate() {
   const { id } = useParams();
-  const { openDialog } = useDialog();
 
   const {
     data: template,

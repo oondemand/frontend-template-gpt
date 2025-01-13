@@ -1,6 +1,5 @@
 import { Box, Heading, Button, Flex } from "@chakra-ui/react";
 
-import { IaChat } from "../../components/iaChat";
 import { TemplateForm } from "./form";
 import { TemplateService } from "../../services/template";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -9,12 +8,9 @@ import { queryClient } from "../../config/react-query";
 import { toast } from "sonner";
 
 import { useParams } from "react-router-dom";
-import { Eye } from "lucide-react";
-import { useDialog } from "../../hooks/dialogContext";
 
 export function UpdateTemplate() {
   const { id } = useParams();
-  const { openDialog } = useDialog();
   const {
     data: template,
     isFetching,

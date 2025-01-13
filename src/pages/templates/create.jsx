@@ -15,14 +15,10 @@ import { toast } from "sonner";
 import { useMutation } from "@tanstack/react-query";
 
 import { queryClient } from "../../config/react-query";
-import { PreviewDialog } from "./previewDialog";
 
 import { Eye } from "lucide-react";
-import { useDialog } from "../../hooks/dialogContext";
 
 export function CreateTemplate() {
-  const { openDialog } = useDialog();
-
   const { mutateAsync: createTemplateMutation } = useMutation({
     mutationFn: TemplateService.createTemplate,
     onSuccess() {

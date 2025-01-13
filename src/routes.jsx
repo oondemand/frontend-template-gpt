@@ -43,6 +43,8 @@ import { ListSettings } from "./pages/setting/list";
 import { CreateSettings } from "./pages/setting/create";
 import { UpdateSettings } from "./pages/setting/update";
 import { CloneSettings } from "./pages/setting/clone";
+import { ListPrompts } from "./pages/_master/prompt/list";
+import { UpdatePrompt } from "./pages/_master/prompt/update";
 
 export const router = createBrowserRouter([
   {
@@ -86,6 +88,8 @@ export const router = createBrowserRouter([
       { path: "/adm/usuarios/create", element: <AdmCreateUsers /> },
       { path: "/adm/usuario/:id", element: <AdmUpdateUsers /> },
       { path: "/adm/usuario/:id/clone", element: <AdmCloneUsers /> },
+      { path: "/adm/prompts/", element: <ListPrompts /> },
+      { path: "/adm/prompt/:id", element: <UpdatePrompt /> },
     ],
   },
   {

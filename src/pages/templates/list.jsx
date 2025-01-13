@@ -16,19 +16,14 @@ import { toast } from "sonner";
 
 import { queryClient } from "../../config/react-query";
 import { useConfirmation } from "../../hooks/confirmationModal";
-import { PreviewDialog } from "./previewDialog";
-import { useDialog } from "../../hooks/dialogContext";
-import { useState } from "react";
 import { Eye } from "lucide-react";
+import { useDialog } from "../../hooks/previewModalContext";
 
 export function ListTemplates() {
   const navigate = useNavigate();
   const { requestConfirmation } = useConfirmation();
+
   const { openDialog } = useDialog();
-  const [modalValues, setModalValues] = useState({
-    omieVar: null,
-    templateEjs: null,
-  });
 
   const {
     data: templates,
@@ -111,18 +106,7 @@ export function ListTemplates() {
                         size="xs"
                         variant="surface"
                         onClick={() => {
-                          try {
-                            console.log(template);
-
-                            setModalValues({
-                              templateEjs: template?.templateEjs || "",
-                              omieVar: template?.omieVar || "",
-                            });
-
-                            openDialog();
-                          } catch (error) {
-                            console.log(error);
-                          }
+                          openDialog(template);
                         }}
                       >
                         <Eye /> Preview
@@ -158,12 +142,6 @@ export function ListTemplates() {
           </Table.Root>
         )}
       </Box>
-      {modalValues.templateEjs && modalValues.omieVar && (
-        <PreviewDialog
-          content={modalValues.templateEjs}
-          omieVar={modalValues.omieVar}
-        />
-      )}
     </>
   );
 }
