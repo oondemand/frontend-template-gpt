@@ -1,4 +1,5 @@
 import axios from "axios";
+import { env } from "../config/env";
 
 const askQuestion = ({ body }) => {
   const token = localStorage.getItem("authToken");
@@ -18,12 +19,16 @@ const askQuestion = ({ body }) => {
     formData.append("prompts", JSON.stringify(body.prompts));
   }
 
-  return axios.post("http://localhost:3000/integracao/question", formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  return axios.post(
+    `${env.VITE_API_INTEGRACAO_URL}/integracao/question`,
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
 };
 
 export const IntegrationGptService = {
