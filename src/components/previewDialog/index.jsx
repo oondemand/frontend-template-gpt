@@ -44,6 +44,7 @@ import { Prose } from "../../components/ui/prose";
 
 import { TemplateService } from "../../services/template";
 import { queryClient } from "../../config/react-query";
+import { PromptService } from "../../services/prompt";
 
 const previewSchema = z.object({
   baseOmie: z.string().min(1, "Base omie é obrigatória").array(),
@@ -51,14 +52,19 @@ const previewSchema = z.object({
   omieVar: z.string(),
 });
 
-const chatSchema = z.object({
-  baseOmie: z.string().min(1, "Base omie é obrigatória").array(),
-  question: z.string().min(1, "Escreva sua pergunta."),
-  file: z.any(),
-  templateEjs: z.string().min(1, "templateEjs é obrigatório."),
-  omieVar: z.string(),
-  systemVar: z.string(),
-});
+const chatSchema = z
+  .object({
+    baseOmie: z.string().min(1, "Base omie é obrigatória").array(),
+    question: z.string().optional(),
+    file: z.any().optional(),
+    templateEjs: z.string().min(1, "templateEjs é obrigatório."),
+    omieVar: z.string(),
+    systemVar: z.string(),
+  })
+  .refine((data) => data.file || data.question, {
+    message: "Escreva sua pergunta ou envie um arquivo.",
+    path: ["question"],
+  });
 
 const saveSchema = z.object({
   templateEjs: z.string().min(1, "templateEjs é obrigatório."),
@@ -184,10 +190,23 @@ export function PreviewDialog({
 
   const onChatSubmit = async (values) => {
     try {
+      const prompts = await PromptService.listPrompt();
+
+      if (!prompts) {
+        return toast.error(
+          "Não foi possível recuperar configurações de prompts!",
+          {
+            description: "Tente novamente mais tarde",
+          }
+        );
+      }
+      console.log(prompts);
+
       const response = await questionIaMutation({
         body: {
           ...values,
           templateEjs: values.templateEjs,
+          prompts,
         },
       });
 
@@ -227,6 +246,7 @@ export function PreviewDialog({
         formReset();
         onClose();
         reset();
+        setIaResponse();
       }}
     >
       <DialogContent position="relative" h="full">

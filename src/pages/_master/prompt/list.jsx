@@ -55,7 +55,7 @@ export function ListPrompts() {
                 <Table.ColumnHeader>Nome</Table.ColumnHeader>
                 <Table.ColumnHeader>Tipo</Table.ColumnHeader>
                 <Table.ColumnHeader>Código</Table.ColumnHeader>
-                <Table.ColumnHeader>Conteúdo</Table.ColumnHeader>
+                {/* <Table.ColumnHeader>Conteúdo</Table.ColumnHeader> */}
                 <Table.ColumnHeader>Descricao</Table.ColumnHeader>
                 <Table.ColumnHeader />
               </Table.Row>
@@ -67,7 +67,7 @@ export function ListPrompts() {
                   <Table.Cell>{prompt.tipo}</Table.Cell>
                   <Table.Cell>{prompt.codigo}</Table.Cell>
                   <Table.Cell maxW="300px">
-                    <Text truncate>{prompt.conteudo}</Text>
+                    {/* <Text truncate>{prompt.conteudo}</Text> */}
                   </Table.Cell>
                   <Table.Cell>{prompt.descricao}</Table.Cell>
                   <Table.Cell placeItems="end">

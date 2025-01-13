@@ -77,6 +77,7 @@ export function PromptForm({ onSubmit, formId, data }) {
           />
 
           <TextInput
+            disabled={true}
             {...register("codigo")}
             label="Código *"
             error={errors.codigo?.message}

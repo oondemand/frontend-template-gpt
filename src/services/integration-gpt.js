@@ -14,6 +14,10 @@ const askQuestion = ({ body }) => {
   formData.append("omieVar", body?.omieVar);
   formData.append("systemVar", body?.systemVar);
 
+  if (body.prompts) {
+    formData.append("prompts", JSON.stringify(body.prompts));
+  }
+
   return axios.post("http://localhost:3000/integracao/question", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
