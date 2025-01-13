@@ -53,9 +53,6 @@ export function CreateTemplate() {
           Criar template
         </Heading>
         <Flex gap="2" alignItems="center">
-          <Button variant="surface" onClick={() => openDialog()}>
-            <Eye /> Preview
-          </Button>
           <Button type="submit" form="create-template-form" colorPalette="cyan">
             Salvar
           </Button>

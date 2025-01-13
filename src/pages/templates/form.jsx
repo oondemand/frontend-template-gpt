@@ -24,6 +24,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { PreviewDialog } from "./previewDialog";
 import { ImportOmieVariables } from "./importOmieVariables";
+import { FaturaService } from "../../services/fatura";
+
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 const schema = z.object({
   nome: z.string().nonempty("Nome obrigatório!"),
@@ -60,19 +64,45 @@ export function TemplateForm({ onSubmit, formId, data, dialogId }) {
     control,
     getValues,
     watch,
+    setValue,
   } = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
       ...data,
       status: data?.status ? [data.status] : ["ativo"],
-      omieVar: data.variables,
     },
   });
 
   const fieldValues = watch();
 
-  const onImportOmieVariables = ({ baseOmie, os }) => {
-    console.log(baseOmie, os);
+  const {
+    mutateAsync: getOmieVarsMutation,
+    data: omieData,
+    reset,
+    isLoading,
+  } = useMutation({
+    mutationFn: FaturaService.getOmieVars,
+  });
+
+  const onImportOmieVariables = async ({ baseOmie, os }) => {
+    try {
+      const { data } = await getOmieVarsMutation({
+        body: {
+          baseOmie: baseOmie[0],
+          os,
+        },
+      });
+
+      if (data) {
+        setValue("omieVar", JSON.stringify(data, null, 2));
+        toast.success("Importação feita com sucesso!", {
+          description: "Valores atualizados atualizado!",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Ouve um erro ao importar variáveis Omie!");
+    }
   };
 
   return (
@@ -146,7 +176,7 @@ export function TemplateForm({ onSubmit, formId, data, dialogId }) {
               <Text color="orange.600">Variáveis OMIE (JSON)</Text>
               <ImportOmieVariables
                 onImportOmieVariables={onImportOmieVariables}
-                // isLoading
+                isLoading={isLoading}
               />
             </Flex>
             <Textarea fontSize="sm" h="56" {...register("omieVar")} />
@@ -158,10 +188,6 @@ export function TemplateForm({ onSubmit, formId, data, dialogId }) {
           </Box>
         </Flex>
       </form>
-      <PreviewDialog
-        content={fieldValues.templateEjs}
-        omieVar={fieldValues.omieVar}
-      />
     </>
   );
 }

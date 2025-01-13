@@ -40,11 +40,11 @@ export function UpdateTemplate() {
         id,
         body: {
           ...data,
-          status: data.status[0],
+          status: data.status ? data?.status[0] : "",
         },
       });
       if (response.status === 200) {
-        toast.success("Template atualizar com sucesso!");
+        toast.success("Template atualizado com sucesso!");
       }
     } catch (error) {
       toast.error("Erro ao atualizar template!");
@@ -58,9 +58,6 @@ export function UpdateTemplate() {
           Detalhes do template
         </Heading>
         <Flex gap="2" alignItems="center">
-          <Button variant="surface" onClick={() => openDialog()}>
-            <Eye /> Preview
-          </Button>
           <Button type="submit" form="update-template-form" colorPalette="cyan">
             Atualizar
           </Button>

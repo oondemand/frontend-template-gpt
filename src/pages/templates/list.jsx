@@ -26,8 +26,8 @@ export function ListTemplates() {
   const { requestConfirmation } = useConfirmation();
   const { openDialog } = useDialog();
   const [modalValues, setModalValues] = useState({
-    jsonSchema: null,
-    content: null,
+    omieVar: null,
+    templateEjs: null,
   });
 
   const {
@@ -111,12 +111,18 @@ export function ListTemplates() {
                         size="xs"
                         variant="surface"
                         onClick={() => {
-                          setModalValues({
-                            content: template?.templateEjs || "",
-                            jsonSchema: template?.variables || "",
-                          });
+                          try {
+                            console.log(template);
 
-                          openDialog();
+                            setModalValues({
+                              templateEjs: template?.templateEjs || "",
+                              omieVar: template?.omieVar || "",
+                            });
+
+                            openDialog();
+                          } catch (error) {
+                            console.log(error);
+                          }
                         }}
                       >
                         <Eye /> Preview
@@ -152,10 +158,10 @@ export function ListTemplates() {
           </Table.Root>
         )}
       </Box>
-      {modalValues.content && modalValues.jsonSchema && (
+      {modalValues.templateEjs && modalValues.omieVar && (
         <PreviewDialog
-          content={modalValues.content}
-          jsonSchema={modalValues.jsonSchema}
+          content={modalValues.templateEjs}
+          omieVar={modalValues.omieVar}
         />
       )}
     </>

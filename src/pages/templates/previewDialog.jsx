@@ -7,14 +7,12 @@ import {
 
 import {
   FileUploadRoot,
-  FileInput,
   FileUploadDropzone,
   FileUploadList,
 } from "../../components/ui/file-upload";
 
 import { useForm, Controller } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
-import { queryClient } from "../../config/react-query";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -42,36 +40,57 @@ import { IntegrationGptService } from "../../services/integration-gpt";
 import { useState } from "react";
 import Markdown from "react-markdown";
 import { Save } from "lucide-react";
+import { TemplateService } from "../../services/template";
 
 import { Prose } from "../../components/ui/prose";
 
 const previewSchema = z.object({
   baseOmie: z.string().min(1, "Base omie é obrigatória").array(),
   content: z.string().min(1, "Content é obrigatório."),
+  omieVar: z.string(),
 });
 
-const iaSchema = z.object({
+const chatSchema = z.object({
+  baseOmie: z.string().min(1, "Base omie é obrigatória").array(),
   question: z.string().min(1, "Escreva sua pergunta."),
   file: z.any(),
+  content: z.string().min(1, "Content é obrigatório."),
+  omieVar: z.string(),
+  systemVar: z.string(),
 });
 
-export function PreviewDialog({ content, systemVar, omieVar, children }) {
+const saveSchema = z.object({
+  content: z.string().min(1, "Content é obrigatório."),
+});
+
+export function PreviewDialog({ content, omieVar, onSaveFn }) {
   const { isDialogOpen, setIsDialogOpen } = useDialog();
   const [iaResponse, setIaResponse] = useState();
+  const [actionType, setActionType] = useState();
 
-  const previewForm = useForm({
-    resolver: zodResolver(previewSchema),
+  const submitTypeSchema = {
+    CHAT: chatSchema,
+    PREVIEW: previewSchema,
+    SAVE: saveSchema,
+  };
+
+  const {
+    handleSubmit,
+    register,
+    watch,
+    setValue,
+    control,
+    formState: { errors },
+    reset: formReset,
+  } = useForm({
+    resolver: zodResolver(submitTypeSchema[actionType]),
     defaultValues: {
       content,
       omieVar,
     },
   });
 
-  const previewFormValues = previewForm.watch();
-
-  const iaForm = useForm({
-    resolver: zodResolver(iaSchema),
-  });
+  const formValues = watch();
 
   const {
     mutateAsync: generatePreviewMutation,
@@ -84,18 +103,42 @@ export function PreviewDialog({ content, systemVar, omieVar, children }) {
 
   const {
     mutateAsync: questionIaMutation,
-    data: questionIaData,
     isLoading: isQuestionIaMutationLoading,
   } = useMutation({
     mutationFn: IntegrationGptService.askQuestion,
   });
+
+  const {
+    mutateAsync: getSystemVarsMutation,
+    isLoading: getSystemVarsIsLoading,
+  } = useMutation({
+    mutationFn: FaturaService.getSystemVars,
+  });
+
+  const handleBaseOmieChange = async (value) => {
+    if (value.length === 0) return;
+    try {
+      const { data } = await getSystemVarsMutation({
+        body: {
+          baseOmie: value[0],
+        },
+      });
+
+      if (data) {
+        toast.success("Variáveis de ambiente atualizadas!");
+        setValue("systemVar", JSON.stringify(data, null, 2));
+      }
+    } catch (error) {
+      toast.error("Ouve um erro em buscar variáveis de sistema.");
+    }
+  };
 
   const onPreviewSubmit = async (values) => {
     try {
       const response = await generatePreviewMutation({
         body: {
           content: values.content,
-          systemVar: systemVar,
+          omieVar: values.omieVar,
           baseOmie: values.baseOmie[0],
         },
       });
@@ -108,22 +151,19 @@ export function PreviewDialog({ content, systemVar, omieVar, children }) {
     }
   };
 
-  const iaSubmit = async (values) => {
+  const onChatSubmit = async (values) => {
     try {
       const response = await questionIaMutation({
         body: {
           ...values,
-          templateEjs: previewFormValues.content,
+          templateEjs: formValues.content,
         },
       });
 
       const regex = /```ejs([\s\S]*?)```/;
 
       if (response.data.data.match(regex)[1]) {
-        previewForm.setValue(
-          "content",
-          response.data.data.match(regex)[1].trim()
-        );
+        setValue("content", response.data.data.match(regex)[1].trim());
       }
 
       const text = response.data.data.replace(regex, "");
@@ -137,205 +177,232 @@ export function PreviewDialog({ content, systemVar, omieVar, children }) {
     }
   };
 
+  const onSave = async (values) => {
+    console.log(values);
+    await onSaveFn({ templateEjs: values.content });
+  };
+
+  const submitTypeMap = {
+    CHAT: onChatSubmit,
+    PREVIEW: onPreviewSubmit,
+    SAVE: onSave,
+  };
+
+  const onSubmit = async (values) => {
+    await submitTypeMap[actionType](values);
+  };
+
   return (
     <DialogRoot
       placement="center"
       size="full"
       open={isDialogOpen}
       onOpenChange={(e) => {
-        // previewForm.reset();
+        formReset();
         setIsDialogOpen(e.open);
-        // reset();
+        reset();
       }}
     >
       <DialogContent position="relative" h="full">
-        <DialogBody p="2" h="full">
-          <Flex h="full">
-            <Flex
-              flexDir="column"
-              justifyContent="space-between"
-              h="full"
-              w="1/3"
-              px="2"
-            >
-              <Box>
-                <Heading color="gray.400" my="12">
-                  Chat ia
-                </Heading>
-
-                {iaResponse && (
-                  <Flex
-                    rounded="md"
-                    px="2"
-                    maxH="96"
-                    gap="2"
-                    border="1px dashed"
-                    borderColor="gray.200"
-                    overflow="auto"
-                  >
-                    <Prose fontSize="sm">
-                      <Markdown>{iaResponse}</Markdown>
-                    </Prose>
-                  </Flex>
-                )}
-              </Box>
-
-              <form onSubmit={iaForm.handleSubmit(iaSubmit)}>
-                <Flex alignItems="center" gap="2" mb="2">
-                  <Input
-                    {...iaForm.register("question")}
-                    size="xl"
-                    placeholder="Faça uma pergunta"
-                    resize="none"
+        <DialogBody p="2" h="full" asChild>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Flex h="full">
+              <Flex
+                alignItems="center"
+                position="absolute"
+                top="2"
+                left="2"
+                gap="2"
+              >
+                <Box>
+                  <Controller
+                    control={control}
+                    name="baseOmie"
+                    render={({ field }) => (
+                      <SelectBaseOmie
+                        name={field.name}
+                        value={field.value}
+                        onValueChange={({ value }) => {
+                          handleBaseOmieChange(value);
+                          field.onChange(value);
+                        }}
+                        onInteractOutside={() => field.onBlur()}
+                        w="xs"
+                        size="xs"
+                      />
+                    )}
                   />
-                  <Button
-                    disabled={isLoading || isQuestionIaMutationLoading}
-                    type="submit"
-                    variant="surface"
-                    size="xl"
-                  >
-                    {!isQuestionIaMutationLoading && "Enviar"}
-                    {isQuestionIaMutationLoading && <Spinner />}
-                  </Button>
-                </Flex>
-                <Controller
-                  name="file"
-                  control={iaForm.control}
-                  render={({ field }) => (
-                    <FileUploadRoot
-                      accept="image/*"
-                      onFileAccept={(e) => {
-                        field.onChange(e.files);
-                      }}
-                      maxW="full"
-                      alignItems="stretch"
-                      maxFiles={1}
-                    >
-                      <FileUploadList showSize clearable />
-                      <FileUploadDropzone
-                        label="Drag and drop here to upload"
-                        description=".png, .jpg up to 5MB"
-                      />
-                    </FileUploadRoot>
-                  )}
-                />
-              </form>
-            </Flex>
-            <Separator orientation="vertical" />
-            <form
-              style={{ height: "100%", display: "flex", flexGrow: "1" }}
-              onSubmit={previewForm.handleSubmit(onPreviewSubmit)}
-            >
-              <Box position="absolute" top="2" left="2">
-                <Controller
-                  control={previewForm.control}
-                  name="baseOmie"
-                  render={({ field }) => (
-                    <SelectBaseOmie
-                      name={field.name}
-                      value={field.value}
-                      onValueChange={({ value }) => field.onChange(value)}
-                      onInteractOutside={() => field.onBlur()}
-                      w="xs"
-                      size="xs"
-                    />
-                  )}
-                />
-                {previewForm.formState.errors?.baseOmie && (
-                  <Text ml="1" fontSize="xs" color="red.500">
-                    Selecione base omie
-                  </Text>
-                )}
-              </Box>
-              <Flex ml="2" flex="1" h="full">
-                <Flex flexDir="column" w="full">
-                  <Collapsible.Root mt="2">
-                    <Flex gap="4" mb="3">
-                      <Collapsible.Trigger cursor="pointer">
-                        <Text fontSize="lg">Variáveis (Json)</Text>
-                      </Collapsible.Trigger>
-                    </Flex>
-                    <Collapsible.Content display="flex" gap="4">
-                      <Flex w="full" flexDir="column">
-                        <Text>Variáveis omie</Text>
-                        <Textarea
-                          fontSize="md"
-                          {...previewForm.register("omieVar")}
-                          h="44"
-                        />
-                      </Flex>
-                      <Flex w="full" flexDir="column">
-                        <Text>Variáveis do sistema</Text>
-                        <Textarea
-                          fontSize="md"
-                          {...previewForm.register("systemVar")}
-                          h="44"
-                        />
-                      </Flex>
-                    </Collapsible.Content>
-                  </Collapsible.Root>
-
-                  <Separator mt="2" variant="dashed" />
-
-                  <Collapsible.Root mt="2">
-                    <Flex gap="4" mb="3">
-                      <Collapsible.Trigger>
-                        <Text fontSize="lg">Conteúdo</Text>
-                      </Collapsible.Trigger>
-                    </Flex>
-                    <Collapsible.Content>
-                      <Textarea
-                        fontSize="md"
-                        {...previewForm.register("content")}
-                        h="80"
-                      />
-                    </Collapsible.Content>
-                  </Collapsible.Root>
-
-                  <Separator mt="2" variant="dashed" />
-
-                  <Flex alignItems="start" gap="2" my="2">
-                    <Text py="1" px="2" fontSize="lg">
-                      Preview
+                  {errors?.baseOmie && (
+                    <Text ml="1" fontSize="xs" color="red.500">
+                      Selecione base omie
                     </Text>
+                  )}
+                </Box>
+                {getSystemVarsIsLoading && <Spinner />}
+              </Flex>
 
+              <Flex
+                flexDir="column"
+                justifyContent="space-between"
+                h="full"
+                w="1/3"
+                px="2"
+              >
+                <Box>
+                  <Heading color="gray.400" my="12">
+                    Chat ia
+                  </Heading>
+
+                  {iaResponse && (
+                    <Flex
+                      rounded="md"
+                      px="2"
+                      maxH="96"
+                      gap="2"
+                      border="1px dashed"
+                      borderColor="gray.200"
+                      overflow="auto"
+                    >
+                      <Prose fontSize="sm">
+                        <Markdown>{iaResponse}</Markdown>
+                      </Prose>
+                    </Flex>
+                  )}
+                </Box>
+
+                <Box>
+                  <Flex alignItems="center" gap="2" mb="2">
+                    <Input
+                      {...register("question")}
+                      size="xl"
+                      placeholder="Faça uma pergunta"
+                      resize="none"
+                    />
                     <Button
                       disabled={isLoading || isQuestionIaMutationLoading}
-                      w="24"
                       type="submit"
-                      size="xs"
                       variant="surface"
+                      size="xl"
+                      onClick={() => {
+                        setActionType("CHAT");
+                      }}
                     >
-                      {!isLoading && "Gerar preview"}
-                      {isLoading && <Spinner />}
+                      {!isQuestionIaMutationLoading && "Enviar"}
+                      {isQuestionIaMutationLoading && <Spinner />}
                     </Button>
                   </Flex>
-                  {data && <ExternalIframe html={data.data} />}
-                </Flex>
+                  <Controller
+                    name="file"
+                    control={control}
+                    render={({ field }) => (
+                      <FileUploadRoot
+                        accept="image/*"
+                        onFileAccept={(e) => {
+                          field.onChange(e.files);
+                        }}
+                        maxW="full"
+                        alignItems="stretch"
+                        maxFiles={1}
+                      >
+                        <FileUploadList showSize clearable />
+                        <FileUploadDropzone
+                          label="Drag and drop here to upload"
+                          description=".png, .jpg up to 5MB"
+                        />
+                      </FileUploadRoot>
+                    )}
+                  />
+                </Box>
               </Flex>
-            </form>
-          </Flex>
-        </DialogBody>
+              <Separator orientation="vertical" />
 
-        <Flex
-          gap="2"
-          alignItems="center"
-          position="absolute"
-          top="2"
-          right="2"
-          zIndex="10"
-        >
-          <Button variant="subtle" size="sm">
-            <Save />
-            Salvar
-          </Button>
-          <DialogCloseTrigger
-            position="static"
-            bg="orange.500"
-            color="white"
-            fontWeight="600"
-          />
-        </Flex>
+              <Flex ml="2" flex="1" h="full" flexDir="column" w="full">
+                <Collapsible.Root mt="2">
+                  <Flex gap="4" mb="3">
+                    <Collapsible.Trigger cursor="pointer">
+                      <Text fontSize="lg">Variáveis (Json)</Text>
+                    </Collapsible.Trigger>
+                  </Flex>
+                  <Collapsible.Content display="flex" gap="4">
+                    <Flex w="full" flexDir="column">
+                      <Text>Variáveis omie</Text>
+                      <Textarea fontSize="md" {...register("omieVar")} h="44" />
+                    </Flex>
+                    <Flex w="full" flexDir="column">
+                      <Text>Variáveis do sistema</Text>
+                      <Textarea
+                        fontSize="md"
+                        {...register("systemVar")}
+                        h="44"
+                      />
+                    </Flex>
+                  </Collapsible.Content>
+                </Collapsible.Root>
+
+                <Separator mt="2" variant="dashed" />
+
+                <Collapsible.Root mt="2">
+                  <Flex gap="4" mb="3">
+                    <Collapsible.Trigger cursor="pointer">
+                      <Text fontSize="lg">Conteúdo</Text>
+                    </Collapsible.Trigger>
+                  </Flex>
+                  <Collapsible.Content>
+                    <Textarea fontSize="md" {...register("content")} h="80" />
+                  </Collapsible.Content>
+                </Collapsible.Root>
+
+                <Separator mt="2" variant="dashed" />
+
+                <Flex alignItems="start" gap="2" my="2">
+                  <Text py="1" px="2" fontSize="lg">
+                    Preview
+                  </Text>
+
+                  <Button
+                    disabled={isLoading || isQuestionIaMutationLoading}
+                    w="24"
+                    type="submit"
+                    size="xs"
+                    variant="surface"
+                    onClick={() => {
+                      setActionType("PREVIEW");
+                    }}
+                  >
+                    {!isLoading && "Gerar preview"}
+                    {isLoading && <Spinner />}
+                  </Button>
+                </Flex>
+                {data && <ExternalIframe html={data.data} />}
+              </Flex>
+            </Flex>
+
+            <Flex
+              gap="2"
+              alignItems="center"
+              position="absolute"
+              top="2"
+              right="2"
+              zIndex="10"
+            >
+              <Button
+                type="submit"
+                onClick={() => setActionType("SAVE")}
+                variant="subtle"
+                size="sm"
+              >
+                <Save />
+                Salvar
+              </Button>
+              <DialogCloseTrigger
+                position="static"
+                bg="orange.500"
+                color="white"
+                fontWeight="600"
+              />
+            </Flex>
+          </form>
+        </DialogBody>
       </DialogContent>
     </DialogRoot>
   );

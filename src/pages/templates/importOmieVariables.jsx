@@ -53,7 +53,13 @@ export function ImportOmieVariables({ onImportOmieVariables, isLoading }) {
         borderColor={error.os ? "red.500" : ""}
         outlineColor={error.os ? "red.500" : ""}
       />
-      <Button w="40" onClick={() => onImport(field)} variant="subtle" size="xs">
+      <Button
+        disabled={isLoading}
+        w="40"
+        onClick={() => onImport(field)}
+        variant="subtle"
+        size="xs"
+      >
         {!isLoading && "Importar variáveis Omie"}
         {isLoading && <Spinner />}
       </Button>

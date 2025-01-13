@@ -59,9 +59,6 @@ export function CloneTemplate() {
           Clonar template
         </Heading>
         <Flex gap="2" alignItems="center">
-          <Button variant="surface" onClick={() => openDialog()}>
-            <Eye /> Preview
-          </Button>
           <Button type="submit" form="clone-template-form" colorPalette="cyan">
             Salvar
           </Button>

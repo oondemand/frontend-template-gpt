@@ -11,6 +11,8 @@ const askQuestion = ({ body }) => {
 
   formData.append("templateEjs", body?.templateEjs);
   formData.append("question", body?.question);
+  formData.append("omieVar", body?.omieVar);
+  formData.append("systemVar", body?.systemVar);
 
   return axios.post("http://localhost:3000/integracao/question", formData, {
     headers: {

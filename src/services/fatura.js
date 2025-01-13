@@ -5,4 +5,14 @@ const generatePreview = async ({ body }) => {
   return response.data;
 };
 
-export const FaturaService = { generatePreview };
+const getOmieVars = async ({ body }) => {
+  const response = await api.post("/fatura/listar-variaveis-omie", body);
+  return response.data;
+};
+
+const getSystemVars = async ({ body }) => {
+  const response = await api.post("/fatura/listar-variaveis-sistema", body);
+  return response.data;
+};
+
+export const FaturaService = { generatePreview, getOmieVars, getSystemVars };
