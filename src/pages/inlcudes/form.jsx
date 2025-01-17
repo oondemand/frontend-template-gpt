@@ -35,7 +35,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 const schema = z.object({
   nome: z.string().nonempty("Nome obrigatório!"),
   codigo: z.string().nonempty("Código obrigatório!"),
-  descricao: z.string().nonempty("Descrição obrigatória!"),
+  descricao: z.string().optional(),
   conteudo: z.string().nonempty("Conteúdo obrigatório!"),
   contenType: z.string().nonempty("Content Type obrigatório!"),
   status: z.string().nonempty("Status obrigatório!").array(),
@@ -117,7 +117,7 @@ export function IncludeForm({ onSubmit, formId, data }) {
         </HStack>
 
         <Box>
-          <Text color="orange.600">Descrição *</Text>
+          <Text color="orange.600">Descrição</Text>
           <Textarea {...register("descricao")} />
           {errors.descricao?.message && (
             <Text color="red.500" fontSize="sm">

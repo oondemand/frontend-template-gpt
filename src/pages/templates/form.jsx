@@ -31,7 +31,7 @@ import { toast } from "sonner";
 const schema = z.object({
   nome: z.string().nonempty("Nome obrigatório!"),
   codigo: z.string().nonempty("Código obrigatório!"),
-  descricao: z.string().nonempty("Descrição obrigatória!"),
+  descricao: z.string().optional(),
   templateEjs: z.string().nonempty("Conteúdo obrigatório!"),
   status: z.string().nonempty("Status obrigatório!").array(),
   omieVar: z.string().refine(
@@ -151,7 +151,7 @@ export function TemplateForm({ onSubmit, formId, data, dialogId }) {
           </HStack>
 
           <Box>
-            <Text color="orange.600">Descrição *</Text>
+            <Text color="orange.600">Descrição</Text>
             <Textarea {...register("descricao")} />
             {errors.descricao?.message && (
               <Text color="red.500" fontSize="sm">
