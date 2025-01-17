@@ -10,10 +10,12 @@ import { SettingService } from "../../services/settings";
 import { useConfirmation } from "../../hooks/confirmationModal";
 
 import { SettingsTable } from "./table";
+import { useAuth } from "../../hooks/auth";
 
 export function ListSettings() {
   const navigate = useNavigate();
   const { requestConfirmation } = useConfirmation();
+  const { user } = useAuth();
 
   const {
     data: settings,
@@ -58,12 +60,14 @@ export function ListSettings() {
           <Heading fontSize="2xl" color="orange.500">
             Configurações
           </Heading>
-          <Button
-            onClick={() => navigate("/settings/create")}
-            colorPalette="cyan"
-          >
-            Criar configuração
-          </Button>
+          {user.tipo !== "padrao" && (
+            <Button
+              onClick={() => navigate("/settings/create")}
+              colorPalette="cyan"
+            >
+              Criar configuração
+            </Button>
+          )}
         </Flex>
 
         <Box mt="8" maxH="800px" overflow="auto">
