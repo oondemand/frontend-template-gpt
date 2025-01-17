@@ -66,7 +66,7 @@ export function ListUsers() {
             Usuários
           </Heading>
           <Button
-            onClick={() => toast.info("Enviar convite")}
+            onClick={() => navigate(`/adm/usuarios/create`)}
             colorPalette="cyan"
           >
             Criar usuário

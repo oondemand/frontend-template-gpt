@@ -39,12 +39,10 @@ export function UpdateUsers() {
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
-
     try {
       const response = await updateUsersMutation({
         id,
-        body: { ...data, status: data.status[0] },
+        body: { ...data, status: data.status[0], tipo: data.tipo[0] },
       });
 
       if (response.status === 200) {

@@ -25,8 +25,8 @@ import { SettingService } from "../../services/settings";
 const schema = z.object({
   nome: z.string().min(1, "Nome é obrigatório"),
   codigo: z.string().min(1, "Código é obrigatório"),
-  valor: z.coerce.number().min(1, "Valor é obrigatório"),
-  baseOmie: z.string().min(1, "Base omie é obrigatória").array(),
+  valor: z.string().min(1, "Valor é obrigatório"),
+  baseOmie: z.string().array().optional(),
 });
 
 export function SettingsForm({ onSubmit, formId, data }) {
@@ -40,11 +40,13 @@ export function SettingsForm({ onSubmit, formId, data }) {
     resolver: zodResolver(schema),
     defaultValues: {
       ...data,
-      valor: data?.valor ? data.valor.intervaloSincronizacao?.toString() : "",
-      baseOmie: data?.baseOmie ? [data.baseOmie] : "",
+      valor: data?.valor ? data.valor?.toString() : "",
+      baseOmie: data?.baseOmie ? [data.baseOmie] : [""],
       codigo: data?.codigo ? data.codigo : "",
     },
   });
+
+  console.log(errors);
 
   const {
     data: settings,

@@ -19,7 +19,11 @@ const getUser = async ({ id }) => {
 };
 
 const updateUser = async ({ id, body }) => {
-  return api.put(`/usuarios/${id}`, { body });
+  return api.put(`/usuarios/${id}`, body);
+};
+
+const inviteUser = async ({ body }) => {
+  return await api.post("/usuarios/enviar-convite", body);
 };
 
 export const UserService = {
@@ -28,4 +32,5 @@ export const UserService = {
   createUser,
   getUser,
   updateUser,
+  inviteUser,
 };

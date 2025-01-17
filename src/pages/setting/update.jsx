@@ -47,10 +47,6 @@ export function UpdateSettings() {
         body: {
           ...data,
           baseOmie: data.baseOmie[0],
-          valor: {
-            integracaoAutomatica: true,
-            intervaloSincronizacao: data.valor,
-          },
         },
       });
 

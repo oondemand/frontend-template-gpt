@@ -6,7 +6,7 @@ export const TextInput = forwardRef(
     return (
       <Box>
         <Text color="orange.600">{label}</Text>
-        <Input {...rest} ref={ref} w={w} type="text" />
+        <Input {...rest} ref={ref} w={w} />
         {error && (
           <Text color="red.500" fontSize="sm">
             {error}

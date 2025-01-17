@@ -43,9 +43,7 @@ export function InviteUserModal() {
   const { mutateAsync: inviteUserMutation } = useMutation({
     mutationFn: UserService.inviteUser,
     onSuccess() {
-      queryClient.invalidateQueries({
-        queryKey: [["list-users"]],
-      });
+      queryClient.refetchQueries(["list-users"], { exact: true });
     },
   });
 
@@ -55,13 +53,15 @@ export function InviteUserModal() {
         body: { ...data },
       });
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         toast.success("Um convite foi enviado para o email do usuário.");
       }
       setOpen(false);
       return reset();
     } catch (error) {
-      toast.error("Ouve um erro ao convidar usuário!");
+      toast.error(
+        error?.response?.data?.message || "Ouve um erro ao convidar usuário!"
+      );
     }
   };
 

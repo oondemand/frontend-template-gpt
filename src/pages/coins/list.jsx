@@ -19,10 +19,12 @@ import { CoinService } from "../../services/coin";
 import { useConfirmation } from "../../hooks/confirmationModal";
 
 import { tipoCotacaoMap, statusMap } from "../../_constants/maps.js";
+import { useAuth } from "../../hooks/auth.jsx";
 
 export function ListCoins() {
   const navigate = useNavigate();
   const { requestConfirmation } = useConfirmation();
+  const { user } = useAuth();
 
   const {
     data: coins,
@@ -67,12 +69,15 @@ export function ListCoins() {
           <Heading fontSize="2xl" color="orange.500">
             Moedas
           </Heading>
-          <Button
-            onClick={() => navigate("/moedas/create")}
-            colorPalette="cyan"
-          >
-            Criar moeda
-          </Button>
+
+          {user.tipo !== "padrao" && (
+            <Button
+              onClick={() => navigate("/moedas/create")}
+              colorPalette="cyan"
+            >
+              Criar moeda
+            </Button>
+          )}
         </Flex>
 
         <Box mt="8">
@@ -110,22 +115,28 @@ export function ListCoins() {
                         >
                           <FilePenLine />
                         </IconButton>
-                        <IconButton
-                          onClick={() => navigate(`/moeda/${coin._id}/clone`)}
-                          colorPalette="green"
-                          size="xs"
-                        >
-                          <CopyPlus />
-                        </IconButton>
-                        <IconButton
-                          onClick={() => {
-                            onDelete(coin._id);
-                          }}
-                          colorPalette="red"
-                          size="xs"
-                        >
-                          <Trash2 />
-                        </IconButton>
+
+                        {user.tipo !== "padrao" && (
+                          <IconButton
+                            onClick={() => navigate(`/moeda/${coin._id}/clone`)}
+                            colorPalette="green"
+                            size="xs"
+                          >
+                            <CopyPlus />
+                          </IconButton>
+                        )}
+
+                        {user.tipo !== "padrao" && (
+                          <IconButton
+                            onClick={() => {
+                              onDelete(coin._id);
+                            }}
+                            colorPalette="red"
+                            size="xs"
+                          >
+                            <Trash2 />
+                          </IconButton>
+                        )}
                       </Flex>
                     </Table.Cell>
                   </Table.Row>

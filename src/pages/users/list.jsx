@@ -31,8 +31,6 @@ export function ListUsers() {
     queryFn: UserService.listUsers,
   });
 
-  console.log("USERS", users);
-
   const { mutateAsync: deleteUserMutation } = useMutation({
     mutationFn: UserService.deleteUserById,
     onSuccess() {

@@ -11,3 +11,10 @@ export const logIn = async ({ email, password }) => {
 
   return response.data;
 };
+
+export const firstAccess = async ({ body, code }) => {
+  return await api.post("/auth/primeiro-acesso", {
+    ...body,
+    code,
+  });
+};

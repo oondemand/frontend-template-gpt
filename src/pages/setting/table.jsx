@@ -1,22 +1,14 @@
-import {
-  Flex,
-  Table,
-  IconButton,
-  Text,
-  Input,
-  Box,
-  Button,
-} from "@chakra-ui/react";
-import { FilePenLine, Trash2, CopyPlus, Search } from "lucide-react";
-import { useState } from "react";
-import { DebouncedInput } from "../../components/ui/debounced-input";
-import { InputGroup } from "../../components/ui/input-group";
+import { Flex, Table, IconButton, Text, Button } from "@chakra-ui/react";
+import { FilePenLine, Trash2, CopyPlus } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SelectBaseOmie } from "../../components/selectBaseOmie";
+import { useAuth } from "../../hooks/auth";
 
 export function SettingsTable({ data, onDelete }) {
   const navigate = useNavigate();
   const [settings, setSettings] = useState(data);
+  const { user } = useAuth();
 
   const handleSearch = ({ value }) => {
     const results = data.filter((e) => {
@@ -25,6 +17,10 @@ export function SettingsTable({ data, onDelete }) {
 
     setSettings(results);
   };
+
+  useEffect(() => {
+    setSettings(data);
+  }, [data]);
 
   return (
     <Table.Root variant="line" striped>
@@ -55,43 +51,53 @@ export function SettingsTable({ data, onDelete }) {
         </Table.Row>
       </Table.Header>
       <Table.Body maxH="720px" overflow="auto">
-        {settings.map((setting) => (
-          <Table.Row key={setting._id}>
-            <Table.Cell>
-              {setting.baseOmie?.nome || "Configuração geral"}
-            </Table.Cell>
-            <Table.Cell>{setting.nome}</Table.Cell>
-            <Table.Cell>{setting.codigo}</Table.Cell>
-            <Table.Cell>{setting?.valor?.intervaloSincronizacao}</Table.Cell>
-            <Table.Cell placeItems="end">
-              <Flex gap="4">
-                <IconButton
-                  onClick={() => navigate(`/setting/${setting._id}`)}
-                  colorPalette="cyan"
-                  size="xs"
-                >
-                  <FilePenLine />
-                </IconButton>
-                <IconButton
-                  onClick={() => navigate(`/setting/${setting._id}/clone`)}
-                  colorPalette="green"
-                  size="xs"
-                >
-                  <CopyPlus />
-                </IconButton>
-                <IconButton
-                  onClick={() => {
-                    onDelete(setting._id);
-                  }}
-                  colorPalette="red"
-                  size="xs"
-                >
-                  <Trash2 />
-                </IconButton>
-              </Flex>
-            </Table.Cell>
-          </Table.Row>
-        ))}
+        {settings.map(
+          (setting) =>
+            ((user.tipo === "padrao" && setting.baseOmie?.nome) ||
+              user.tipo !== "padrao") && (
+              <Table.Row key={setting._id}>
+                <Table.Cell>
+                  {setting.baseOmie?.nome || "Configuração geral"}
+                </Table.Cell>
+                <Table.Cell>{setting.nome}</Table.Cell>
+                <Table.Cell>{setting.codigo}</Table.Cell>
+                <Table.Cell>{setting?.valor.toString()}</Table.Cell>
+                <Table.Cell placeItems="end">
+                  <Flex gap="4">
+                    <IconButton
+                      onClick={() => navigate(`/setting/${setting._id}`)}
+                      colorPalette="cyan"
+                      size="xs"
+                    >
+                      <FilePenLine />
+                    </IconButton>
+                    {user.tipo !== "padrao" && (
+                      <IconButton
+                        onClick={() =>
+                          navigate(`/setting/${setting._id}/clone`)
+                        }
+                        colorPalette="green"
+                        size="xs"
+                      >
+                        <CopyPlus />
+                      </IconButton>
+                    )}
+                    {user.tipo !== "padrao" && (
+                      <IconButton
+                        onClick={() => {
+                          onDelete(setting._id);
+                        }}
+                        colorPalette="red"
+                        size="xs"
+                      >
+                        <Trash2 />
+                      </IconButton>
+                    )}
+                  </Flex>
+                </Table.Cell>
+              </Table.Row>
+            )
+        )}
       </Table.Body>
     </Table.Root>
   );

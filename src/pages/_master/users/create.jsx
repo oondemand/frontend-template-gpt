@@ -26,11 +26,9 @@ export function CreateUsers() {
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
-
     try {
       const response = await createUsersMutation({
-        body: { ...data, status: data.status[0] },
+        body: { ...data, status: data.status[0], tipo: data.tipo[0] },
       });
 
       if (response.status === 201) {

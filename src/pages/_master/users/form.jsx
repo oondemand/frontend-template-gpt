@@ -1,22 +1,4 @@
-import {
-  Formik,
-  Field,
-  ErrorMessage,
-  Form as FormikForm,
-  useFormik,
-} from "formik";
-
-import {
-  Button,
-  Input,
-  VStack,
-  Text,
-  Box,
-  HStack,
-  Flex,
-  Textarea,
-  createListCollection,
-} from "@chakra-ui/react";
+import { HStack, Flex, createListCollection } from "@chakra-ui/react";
 
 import {
   SelectContent,
@@ -36,9 +18,16 @@ import { z } from "zod";
 
 const statusOptions = createListCollection({
   items: [
-    { label: "ativo", value: "ativo" },
-    { label: "inativo", value: "inativo" },
-    { label: "arquivado", value: "arquivado" },
+    { label: "Ativo", value: "ativo" },
+    { label: "Inativo", value: "inativo" },
+    { label: "Arquivado", value: "arquivado" },
+  ],
+});
+
+const tipeOptions = createListCollection({
+  items: [
+    { label: "Padrão", value: "padrao" },
+    { label: "Admin", value: "admin" },
   ],
 });
 
@@ -50,6 +39,7 @@ export function UsersForm({ onSubmit, formId, data, isCreating }) {
       ? z.string().optional()
       : z.string().min(6, "A senha deve ter no mínimo 6 caracteres"),
     status: z.enum(["ativo", "inativo", "arquivado"]).array(),
+    tipo: z.enum(["padrao", "admin"]).array(),
   });
 
   const {
@@ -62,8 +52,11 @@ export function UsersForm({ onSubmit, formId, data, isCreating }) {
     defaultValues: {
       ...data,
       status: data?.status ? [data.status] : ["ativo"],
+      tipo: data?.tipo ? [data.tipo] : ["padrao"],
     },
   });
+
+  console.log(errors);
 
   return (
     <form id={formId} onSubmit={handleSubmit(onSubmit)}>
@@ -109,6 +102,34 @@ export function UsersForm({ onSubmit, formId, data, isCreating }) {
                   {statusOptions.items.map((status) => (
                     <SelectItem item={status} key={status.value}>
                       {status.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </SelectRoot>
+            )}
+          />
+
+          <Controller
+            control={control}
+            name="tipo"
+            render={({ field }) => (
+              <SelectRoot
+                name={field.name}
+                value={field.value}
+                onValueChange={({ value }) => field.onChange(value)}
+                onInteractOutside={() => field.onBlur()}
+                collection={tipeOptions}
+              >
+                <SelectLabel fontSize="md" color="orange.500">
+                  Tipo
+                </SelectLabel>
+                <SelectTrigger>
+                  <SelectValueText placeholder={field.value} />
+                </SelectTrigger>
+                <SelectContent>
+                  {tipeOptions.items.map((type) => (
+                    <SelectItem item={type} key={type.value}>
+                      {type.label}
                     </SelectItem>
                   ))}
                 </SelectContent>

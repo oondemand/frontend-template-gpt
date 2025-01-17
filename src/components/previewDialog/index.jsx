@@ -57,7 +57,7 @@ const chatSchema = z
     baseOmie: z.string().min(1, "Base omie é obrigatória").array(),
     question: z.string().optional(),
     file: z.any().optional(),
-    templateEjs: z.string().min(1, "templateEjs é obrigatório."),
+    templateEjs: z.string().optional(),
     omieVar: z.string(),
     systemVar: z.string(),
   })
@@ -147,7 +147,6 @@ export function PreviewDialog({
       }
     } catch (error) {
       console.log(error);
-
       toast.error("Erro ao atualizar template!");
     }
   };
@@ -200,7 +199,6 @@ export function PreviewDialog({
           }
         );
       }
-      console.log(prompts);
 
       const response = await questionIaMutation({
         body: {
@@ -214,6 +212,7 @@ export function PreviewDialog({
 
       if (response.data.data.match(regex)[1]) {
         setValue("templateEjs", response.data.data.match(regex)[1].trim());
+        setValue("question", "");
       }
 
       const text = response.data.data.replace(regex, "");

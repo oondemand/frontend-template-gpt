@@ -42,7 +42,7 @@ export function CloneUsers() {
   const onSubmit = async (data) => {
     try {
       const response = await cloneUsersMutation({
-        body: { ...data, status: data.status[0] },
+        body: { ...data, status: data.status[0], tipo: data.tipo[0] },
       });
 
       if (response.status === 201) {
