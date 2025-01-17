@@ -17,7 +17,7 @@ export function Home() {
   const { getTenant } = useTenant();
   const { copyToClipboard, copied } = useClipboard();
 
-  const url = `${env.VITE_API_URL}/webhooks/${getTenant()._id}`;
+  const url = `${env.VITE_API_URL}/webhooks/gerar-fatura/${getTenant()._id}`;
 
   return (
     <Box rounded="md" bg="white" h="full">

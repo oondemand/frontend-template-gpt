@@ -107,6 +107,7 @@ export function PreviewDialog({
     data,
     reset,
     isLoading,
+    error: previewError,
   } = useMutation({
     mutationFn: FaturaService.generatePreview,
   });
@@ -133,6 +134,8 @@ export function PreviewDialog({
       });
     },
   });
+
+  console.log("ERROR", previewError);
 
   const onSaveSubmit = async (values) => {
     try {
@@ -422,7 +425,21 @@ export function PreviewDialog({
                     {isLoading && <Spinner />}
                   </Button>
                 </Flex>
-                {data && <ExternalIframe html={data.data} />}
+                {previewError && (
+                  <Box
+                    p="2"
+                    rounded="sm"
+                    border="1px dashed"
+                    borderColor="red.300"
+                    maxH="96"
+                    overflow="auto"
+                  >
+                    <Text fontSize="md" color="gray.600">
+                      {previewError?.response?.data?.error?.toString()}
+                    </Text>
+                  </Box>
+                )}
+                {data && <ExternalIframe html={data.data.toString()} />}
               </Flex>
             </Flex>
 

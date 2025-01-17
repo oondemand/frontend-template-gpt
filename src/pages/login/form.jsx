@@ -70,6 +70,7 @@ export function Form() {
           <TextInput
             w="xs"
             label="Senha *"
+            type="password"
             {...register("password")}
             error={errors.password?.message}
           />

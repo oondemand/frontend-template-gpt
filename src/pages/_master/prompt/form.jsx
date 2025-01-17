@@ -36,7 +36,7 @@ const schema = z.object({
   nome: z.string().nonempty("Nome obrigatório!"),
   codigo: z.string().nonempty("Código obrigatório!"),
   descricao: z.string().optional(),
-  conteudo: z.string().nonempty("Conteúdo obrigatório!"),
+  conteudo: z.string().optional(),
   tipo: z.enum(["assistant", "function", "system", "tool", "user"]).array(),
 });
 

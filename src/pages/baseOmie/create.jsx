@@ -35,10 +35,10 @@ export function CreateBaseOmies() {
       });
 
       if (response.status === 201) {
-        toast.success("Moeda criada com sucesso!");
+        toast.success("Base omie criada com sucesso!");
       }
     } catch (error) {
-      toast.error("Ouve um erro ao criar moeda!");
+      toast.error("Ouve um erro ao criar base omie!");
     }
   };
 
