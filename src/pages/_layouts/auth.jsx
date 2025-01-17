@@ -1,4 +1,9 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import {
+  Outlet,
+  useNavigate,
+  useSearchParams,
+  useLocation,
+} from "react-router-dom";
 import { useAuth } from "../../hooks/auth";
 import { Navigate } from "react-router-dom";
 import { Grid, GridItem, Button, Text } from "@chakra-ui/react";
@@ -8,19 +13,24 @@ import { useTenant } from "../../hooks/tenant";
 import { Airplay } from "lucide-react";
 
 const routes = [
-  { name: "Home", path: "/" },
-  { name: "Includes", path: "/includes" },
-  { name: "Templates", path: "/templates" },
-  { name: "Moedas", path: "/moedas" },
-  { name: "Base omies", path: "/base-omies" },
-  { name: "Configurações", path: "/settings" },
-  { name: "Usuários", path: "/usuarios" },
+  { name: "Home", path: "/", rules: ["admin", "master", "padrao"] },
+  { name: "Includes", path: "/includes", rules: ["admin", "master"] },
+  { name: "Templates", path: "/templates", rules: ["admin", "master"] },
+  { name: "Moedas", path: "/moedas", rules: ["admin", "master", "padrao"] },
+  { name: "Base omies", path: "/base-omies", rules: ["admin", "master"] },
+  {
+    name: "Configurações",
+    path: "/settings",
+    rules: ["admin", "master", "padrao"],
+  },
+  { name: "Usuários", path: "/usuarios", rules: ["admin", "master"] },
 ];
 
 export function AuthLayout() {
   const { user, isLoading } = useAuth();
   const { getTenant } = useTenant();
   const navigate = useNavigate();
+  const location = useLocation();
 
   if (!user && isLoading === false) {
     return <Navigate to="/login" />;
@@ -28,6 +38,12 @@ export function AuthLayout() {
 
   if (user && isLoading === false && user.tenants.length > 1 && !getTenant()) {
     return <Navigate to="/multi-tenant" />;
+  }
+
+  const route = routes.find((e) => location.pathname.includes(e.path));
+
+  if (user && isLoading === false && !route.rules.includes(user.tipo)) {
+    return <Navigate to="/login" />;
   }
 
   if (user && isLoading === false) {

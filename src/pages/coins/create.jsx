@@ -14,8 +14,9 @@ import { toast } from "sonner";
 import { useMutation } from "@tanstack/react-query";
 
 import { queryClient } from "../../config/react-query";
+import { withRestriction } from "../../components/withRestriction";
 
-export function CreateCoins() {
+function _CreateCoins() {
   const { mutateAsync: createCoinsMutation } = useMutation({
     mutationFn: CoinService.createCoin,
     onSuccess() {
@@ -57,3 +58,5 @@ export function CreateCoins() {
     </Box>
   );
 }
+
+export const CreateCoins = withRestriction(["padrao"], _CreateCoins);

@@ -17,8 +17,9 @@ import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "../../config/react-query";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
+import { withRestriction } from "../../components/withRestriction";
 
-export function CloneSettings() {
+function _CloneSettings() {
   const { id } = useParams();
 
   const {
@@ -46,10 +47,6 @@ export function CloneSettings() {
         body: {
           ...data,
           baseOmie: data.baseOmie[0],
-          valor: {
-            integracaoAutomatica: true,
-            intervaloSincronizacao: data.valor,
-          },
         },
       });
 
@@ -83,3 +80,5 @@ export function CloneSettings() {
     </Box>
   );
 }
+
+export const CloneSettings = withRestriction(["padrao"], _CloneSettings);

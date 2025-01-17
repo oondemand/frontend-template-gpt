@@ -1,11 +1,4 @@
-import {
-  Box,
-  Heading,
-  Button,
-  Flex,
-  Table,
-  IconButton,
-} from "@chakra-ui/react";
+import { Box, Heading, Button, Flex } from "@chakra-ui/react";
 
 import { CoinsForm } from "./form";
 
@@ -16,8 +9,10 @@ import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "../../config/react-query";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
+import { withRestriction } from "../../components/withRestriction";
 
-export function CloneCoins() {
+export function _CloneCoins() {
+  _;
   const { id } = useParams();
 
   const {
@@ -73,3 +68,5 @@ export function CloneCoins() {
     </Box>
   );
 }
+
+export const CloneCoins = withRestriction(["padrao"], _CloneCoins);

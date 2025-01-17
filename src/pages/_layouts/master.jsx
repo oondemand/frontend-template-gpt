@@ -8,9 +8,9 @@ import { useEffect } from "react";
 import { Server } from "lucide-react";
 
 const routes = [
-  { name: "Usuários", path: "/adm/usuarios" },
-  { name: "Tenants", path: "/adm/tenants" },
-  { name: "Prompts", path: "/adm/prompts" },
+  { name: "Usuários", path: "/adm/usuarios", rules: ["master"] },
+  { name: "Tenants", path: "/adm/tenants", rules: ["master"] },
+  { name: "Prompts", path: "/adm/prompts", rules: ["master"] },
 ];
 
 export function MasterLayout() {

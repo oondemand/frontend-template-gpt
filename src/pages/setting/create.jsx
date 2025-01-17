@@ -1,13 +1,5 @@
-import {
-  Box,
-  Heading,
-  Button,
-  Flex,
-  Table,
-  IconButton,
-} from "@chakra-ui/react";
+import { Box, Heading, Button, Flex } from "@chakra-ui/react";
 
-import { IaChat } from "../../components/iaChat";
 import { SettingsForm } from "./form";
 
 import { SettingService } from "../../services/settings";
@@ -15,10 +7,9 @@ import { toast } from "sonner";
 import { useMutation } from "@tanstack/react-query";
 
 import { queryClient } from "../../config/react-query";
-import { useQuery } from "@tanstack/react-query";
-import { BaseOmieService } from "../../services/baseOmie";
+import { withRestriction } from "../../components/withRestriction";
 
-export function CreateSettings() {
+export function _CreateSettings() {
   const { mutateAsync: createSettingsMutation } = useMutation({
     mutationFn: SettingService.createSetting,
     onSuccess() {
@@ -34,10 +25,6 @@ export function CreateSettings() {
         body: {
           ...data,
           baseOmie: data.baseOmie[0],
-          valor: {
-            integracaoAutomatica: true,
-            intervaloSincronizacao: data.valor,
-          },
         },
       });
 
@@ -66,3 +53,5 @@ export function CreateSettings() {
     </Box>
   );
 }
+
+export const CreateSettings = withRestriction(["padrao"], _CreateSettings);

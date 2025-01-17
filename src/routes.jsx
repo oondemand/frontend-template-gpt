@@ -45,6 +45,9 @@ import { UpdateSettings } from "./pages/setting/update";
 import { CloneSettings } from "./pages/setting/clone";
 import { ListPrompts } from "./pages/_master/prompt/list";
 import { UpdatePrompt } from "./pages/_master/prompt/update";
+import { FirstAccess } from "./pages/login/firstLogin";
+
+import { AccessDenied } from "./pages/accessDenied";
 
 export const router = createBrowserRouter([
   {
@@ -98,6 +101,8 @@ export const router = createBrowserRouter([
     children: [
       { path: "/login", element: <Login /> },
       { path: "/multi-tenant", element: <MultiTenant /> },
+      { path: "/primeiro-acesso", element: <FirstAccess /> },
+      { path: "/acesso-negado", element: <AccessDenied /> },
     ],
   },
 ]);
