@@ -45,6 +45,7 @@ import { Prose } from "../../components/ui/prose";
 import { TemplateService } from "../../services/template";
 import { queryClient } from "../../config/react-query";
 import { PromptService } from "../../services/prompt";
+import { SelectAssistant } from "../selectAssistant";
 
 const previewSchema = z.object({
   baseOmie: z.string().min(1, "Base omie é obrigatória").array(),
@@ -55,6 +56,7 @@ const previewSchema = z.object({
 const chatSchema = z
   .object({
     baseOmie: z.string().min(1, "Base omie é obrigatória").array(),
+    assistente: z.string().min(1, "Assistente é obrigatório").array(),
     question: z.string().optional(),
     file: z.any().optional(),
     templateEjs: z.string().optional(),
@@ -275,7 +277,7 @@ export function PreviewDialog({
                           field.onChange(value);
                         }}
                         onInteractOutside={() => field.onBlur()}
-                        w="xs"
+                        w="2xs"
                         size="xs"
                       />
                     )}
@@ -283,6 +285,29 @@ export function PreviewDialog({
                   {errors?.baseOmie && (
                     <Text ml="1" fontSize="xs" color="red.500">
                       Selecione base omie
+                    </Text>
+                  )}
+                </Box>
+                <Box>
+                  <Controller
+                    control={control}
+                    name="assistente"
+                    render={({ field }) => (
+                      <SelectAssistant
+                        name={field.name}
+                        value={field.value}
+                        onValueChange={({ value }) => {
+                          field.onChange(value);
+                        }}
+                        onInteractOutside={() => field.onBlur()}
+                        w="2xs"
+                        size="xs"
+                      />
+                    )}
+                  />
+                  {errors?.baseOmie && (
+                    <Text ml="1" fontSize="xs" color="red.500">
+                      Selecione assistente
                     </Text>
                   )}
                 </Box>
