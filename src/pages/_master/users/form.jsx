@@ -35,9 +35,13 @@ export function UsersForm({ onSubmit, formId, data, isCreating }) {
   const schema = z.object({
     nome: z.string().min(1, "O nome é obrigatório"),
     email: z.string().email("Email inválido"),
-    senha: data
-      ? z.string().optional()
-      : z.string().min(6, "A senha deve ter no mínimo 6 caracteres"),
+    senha: z
+      .string()
+      .transform((value) => (value === "" ? null : value))
+      .nullable()
+      .refine((value) => value === null || value.length >= 6, {
+        message: "A senha deve ter no mínimo 6 caracteres",
+      }),
     status: z.enum(["ativo", "inativo", "arquivado"]).array(),
     tipo: z.enum(["padrao", "admin"]).array(),
   });
@@ -55,8 +59,6 @@ export function UsersForm({ onSubmit, formId, data, isCreating }) {
       tipo: data?.tipo ? [data.tipo] : ["padrao"],
     },
   });
-
-  console.log(errors);
 
   return (
     <form id={formId} onSubmit={handleSubmit(onSubmit)}>

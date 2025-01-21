@@ -137,8 +137,6 @@ export function PreviewDialog({
     },
   });
 
-  console.log("ERROR", previewError);
-
   const onSaveSubmit = async (values) => {
     try {
       const response = await updateTemplateMutation({
@@ -188,13 +186,16 @@ export function PreviewDialog({
         toast.success("Preview gerada com sucesso!");
       }
     } catch (error) {
+      console.log(error);
       toast.error("Ouve um erro ao gerar preview!");
     }
   };
 
   const onChatSubmit = async (values) => {
     try {
-      const prompts = await PromptService.listPrompt();
+      const prompts = await PromptService.listPrompt({
+        id: values.assistente[0],
+      });
 
       if (!prompts) {
         return toast.error(
@@ -213,10 +214,14 @@ export function PreviewDialog({
         },
       });
 
-      const regex = /```ejs([\s\S]*?)```/;
+      const regex = /```([\s\S]*?)```/;
+      const match = response.data.data.match(regex);
 
-      if (response.data.data.match(regex)[1]) {
-        setValue("templateEjs", response.data.data.match(regex)[1].trim());
+      if (match && match[1]) {
+        const lines = match[1].split("\n");
+        lines.shift();
+
+        setValue("templateEjs", lines.join("\n").trim());
         setValue("question", "");
       }
 
@@ -227,6 +232,7 @@ export function PreviewDialog({
         toast.success("Tudo certo!");
       }
     } catch (error) {
+      console.log(error);
       toast.error("Ouve um erro na conexão com openIa");
     }
   };
@@ -305,7 +311,7 @@ export function PreviewDialog({
                       />
                     )}
                   />
-                  {errors?.baseOmie && (
+                  {errors?.assistente && (
                     <Text ml="1" fontSize="xs" color="red.500">
                       Selecione assistente
                     </Text>

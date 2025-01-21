@@ -3,15 +3,13 @@ import { PreviewDialog } from "../components/previewDialog";
 
 const DialogContext = createContext();
 
-export const DialogProvider = ({ children }) => {
+export const PreviewDialogProvider = ({ children }) => {
   const [previewDialog, setPreviewDialog] = useState({
     visible: false,
     content: {},
   });
 
   const openDialog = (params) => {
-    console.log(params);
-
     setPreviewDialog({ visible: true, content: params });
   };
 
@@ -33,6 +31,6 @@ export const DialogProvider = ({ children }) => {
   );
 };
 
-export const useDialog = () => {
+export const usePreviewDialog = () => {
   return useContext(DialogContext);
 };

@@ -25,8 +25,13 @@ export function Login() {
           h="96"
           bg="orange.400"
         >
-          <FileSliders size={22} />
-          <Heading>Fatura personalizada</Heading>
+          <Flex flexDir="column" alignItems="center">
+            <Flex alignItems="center">
+              <FileSliders size={22} />
+              <Heading>Fatura personalizada</Heading>
+            </Flex>
+            <Text>v 1.0.0</Text>
+          </Flex>
         </Flex>
         <VStack px="8" gap="8">
           <VStack>

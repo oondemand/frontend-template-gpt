@@ -17,13 +17,13 @@ import { toast } from "sonner";
 import { queryClient } from "../../config/react-query";
 import { useConfirmation } from "../../hooks/confirmationModal";
 import { Eye } from "lucide-react";
-import { useDialog } from "../../hooks/previewModalContext";
+import { usePreviewDialog } from "../../hooks/previewModalContext";
 
 export function ListTemplates() {
   const navigate = useNavigate();
   const { requestConfirmation } = useConfirmation();
 
-  const { openDialog } = useDialog();
+  const { openDialog } = usePreviewDialog();
 
   const {
     data: templates,

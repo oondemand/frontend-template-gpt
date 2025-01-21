@@ -43,11 +43,12 @@ import { ListSettings } from "./pages/setting/list";
 import { CreateSettings } from "./pages/setting/create";
 import { UpdateSettings } from "./pages/setting/update";
 import { CloneSettings } from "./pages/setting/clone";
-import { ListPrompts } from "./pages/_master/prompt/list";
-import { UpdatePrompt } from "./pages/_master/prompt/update";
 import { FirstAccess } from "./pages/login/firstLogin";
 
 import { AccessDenied } from "./pages/accessDenied";
+import { ListAssistant } from "./pages/_master/assistent";
+import { CreateAssistant } from "./pages/_master/assistent/create";
+import { UpdateAssistente } from "./pages/_master/assistent/update";
 
 export const router = createBrowserRouter([
   {
@@ -91,8 +92,10 @@ export const router = createBrowserRouter([
       { path: "/adm/usuarios/create", element: <AdmCreateUsers /> },
       { path: "/adm/usuario/:id", element: <AdmUpdateUsers /> },
       { path: "/adm/usuario/:id/clone", element: <AdmCloneUsers /> },
-      { path: "/adm/prompts/", element: <ListPrompts /> },
-      { path: "/adm/prompt/:id", element: <UpdatePrompt /> },
+
+      { path: "/adm/assistentes/", element: <ListAssistant /> },
+      { path: "/adm/assistentes/create", element: <CreateAssistant /> },
+      { path: "/adm/assistentes/:id", element: <UpdateAssistente /> },
     ],
   },
   {

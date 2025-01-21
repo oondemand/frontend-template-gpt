@@ -39,6 +39,8 @@ export function UpdateUsers() {
   });
 
   const onSubmit = async (data) => {
+    console.log(data);
+
     try {
       const response = await updateUsersMutation({
         id,

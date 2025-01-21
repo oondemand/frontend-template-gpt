@@ -31,8 +31,6 @@ export function UpdatePrompt() {
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
-
     try {
       const response = await updatePromptMutation({
         id,

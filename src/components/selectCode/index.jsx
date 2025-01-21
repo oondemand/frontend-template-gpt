@@ -1,7 +1,7 @@
 import { Box, Text, VStack, List, Input } from "@chakra-ui/react";
 import { useEffect, useState, useRef } from "react";
 
-export const SelectCode = ({ data, onChange, value }) => {
+export const SelectCode = ({ data, onChange, value, w = "sm" }) => {
   const [closeList, setCloseList] = useState(true);
   const [options, setOptions] = useState(data);
 
@@ -47,7 +47,7 @@ export const SelectCode = ({ data, onChange, value }) => {
   }, []);
 
   return (
-    <Box position="relative" mt="1">
+    <Box position="relative" mt="1" w={w}>
       <VStack align="start" mb="2" gap="1">
         <Text color="orange.600">Codigo</Text>
         <Input

@@ -18,6 +18,10 @@ const getAssistant = async ({ id }) => {
   return data;
 };
 
+const cloneAssistant = async ({ id }) => {
+  return await api.post(`/assistentes/${id}`);
+};
+
 const deleteAssistant = async ({ id }) => {
   return await api.delete(`/assistentes/${id}`);
 };
@@ -28,4 +32,5 @@ export const AssistantService = {
   updateAssistant,
   getAssistant,
   deleteAssistant,
+  cloneAssistant,
 };

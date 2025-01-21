@@ -10,7 +10,7 @@ import { Server } from "lucide-react";
 const routes = [
   { name: "Usuários", path: "/adm/usuarios", rules: ["master"] },
   { name: "Tenants", path: "/adm/tenants", rules: ["master"] },
-  { name: "Prompts", path: "/adm/prompts", rules: ["master"] },
+  { name: "Assistentes", path: "/adm/assistentes", rules: ["master"] },
 ];
 
 export function MasterLayout() {

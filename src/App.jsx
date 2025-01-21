@@ -7,13 +7,14 @@ import { AuthProvider } from "./hooks/auth";
 import { ConfirmationProvider } from "./hooks/confirmationModal";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { DialogProvider } from "./hooks/previewModalContext";
+import { PreviewDialogProvider } from "./hooks/previewModalContext";
 
 import { env } from "./config/env";
 
 import { queryClient } from "./config/react-query";
 
 import { Toaster } from "sonner";
+import { PromptDialogProvider } from "./hooks/promptContext";
 
 function App() {
   return (
@@ -26,9 +27,11 @@ function App() {
           <Toaster richColors position="bottom-right" />
           <ChakraProvider value={defaultSystem}>
             <ConfirmationProvider>
-              <DialogProvider>
-                <RouterProvider router={router} />
-              </DialogProvider>
+              <PreviewDialogProvider>
+                <PromptDialogProvider>
+                  <RouterProvider router={router} />
+                </PromptDialogProvider>
+              </PreviewDialogProvider>
             </ConfirmationProvider>
           </ChakraProvider>
         </AuthProvider>
