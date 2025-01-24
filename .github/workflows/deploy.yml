@@ -1,4 +1,4 @@
-name: Deploy fatura personalizada front-end
+name: Deploy fatura personalizada front-
 
 on:
   push:
