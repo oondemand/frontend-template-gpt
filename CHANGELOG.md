@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.1 (2025-01-24)
+
+### Bug Fixes
+
+* update workflow ([c53373d](https://github.com/oondemand/frontend-template-gpt/commit/c53373d08aedd40432750b06b1a23da8434223c6))
+
 ## 0.1.0 (2025-01-24)
 
 ### Features
