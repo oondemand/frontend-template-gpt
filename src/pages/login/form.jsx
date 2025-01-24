@@ -36,6 +36,8 @@ export function Form() {
         return navigate("/");
       }
     } catch (error) {
+      console.log(error);
+
       if (error.response?.status === 400) {
         return toast.error("Credenciais inválidas!");
       }

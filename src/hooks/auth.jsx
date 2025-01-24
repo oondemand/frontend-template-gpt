@@ -25,6 +25,10 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("authToken", data.token);
       await loadContext();
 
+      if (data.usuario.tipo === "master") {
+        return { success: true, multiTenant: true };
+      }
+
       if (data?.usuario?.tenants.length > 1) {
         return { success: true, multiTenant: true };
       }

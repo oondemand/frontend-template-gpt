@@ -72,8 +72,6 @@ export function TemplateForm({ onSubmit, formId, data, dialogId }) {
     },
   });
 
-  const fieldValues = watch();
-
   const {
     mutateAsync: getOmieVarsMutation,
     data: omieData,

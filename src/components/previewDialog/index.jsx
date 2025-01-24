@@ -36,16 +36,18 @@ import { z } from "zod";
 import { FaturaService } from "../../services/fatura";
 import { ExternalIframe } from "../iframe";
 import { IntegrationGptService } from "../../services/integration-gpt";
-import { useState } from "react";
-import Markdown from "react-markdown";
+import { useEffect, useState } from "react";
 import { Save } from "lucide-react";
-
-import { Prose } from "../../components/ui/prose";
 
 import { TemplateService } from "../../services/template";
 import { queryClient } from "../../config/react-query";
 import { PromptService } from "../../services/prompt";
 import { SelectAssistant } from "../selectAssistant";
+import { useConfirmation } from "../../hooks/confirmationModal";
+import { TextCard } from "./card";
+
+import { AutoScroll } from "../autoScroll";
+import { ImportOmieVariables } from "../../pages/templates/importOmieVariables";
 
 const previewSchema = z.object({
   baseOmie: z.string().min(1, "Base omie é obrigatória").array(),
@@ -53,20 +55,15 @@ const previewSchema = z.object({
   omieVar: z.string(),
 });
 
-const chatSchema = z
-  .object({
-    baseOmie: z.string().min(1, "Base omie é obrigatória").array(),
-    assistente: z.string().min(1, "Assistente é obrigatório").array(),
-    question: z.string().optional(),
-    file: z.any().optional(),
-    templateEjs: z.string().optional(),
-    omieVar: z.string(),
-    systemVar: z.string(),
-  })
-  .refine((data) => data.file || data.question, {
-    message: "Escreva sua pergunta ou envie um arquivo.",
-    path: ["question"],
-  });
+const chatSchema = z.object({
+  baseOmie: z.string().min(1, "Base omie é obrigatória").array(),
+  assistente: z.string().min(1, "Assistente é obrigatório").array(),
+  question: z.string().optional(),
+  file: z.any().optional(),
+  templateEjs: z.string().optional(),
+  omieVar: z.string(),
+  systemVar: z.string(),
+});
 
 const saveSchema = z.object({
   templateEjs: z.string().min(1, "templateEjs é obrigatório."),
@@ -79,8 +76,14 @@ export function PreviewDialog({
   omieVar,
   onClose,
 }) {
-  const [iaResponse, setIaResponse] = useState();
+  const [iaChat, setIaChat] = useState([]);
   const [actionType, setActionType] = useState();
+  const { requestConfirmation } = useConfirmation();
+  const [codeVersion, setCodeVersion] = useState([templateEjs]);
+
+  useEffect(() => {
+    setCodeVersion([templateEjs]);
+  }, [templateEjs]);
 
   const submitTypeSchema = {
     CHAT: chatSchema,
@@ -91,7 +94,6 @@ export function PreviewDialog({
   const {
     handleSubmit,
     register,
-    watch,
     setValue,
     control,
     formState: { errors },
@@ -107,9 +109,9 @@ export function PreviewDialog({
   const {
     mutateAsync: generatePreviewMutation,
     data,
-    reset,
     isLoading,
     error: previewError,
+    reset: resetPreview,
   } = useMutation({
     mutationFn: FaturaService.generatePreview,
   });
@@ -136,6 +138,32 @@ export function PreviewDialog({
       });
     },
   });
+
+  const { mutateAsync: getOmieVarsMutation, isLoading: omieVarsIsLoading } =
+    useMutation({
+      mutationFn: FaturaService.getOmieVars,
+    });
+
+  const onImportOmieVariables = async ({ baseOmie, os }) => {
+    try {
+      const { data } = await getOmieVarsMutation({
+        body: {
+          baseOmie: baseOmie[0],
+          os,
+        },
+      });
+
+      if (data) {
+        setValue("omieVar", JSON.stringify(data, null, 2));
+        toast.success("Importação feita com sucesso!", {
+          description: "Valores atualizados atualizado!",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Ouve um erro ao importar variáveis Omie!");
+    }
+  };
 
   const onSaveSubmit = async (values) => {
     try {
@@ -191,6 +219,18 @@ export function PreviewDialog({
     }
   };
 
+  const updateChatIa = ({ type, text }) => {
+    if (iaChat.length > 15) {
+      return setIaChat((prev) => {
+        const prevChat = [...prev];
+        prevChat.shift();
+        return [...prevChat, { type, text }];
+      });
+    }
+
+    setIaChat((prev) => [...prev, { type, text }]);
+  };
+
   const onChatSubmit = async (values) => {
     try {
       const prompts = await PromptService.listPrompt({
@@ -214,6 +254,10 @@ export function PreviewDialog({
         },
       });
 
+      if (values.question) {
+        updateChatIa({ type: "user", text: values.question });
+      }
+
       const regex = /```([\s\S]*?)```/;
       const match = response.data.data.match(regex);
 
@@ -221,15 +265,19 @@ export function PreviewDialog({
         const lines = match[1].split("\n");
         lines.shift();
 
-        setValue("templateEjs", lines.join("\n").trim());
-        setValue("question", "");
+        const code = lines.join("\n").trim();
+
+        setCodeVersion((prev) => [...prev, code]);
+        setValue("templateEjs", code);
       }
 
       const text = response.data.data.replace(regex, "");
-      setIaResponse(text);
+
+      updateChatIa({ type: "bot", text });
 
       if (response.status === 200) {
         toast.success("Tudo certo!");
+        setValue("question", "");
       }
     } catch (error) {
       console.log(error);
@@ -248,17 +296,7 @@ export function PreviewDialog({
   };
 
   return (
-    <DialogRoot
-      placement="center"
-      size="full"
-      open={isOpen}
-      onOpenChange={(e) => {
-        formReset();
-        onClose();
-        reset();
-        setIaResponse();
-      }}
-    >
+    <DialogRoot placement="center" size="full" open={isOpen}>
       <DialogContent position="relative" h="full">
         <DialogBody p="2" h="full" asChild>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -332,20 +370,16 @@ export function PreviewDialog({
                     Chat ia
                   </Heading>
 
-                  {iaResponse && (
-                    <Flex
-                      rounded="md"
-                      px="2"
-                      maxH="96"
-                      gap="2"
-                      border="1px dashed"
-                      borderColor="gray.200"
-                      overflow="auto"
-                    >
-                      <Prose fontSize="sm">
-                        <Markdown>{iaResponse}</Markdown>
-                      </Prose>
-                    </Flex>
+                  {iaChat.length > 0 && (
+                    <AutoScroll messages={iaChat}>
+                      {iaChat.map((chat, i) => (
+                        <TextCard
+                          key={`${chat.text}-${i}`}
+                          text={chat.text}
+                          type={chat.type}
+                        />
+                      ))}
+                    </AutoScroll>
                   )}
                 </Box>
 
@@ -402,18 +436,30 @@ export function PreviewDialog({
                       <Text fontSize="lg">Variáveis (Json)</Text>
                     </Collapsible.Trigger>
                   </Flex>
-                  <Collapsible.Content display="flex" gap="4">
-                    <Flex w="full" flexDir="column">
-                      <Text>Variáveis omie</Text>
-                      <Textarea fontSize="md" {...register("omieVar")} h="44" />
-                    </Flex>
-                    <Flex w="full" flexDir="column">
-                      <Text>Variáveis do sistema</Text>
-                      <Textarea
-                        fontSize="md"
-                        {...register("systemVar")}
-                        h="44"
-                      />
+                  <Collapsible.Content>
+                    <ImportOmieVariables
+                      onImportOmieVariables={onImportOmieVariables}
+                      isLoading={omieVarsIsLoading}
+                    />
+                    <Flex mt="2" alignItems="baseline" gap="4">
+                      <Flex w="full" flexDir="column">
+                        <Text>Variáveis omie</Text>
+                        <Textarea
+                          fontSize="md"
+                          scrollbarWidth="thin"
+                          {...register("omieVar")}
+                          h="44"
+                        />
+                      </Flex>
+                      <Flex w="full" flexDir="column">
+                        <Text>Variáveis do sistema</Text>
+                        <Textarea
+                          fontSize="md"
+                          scrollbarWidth="thin"
+                          {...register("systemVar")}
+                          h="44"
+                        />
+                      </Flex>
                     </Flex>
                   </Collapsible.Content>
                 </Collapsible.Root>
@@ -425,9 +471,29 @@ export function PreviewDialog({
                     <Collapsible.Trigger cursor="pointer">
                       <Text fontSize="lg">Conteúdo</Text>
                     </Collapsible.Trigger>
+                    <Flex>
+                      {codeVersion.length > 0 &&
+                        codeVersion.map((e, i) => (
+                          <Button
+                            key={`btn-0${i}`}
+                            onClick={() => {
+                              setValue("templateEjs", e);
+                            }}
+                            roundedLeft={i === 0 ? "md" : "none"}
+                            roundedBottomRight={
+                              i === codeVersion.length - 1 ? "md" : "none"
+                            }
+                            variant="surface"
+                            size="xs"
+                          >
+                            v{i + 1}
+                          </Button>
+                        ))}
+                    </Flex>
                   </Flex>
                   <Collapsible.Content>
                     <Textarea
+                      scrollbarWidth="thin"
                       fontSize="md"
                       {...register("templateEjs")}
                       h="80"
@@ -464,6 +530,7 @@ export function PreviewDialog({
                     borderColor="red.300"
                     maxH="96"
                     overflow="auto"
+                    scrollbarWidth="thin"
                   >
                     <Text fontSize="md" color="gray.600">
                       {previewError?.response?.data?.error?.toString()}
@@ -496,6 +563,21 @@ export function PreviewDialog({
                 bg="orange.500"
                 color="white"
                 fontWeight="600"
+                onClick={async (e) => {
+                  e.preventDefault();
+                  const { action } = await requestConfirmation({
+                    title: "Tem certeza que deseja sair?",
+                    description: "Suas alterações podem ser perdidas.",
+                  });
+
+                  if (action === "confirmed") {
+                    onClose();
+                    formReset();
+                    setIaChat([]);
+                    setCodeVersion([]);
+                    resetPreview();
+                  }
+                }}
               />
             </Flex>
           </form>
