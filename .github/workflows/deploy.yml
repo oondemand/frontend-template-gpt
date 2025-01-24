@@ -1,28 +1,9 @@
-# name: Create fatura-personalizada-backend image
-
-# on:
-#   push:
-#     branches:
-#       - main
-# jobs:
-#   build_and_publish:
-#     runs-on: ubuntu-24.04
-#     steps:
-#       - uses: actions/checkout@v3
-#       - name: Build and push image
-#         run: |
-#           docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.GH_PAT }} ghcr.io
-#           docker build -f ./infra/docker/Dockerfile.prod --tag ghcr.io/oondemand/fatura-personalizada-frontend:1.0.0-prod .
-#           docker push ghcr.io/oondemand/fatura-personalizada-frontend:1.0.0-prod
-
-name: Deploy fatura personalizada micro serviço de integração com openIa
+name: Deploy fatura personalizada front-end
 
 on:
-  pull_request:
+  push:
     branches:
-      - main # Branch de destino para gerenciar releases
-    types:
-      - closed
+      - dev # Branch de destino para gerenciar releases
 
 jobs:
   build_and_publish:
