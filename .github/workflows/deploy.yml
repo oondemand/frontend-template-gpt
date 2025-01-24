@@ -36,8 +36,8 @@ jobs:
       - name: Construir e publicar imagem
         run: |
           docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.GH_PAT }} ghcr.io
-          docker build -f ./infra/docker/Dockerfile.prod --build-arg SERVICE_VERSION=${{ env.TAG }} --build-arg VITE_API_URL=${{ secrets.VITE_API_URL }} --build-arg VITE_API_INTEGRACAO_URL=${{ secrets.VITE_API_INTEGRACAO_URL }} --tag fatura-personalizada-frontend:${{ env.TAG }}-prod .
-          docker push fatura-personalizada-frontend:${{ env.TAG }}-prod
+          docker build -f ./infra/docker/Dockerfile.prod --build-arg SERVICE_VERSION=${{ env.TAG }} --build-arg VITE_API_URL=${{ secrets.VITE_API_URL }} --build-arg VITE_API_INTEGRACAO_URL=${{ secrets.VITE_API_INTEGRACAO_URL }} --tag ghcr.io/oondemand/frontend-template-gpt:${{ env.TAG }}-prod .
+          docker push ghcr.io/oondemand/frontend-template-gpt:${{ env.TAG }}-prod
 
       - name: Criar kubeconfig
         run: |
