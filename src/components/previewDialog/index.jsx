@@ -47,7 +47,8 @@ import { useConfirmation } from "../../hooks/confirmationModal";
 import { TextCard } from "./card";
 
 import { AutoScroll } from "../autoScroll";
-import { ImportOmieVariables } from "../../pages/templates/importOmieVariables";
+
+import { saveAs } from "file-saver";
 
 const previewSchema = z.object({
   baseOmie: z.string().min(1, "Base omie é obrigatória").array(),
@@ -69,6 +70,17 @@ const saveSchema = z.object({
   templateEjs: z.string().min(1, "templateEjs é obrigatório."),
 });
 
+const importOsSchema = z.object({
+  baseOmie: z.string().min(1, "Base omie é obrigatória").array(),
+  os: z.string().min(1, "Digite o valor da os"),
+});
+
+const enviarFaturaSchema = z.object({
+  baseOmie: z.string().min(1, "Base omie é obrigatória").array(),
+  os: z.string().min(1, "Digite o valor da os"),
+  emailList: z.string(),
+});
+
 export function PreviewDialog({
   templateId,
   isOpen,
@@ -88,7 +100,10 @@ export function PreviewDialog({
   const submitTypeSchema = {
     CHAT: chatSchema,
     PREVIEW: previewSchema,
+    DOWNLOAD_PDF: previewSchema,
     SAVE: saveSchema,
+    IMPORT_VARS: importOsSchema,
+    ENVIAR_FATURA: enviarFaturaSchema,
   };
 
   const {
@@ -114,6 +129,20 @@ export function PreviewDialog({
     reset: resetPreview,
   } = useMutation({
     mutationFn: FaturaService.generatePreview,
+  });
+
+  const {
+    mutateAsync: downloadPdfMutation,
+    isLoading: isLoadingDownloadPdfMutation,
+  } = useMutation({
+    mutationFn: FaturaService.downloadPdf,
+  });
+
+  const {
+    mutateAsync: enviarFaturaMutations,
+    isLoading: isLoadingEnviarFaturaMutations,
+  } = useMutation({
+    mutationFn: FaturaService.enviarFatura,
   });
 
   const {
@@ -144,12 +173,12 @@ export function PreviewDialog({
       mutationFn: FaturaService.getOmieVars,
     });
 
-  const onImportOmieVariables = async ({ baseOmie, os }) => {
+  const onImportOmieVariables = async (values) => {
     try {
       const { data } = await getOmieVarsMutation({
         body: {
-          baseOmie: baseOmie[0],
-          os,
+          baseOmie: values.baseOmie[0],
+          os: values.os,
         },
       });
 
@@ -219,6 +248,28 @@ export function PreviewDialog({
     }
   };
 
+  const onDownloadPdfSubmit = async (values) => {
+    try {
+      const response = await downloadPdfMutation({
+        body: {
+          content: values.templateEjs,
+          omieVar: values.omieVar,
+          baseOmie: values.baseOmie[0],
+        },
+      });
+
+      const blob = new Blob([new Uint8Array(response.data)], {
+        type: "application/pdf",
+      });
+
+      saveAs(blob, "fatura.pdf");
+    } catch (error) {
+      console.log(error);
+      console.log(error);
+      toast.error("Ouve um erro ao baixar pdf!");
+    }
+  };
+
   const updateChatIa = ({ type, text }) => {
     if (iaChat.length > 15) {
       return setIaChat((prev) => {
@@ -285,10 +336,32 @@ export function PreviewDialog({
     }
   };
 
+  const onEnviarFaturaSubmit = async (values) => {
+    try {
+      const response = await enviarFaturaMutations({
+        body: {
+          ...values,
+          baseOmie: values.baseOmie[0],
+        },
+      });
+
+      if (response.status === 200) {
+        toast.success("Tudo certo emails sendo enviados!");
+        setValue("emailList", "");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Ouve um erro ao enviar emails");
+    }
+  };
+
   const submitTypeMap = {
     CHAT: onChatSubmit,
     PREVIEW: onPreviewSubmit,
     SAVE: onSaveSubmit,
+    DOWNLOAD_PDF: onDownloadPdfSubmit,
+    IMPORT_VARS: onImportOmieVariables,
+    ENVIAR_FATURA: onEnviarFaturaSubmit,
   };
 
   const onSubmit = async (values) => {
@@ -308,30 +381,6 @@ export function PreviewDialog({
                 left="2"
                 gap="2"
               >
-                <Box>
-                  <Controller
-                    control={control}
-                    name="baseOmie"
-                    render={({ field }) => (
-                      <SelectBaseOmie
-                        name={field.name}
-                        value={field.value}
-                        onValueChange={({ value }) => {
-                          handleBaseOmieChange(value);
-                          field.onChange(value);
-                        }}
-                        onInteractOutside={() => field.onBlur()}
-                        w="2xs"
-                        size="xs"
-                      />
-                    )}
-                  />
-                  {errors?.baseOmie && (
-                    <Text ml="1" fontSize="xs" color="red.500">
-                      Selecione base omie
-                    </Text>
-                  )}
-                </Box>
                 <Box>
                   <Controller
                     control={control}
@@ -355,7 +404,6 @@ export function PreviewDialog({
                     </Text>
                   )}
                 </Box>
-                {getSystemVarsIsLoading && <Spinner />}
               </Flex>
 
               <Flex
@@ -427,20 +475,64 @@ export function PreviewDialog({
                   />
                 </Box>
               </Flex>
+
               <Separator orientation="vertical" />
 
               <Flex ml="2" flex="1" h="full" flexDir="column" w="full">
                 <Collapsible.Root mt="2">
-                  <Flex gap="4" mb="3">
+                  <Flex gap="4" mb="3" alignItems="center">
                     <Collapsible.Trigger cursor="pointer">
                       <Text fontSize="lg">Variáveis (Json)</Text>
                     </Collapsible.Trigger>
+                    <Box>
+                      <Controller
+                        control={control}
+                        name="baseOmie"
+                        render={({ field }) => (
+                          <SelectBaseOmie
+                            name={field.name}
+                            value={field.value}
+                            onValueChange={({ value }) => {
+                              handleBaseOmieChange(value);
+                              field.onChange(value);
+                            }}
+                            onInteractOutside={() => field.onBlur()}
+                            w="2xs"
+                            size="xs"
+                          />
+                        )}
+                      />
+                      {errors?.baseOmie && (
+                        <Text ml="1" fontSize="xs" color="red.500">
+                          Selecione base omie
+                        </Text>
+                      )}
+                    </Box>
+                    <Box>
+                      <Input
+                        w="32"
+                        size="xs"
+                        placeholder="Numero da os..."
+                        {...register("os")}
+                      />
+                      <Text fontSize="xs" color="red.500">
+                        {errors?.os?.message}
+                      </Text>
+                    </Box>
+                    <Button
+                      type="submit"
+                      onClick={() => {
+                        setActionType("IMPORT_VARS");
+                      }}
+                      variant="surface"
+                      size="xs"
+                    >
+                      {!omieVarsIsLoading && "Importar variáveis"}
+                      {omieVarsIsLoading && <Spinner />}
+                    </Button>
+                    {getSystemVarsIsLoading && <Spinner />}
                   </Flex>
                   <Collapsible.Content>
-                    <ImportOmieVariables
-                      onImportOmieVariables={onImportOmieVariables}
-                      isLoading={omieVarsIsLoading}
-                    />
                     <Flex mt="2" alignItems="baseline" gap="4">
                       <Flex w="full" flexDir="column">
                         <Text>Variáveis omie</Text>
@@ -520,6 +612,34 @@ export function PreviewDialog({
                   >
                     {!isLoading && "Gerar preview"}
                     {isLoading && <Spinner />}
+                  </Button>
+
+                  <Button
+                    type="submit"
+                    onClick={() => {
+                      setActionType("DOWNLOAD_PDF");
+                    }}
+                    w="28"
+                    size="xs"
+                    variant="surface"
+                  >
+                    {!isLoadingDownloadPdfMutation && "Baixar fatura (PDF)"}
+                    {isLoadingDownloadPdfMutation && <Spinner />}
+                  </Button>
+
+                  <Input {...register("emailList")} w="sm" size="xs" />
+
+                  <Button
+                    type="submit"
+                    onClick={() => {
+                      setActionType("ENVIAR_FATURA");
+                    }}
+                    w="28"
+                    size="xs"
+                    variant="surface"
+                  >
+                    {!isLoadingEnviarFaturaMutations && "Enviar por email"}
+                    {isLoadingEnviarFaturaMutations && <Spinner />}
                   </Button>
                 </Flex>
                 {previewError && (
