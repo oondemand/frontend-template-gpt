@@ -49,6 +49,7 @@ import { TextCard } from "./card";
 import { AutoScroll } from "../autoScroll";
 
 import { saveAs } from "file-saver";
+import { useAuth } from "../../hooks/auth";
 
 const previewSchema = z.object({
   baseOmie: z.string().min(1, "Base omie é obrigatória").array(),
@@ -92,6 +93,7 @@ export function PreviewDialog({
   const [actionType, setActionType] = useState();
   const { requestConfirmation } = useConfirmation();
   const [codeVersion, setCodeVersion] = useState([templateEjs]);
+  const { user } = useAuth();
 
   useEffect(() => {
     setCodeVersion([templateEjs]);
@@ -118,6 +120,7 @@ export function PreviewDialog({
     values: {
       templateEjs,
       omieVar,
+      emailList: user?.email || "",
     },
   });
 
