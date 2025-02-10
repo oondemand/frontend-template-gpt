@@ -7,12 +7,16 @@ import {
 } from "react";
 
 import { logIn, validateToken } from "../services/auth";
+import { queryClient } from "../config/react-query";
+
+import { useTenant } from "./tenant";
 
 export const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const { getTenant, setTenant } = useTenant();
 
   const signIn = async (email, password) => {
     const data = await logIn({ email, password });
@@ -21,15 +25,25 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("authToken", data.token);
       await loadContext();
 
-      return true;
+      if (data.usuario.tipo === "master") {
+        return { success: true, multiTenant: true };
+      }
+
+      if (data?.usuario?.tenants.length > 1) {
+        return { success: true, multiTenant: true };
+      }
+
+      setTenant({ tenant: data.usuario.tenants[0].tenant });
+      return { success: true, multiTenant: false };
     }
 
-    return false;
+    return { success: false };
   };
 
   const signOut = async () => {
     setUser(null);
     localStorage.clear();
+    queryClient.clear();
   };
 
   const loadContext = async () => {
@@ -41,7 +55,8 @@ export const AuthProvider = ({ children }) => {
         const data = await validateToken();
         setUser(data);
       } catch (error) {
-        console.log(error);
+        console.log("ERROR", error);
+        error.status === 401 && signOut();
       }
     }
 

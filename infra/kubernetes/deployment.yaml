@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fatura-personalizada-frontend
+  namespace: fatura-personalizada-v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fatura-personalizada-frontend
+  template:
+    metadata:
+      labels:
+        app: fatura-personalizada-frontend
+    spec:
+      containers:
+        - name: fatura-personalizada-frontend-container
+          image: ghcr.io/oondemand/frontend-template-gpt:${IMAGE_TAG}-prod
+          ports:
+            - containerPort: 3001
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "0.1"
+            limits:
+              memory: "2048Mi"
+              cpu: "2"

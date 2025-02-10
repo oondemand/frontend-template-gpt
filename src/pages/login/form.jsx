@@ -1,33 +1,23 @@
-import {
-  Formik,
-  Field,
-  ErrorMessage,
-  Form as FormikForm,
-  useFormik,
-} from "formik";
-
-import {
-  Button,
-  Input,
-  VStack,
-  Text,
-  Box,
-  HStack,
-  Flex,
-} from "@chakra-ui/react";
-
-import * as Yup from "yup";
+import { Button, VStack } from "@chakra-ui/react";
 
 import { useAuth } from "../../hooks/auth";
 import { useNavigate } from "react-router-dom";
 
-import { toast } from "sonner";
+import { TextInput } from "../../components/input/textInput";
 
-const schema = Yup.object({
-  email: Yup.string().email("Email inválido!").required("Email obrigatório!"),
-  password: Yup.string()
-    .min(6, "Email precisa ter no mínimo 6 caracteres!")
-    .required("Senha obrigatória!"),
+import { toast } from "sonner";
+import { useForm } from "react-hook-form";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+
+const schema = z.object({
+  email: z
+    .string({ message: "Email obrigatório!" })
+    .email({ message: "Email inválido!" }),
+  password: z
+    .string({ message: "Senha obrigatória!" })
+    .min(6, { message: "A senha precisa ter no mínimo 6 caracteres!" }),
 });
 
 export function Form() {
@@ -36,8 +26,15 @@ export function Form() {
 
   const onSubmit = async (data) => {
     try {
-      await signIn(data.email, data.password);
-      navigate("/");
+      const { success, multiTenant } = await signIn(data.email, data.password);
+
+      if (success && multiTenant) {
+        return navigate("/multi-tenant");
+      }
+
+      if (success && !multiTenant) {
+        return navigate("/");
+      }
     } catch (error) {
       console.log(error);
 
@@ -53,54 +50,37 @@ export function Form() {
     }
   };
 
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-    onSubmit: onSubmit,
-    validateOnChange: false,
-    validationSchema: schema,
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(schema),
   });
 
   return (
-    <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
-      <VStack gap="2">
-        <Box>
-          <Text color="orange.600">Email</Text>
-          <Input
+    <>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <VStack gap="2">
+          <TextInput
             w="xs"
-            type="text"
-            name="email"
+            label="Email *"
+            {...register("email")}
             placeholder="exemplo@exemplo.com"
-            onChange={formik.handleChange}
-            value={formik.values.email}
+            error={errors.email?.message}
           />
-          {formik.errors.email && (
-            <Text color="red.500" fontSize="sm">
-              {formik.errors.email}
-            </Text>
-          )}
-        </Box>
-        <Box>
-          <Text color="orange.600">Senha</Text>
-          <Input
+          <TextInput
             w="xs"
+            label="Senha *"
             type="password"
-            name="password"
-            onChange={formik.handleChange}
-            value={formik.values.password}
+            {...register("password")}
+            error={errors.password?.message}
           />
-          {formik.errors.password && (
-            <Text color="red.500" fontSize="sm">
-              {formik.errors.password}
-            </Text>
-          )}
-        </Box>
-        <Button mt="8" bg="orange.400" w="xs" type="submit">
-          Login
-        </Button>
-      </VStack>
-    </form>
+          <Button mt="8" bg="orange.400" w="xs" type="submit">
+            Login
+          </Button>
+        </VStack>
+      </form>
+    </>
   );
 }
