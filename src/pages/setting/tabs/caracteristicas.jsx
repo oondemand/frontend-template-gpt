@@ -18,7 +18,7 @@ import { useState, useEffect } from "react";
 import { Trash } from "lucide-react";
 import { DEFAULT_SYSTEM_SETTINGS } from "../../../_constants/defaultConfigs";
 import { useConfirmation } from "../../../hooks/confirmationModal";
-import { SelectCode } from "../../../components/selectCode";
+import { AutocompleteInput } from "./autocompleteInput";
 
 export function CaracteristicasForm({
   title,
@@ -69,7 +69,9 @@ export function CaracteristicasForm({
   });
 
   const handleValueChange = async (e, id) => {
-    if (e.target.defaultValue === e.target.value) return;
+    if (e.target.name !== "codigo") {
+      if (e.target.defaultValue === e.target.value) return;
+    }
 
     try {
       const { data } = await updateSettingsMutation({
@@ -156,10 +158,21 @@ export function CaracteristicasForm({
                 await handleValueChange(event, e._id);
               }}
             />
-            <FlushedInput
-              w="2xs"
-              label="Código"
+
+            <AutocompleteInput
               name="codigo"
+              suggestions={[
+                ...new Set(
+                  initialSettings
+                    .map((e) => e.codigo)
+                    .filter(
+                      (codigo) =>
+                        codigo !== "" &&
+                        codigo !== undefined &&
+                        !DEFAULT_SYSTEM_SETTINGS.includes(codigo)
+                    )
+                ),
+              ]}
               defaultValue={e.codigo}
               onBlur={async (event) => {
                 await handleValueChange(event, e._id);
@@ -175,26 +188,6 @@ export function CaracteristicasForm({
                 await handleValueChange(event, e._id);
               }}
             />
-
-            {/* <SelectCode
-              variant=""
-              name="codigo"
-              defaultValue={e.codigo}
-              borderBottom="1px solid"
-              borderBottomColor="gray.200"
-              data={initialSettings
-                .map((e) => e.codigo)
-                .filter(
-                  (e) =>
-                    e !== undefined &&
-                    !DEFAULT_SYSTEM_SETTINGS.includes(e.codigo)
-                )}
-              labelStyles={{ fontSize: "xs", color: "gray.600" }}
-              onBlur={async (event) => {
-                event.target.defaultValue = e.codigo;
-                await handleValueChange(event, e._id);
-              }}
-            /> */}
 
             <IconButton
               variant="subtle"
