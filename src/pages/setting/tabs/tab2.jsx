@@ -21,22 +21,16 @@ import { SelectBaseOmie } from "../../../components/selectBaseOmie";
 import { BaseOmieService } from "../../../services/baseOmie";
 import { SelectEtapa } from "../../../components/selectEtapa";
 
-export function Tab2({ settings }) {
-  const [baseOmie, setBaseOmie] = useState();
-
-  useQuery({
-    queryKey: ["list-base-omies"],
-    queryFn: BaseOmieService.listBaseOmies,
-    onSuccess: (data) => {
-      setBaseOmie(data?.[0]._id);
-    },
-  });
+export function Tab2({ settings, defaultBaseOmie }) {
+  const [baseOmie, setBaseOmie] = useState(defaultBaseOmie);
 
   const { mutateAsync: updateSettingsMutation } = useMutation({
     mutationFn: SettingService.updateSetting,
   });
 
   const handleValueChange = async (e) => {
+    console.log("VALUE:", e.target.defaultValue, e.target.value, e.target.name);
+
     if (e.target.defaultValue === e.target.value) return;
 
     try {
@@ -72,19 +66,19 @@ export function Tab2({ settings }) {
     };
   };
 
-  console.log(settings);
-
   return (
     <Box>
       <Box mt="2">
         <SelectBaseOmie
-          value={[baseOmie]}
+          defaultValue={[baseOmie]}
           w="xs"
           variant=""
           rounded="xs"
           borderBottom="1px solid"
           borderBottomColor="gray.200"
-          onChange={(e) => setBaseOmie(e.target.value)}
+          onChange={(e) => {
+            setBaseOmie(e.target.value);
+          }}
         />
       </Box>
 
@@ -94,7 +88,18 @@ export function Tab2({ settings }) {
         </Text>
         <Flex wrap="wrap" gap="4" mt="4">
           <SelectEtapa
+            {...selectSettingConfig("omie-etapa-gerar")}
+            clearable
+            w="md"
+            size="md"
+            variant=""
+            borderBottom="1px solid"
+            borderBottomColor="gray.200"
+            label="Etapa gerar"
+          />
+          <SelectEtapa
             {...selectSettingConfig("omie-etapa-processado")}
+            clearable
             w="md"
             size="md"
             variant=""
@@ -104,6 +109,7 @@ export function Tab2({ settings }) {
           />
           <SelectEtapa
             {...selectSettingConfig("omie-etapa-erro")}
+            clearable
             w="md"
             size="md"
             variant=""

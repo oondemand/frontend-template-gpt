@@ -15,50 +15,64 @@ const etapas = [
   {
     cCodigo: "00",
     cDescrPadrao: "Proposta",
-    cDescricao: "Proposta",
+    cDescricao: "Primeira etapa",
     cInativo: "S",
   },
   {
     cCodigo: "10",
     cDescrPadrao: "Ordem de Serviço",
-    cDescricao: "Ordem de Serviço",
+    cDescricao: "Segunda etapa",
     cInativo: "N",
   },
   {
     cCodigo: "20",
     cDescrPadrao: "Em Execução",
-    cDescricao: "Em Execução",
+    cDescricao: "Terceira etapa",
     cInativo: "N",
   },
   {
     cCodigo: "30",
     cDescrPadrao: "Executada",
-    cDescricao: "Gerar Invoice",
+    cDescricao: "Quarta etapa",
+    cInativo: "N",
+  },
+  {
+    cCodigo: "40",
+    cDescrPadrao: "Executada",
+    cDescricao: "Quinta etapa",
     cInativo: "N",
   },
   {
     cCodigo: "50",
     cDescrPadrao: "Faturar",
-    cDescricao: "Faturar",
+    cDescricao: "Sexta etapa",
     cInativo: "N",
   },
   {
     cCodigo: "60",
     cDescrPadrao: "Faturado",
-    cDescricao: "Faturado",
+    cDescricao: "Sétima etapa",
     cInativo: "N",
   },
 ];
 
-export function SelectEtapa({ label, placeholder, defaultValue, ...props }) {
+export function SelectEtapa({
+  label,
+  placeholder,
+  defaultValue,
+  clearable,
+  ...props
+}) {
+  const items =
+    etapas?.map((e) => {
+      return {
+        label: `${e.cDescricao} - n ${e?.cCodigo}`,
+        value: e?.cCodigo,
+      };
+    }) ?? [];
+
   const etapasCollection = createListCollection({
-    items:
-      etapas?.map((e) => {
-        return {
-          label: `${e.cDescricao} - n ${e?.cCodigo}`,
-          value: e?.cCodigo,
-        };
-      }) ?? [],
+    items: items,
   });
 
   return (
@@ -74,7 +88,7 @@ export function SelectEtapa({ label, placeholder, defaultValue, ...props }) {
             {label}
           </SelectLabel>
         )}
-        <SelectTrigger>
+        <SelectTrigger clearable={clearable}>
           <SelectValueText />
         </SelectTrigger>
         <SelectContent zIndex={9999}>

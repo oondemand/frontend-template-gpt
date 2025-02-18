@@ -60,8 +60,6 @@ export function Tab1({ settings }) {
     };
   };
 
-  console.log(settings);
-
   return (
     <Box>
       <Box mt="2">
