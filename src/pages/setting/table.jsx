@@ -61,7 +61,7 @@ export function SettingsTable({ data, onDelete }) {
                 </Table.Cell>
                 <Table.Cell>{setting.nome}</Table.Cell>
                 <Table.Cell>{setting.codigo}</Table.Cell>
-                <Table.Cell>{setting?.valor.toString()}</Table.Cell>
+                <Table.Cell>{setting?.valor?.toString()}</Table.Cell>
                 <Table.Cell placeItems="end">
                   <Flex gap="4">
                     <IconButton
