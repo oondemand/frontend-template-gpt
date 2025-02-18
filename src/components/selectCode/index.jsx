@@ -6,11 +6,13 @@ export const SelectCode = ({
   label = "Codigo",
   w = "sm",
   labelStyles,
+  defaultValue,
+  onBlur,
   ...rest
 }) => {
   const [closeList, setCloseList] = useState(true);
   const [options, setOptions] = useState(data);
-  const [selectedValue, setSelectedValue] = useState("");
+  const [selectedValue, setSelectedValue] = useState(defaultValue ?? "");
 
   const listRef = useRef(null);
   const inputRef = useRef(null);
@@ -27,7 +29,7 @@ export const SelectCode = ({
   useEffect(() => {
     const timeout = setTimeout(() => {
       const result = data.filter((e) =>
-        e.toLowerCase().trim().includes(selectedValue.toLowerCase().trim())
+        e?.toLowerCase()?.trim()?.includes(selectedValue?.toLowerCase()?.trim())
       );
       setOptions(result);
     }, 500);
@@ -54,6 +56,7 @@ export const SelectCode = ({
   }, []);
 
   return (
+    // <form onBlur={onBlur} defaultValue={defaultValue}>
     <Box position="relative" mt="1" w={w}>
       <Box align="start" mb="1" gap="0">
         {label && (
@@ -70,10 +73,11 @@ export const SelectCode = ({
           autoComplete="off"
           onFocus={() => setCloseList(false)}
           {...rest}
+          onBlur={onBlur}
         />
       </Box>
       {!closeList && options.length > 0 && (
-        <List
+        <List.Root
           ref={listRef}
           position="absolute"
           top="100%"
@@ -99,8 +103,9 @@ export const SelectCode = ({
               {element}
             </List.Item>
           ))}
-        </List>
+        </List.Root>
       )}
     </Box>
+    // </form>
   );
 };

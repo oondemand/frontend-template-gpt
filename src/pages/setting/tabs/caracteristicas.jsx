@@ -165,6 +165,7 @@ export function CaracteristicasForm({
                 await handleValueChange(event, e._id);
               }}
             />
+
             <FlushedInput
               w="2xs"
               label="Valor"
@@ -175,8 +176,25 @@ export function CaracteristicasForm({
               }}
             />
 
-
-              
+            {/* <SelectCode
+              variant=""
+              name="codigo"
+              defaultValue={e.codigo}
+              borderBottom="1px solid"
+              borderBottomColor="gray.200"
+              data={initialSettings
+                .map((e) => e.codigo)
+                .filter(
+                  (e) =>
+                    e !== undefined &&
+                    !DEFAULT_SYSTEM_SETTINGS.includes(e.codigo)
+                )}
+              labelStyles={{ fontSize: "xs", color: "gray.600" }}
+              onBlur={async (event) => {
+                event.target.defaultValue = e.codigo;
+                await handleValueChange(event, e._id);
+              }}
+            /> */}
 
             <IconButton
               variant="subtle"
