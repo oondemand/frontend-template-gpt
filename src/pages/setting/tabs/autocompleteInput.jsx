@@ -79,6 +79,8 @@ export const AutocompleteInput = ({
         name={name}
         borderBottom="1px solid"
         borderColor="gray.200"
+        px="0"
+        fontSize="sm"
       />
 
       {isOpen && filteredSuggestions.length > 0 && (
