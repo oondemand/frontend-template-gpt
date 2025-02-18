@@ -78,7 +78,7 @@ export function AuthLayout() {
             </Navbar.footer>
           </Navbar.root>
         </GridItem>
-        <GridItem p="4" colSpan={7} m="2" rounded="md" bg="white">
+        <GridItem px="4" py="2" colSpan={7} m="2" rounded="md" bg="white">
           <Outlet />
         </GridItem>
       </Grid>
