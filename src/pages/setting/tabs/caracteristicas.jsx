@@ -14,10 +14,11 @@ import { SettingService } from "../../../services/settings";
 import { toast } from "sonner";
 import { FlushedInput } from "../input";
 import { SelectTemplate } from "../../../components/selectTemplate";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Trash } from "lucide-react";
 import { DEFAULT_SYSTEM_SETTINGS } from "../../../_constants/defaultConfigs";
 import { useConfirmation } from "../../../hooks/confirmationModal";
+import { AutocompleteInput } from "./autocompleteInput";
 
 export function CaracteristicasForm({
   title,
@@ -26,8 +27,6 @@ export function CaracteristicasForm({
 }) {
   const filteredData = initialSettings
     .filter((item) => {
-      console.log("LOG", item?.baseOmie?._id == baseOmie);
-
       return (
         !DEFAULT_SYSTEM_SETTINGS.includes(item.codigo) &&
         item?.baseOmie?._id == baseOmie
@@ -36,6 +35,8 @@ export function CaracteristicasForm({
     .map(({ nome, codigo, valor, _id }) => ({ nome, codigo, valor, _id }));
 
   const [settings, setSettings] = useState(filteredData);
+  const [config, setConfig] = useState("");
+
   const { requestConfirmation } = useConfirmation();
 
   const { mutateAsync: createSettingsMutation } = useMutation({
@@ -68,7 +69,9 @@ export function CaracteristicasForm({
   });
 
   const handleValueChange = async (e, id) => {
-    if (e.target.defaultValue === e.target.value) return;
+    if (e.target.name !== "codigo") {
+      if (e.target.defaultValue === e.target.value) return;
+    }
 
     try {
       const { data } = await updateSettingsMutation({
@@ -124,6 +127,10 @@ export function CaracteristicasForm({
     }
   };
 
+  useEffect(() => {
+    setSettings(filteredData);
+  }, [baseOmie]);
+
   return (
     <Box mt="6" rounded="md" p="4" pb="8" shadow="xs">
       <Flex alignItems="center" gap="8">
@@ -139,7 +146,7 @@ export function CaracteristicasForm({
           Adicionar Característica
         </Button>
       </Flex>
-      <Box gap="4" mt="4" maxH="200px" overflowY="auto" scrollbarWidth="thin">
+      <Box gap="4" mt="4">
         {settings.map((e, i) => (
           <Flex key={e._id} gap="6" mb="4" alignItems="center">
             <FlushedInput
@@ -151,15 +158,27 @@ export function CaracteristicasForm({
                 await handleValueChange(event, e._id);
               }}
             />
-            <FlushedInput
-              w="2xs"
-              label="Código"
+
+            <AutocompleteInput
               name="codigo"
+              suggestions={[
+                ...new Set(
+                  initialSettings
+                    .map((e) => e.codigo)
+                    .filter(
+                      (codigo) =>
+                        codigo !== "" &&
+                        codigo !== undefined &&
+                        !DEFAULT_SYSTEM_SETTINGS.includes(codigo)
+                    )
+                ),
+              ]}
               defaultValue={e.codigo}
               onBlur={async (event) => {
                 await handleValueChange(event, e._id);
               }}
             />
+
             <FlushedInput
               w="2xs"
               label="Valor"
@@ -169,6 +188,7 @@ export function CaracteristicasForm({
                 await handleValueChange(event, e._id);
               }}
             />
+
             <IconButton
               variant="subtle"
               size="xs"

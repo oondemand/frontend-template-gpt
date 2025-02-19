@@ -18,6 +18,7 @@ import { useState } from "react";
 import { Trash } from "lucide-react";
 import { Tab1 } from "./tabs/tab1";
 import { Tab2 } from "./tabs/tab2";
+import { BaseOmieService } from "../../services/baseOmie";
 
 export function Settings() {
   const {
@@ -27,6 +28,11 @@ export function Settings() {
   } = useQuery({
     queryKey: ["list-settings"],
     queryFn: SettingService.listSettings,
+  });
+
+  const { data: baseOmies } = useQuery({
+    queryKey: ["list-base-omies"],
+    queryFn: BaseOmieService.listBaseOmies,
   });
 
   return (
@@ -67,7 +73,9 @@ export function Settings() {
           {settings && <Tab1 settings={settings} />}
         </Tabs.Content>
         <Tabs.Content value="tab-2">
-          {settings && <Tab2 settings={settings} />}
+          {settings && baseOmies && (
+            <Tab2 settings={settings} defaultBaseOmie={baseOmies?.[0]?._id} />
+          )}
         </Tabs.Content>
       </Tabs.Root>
     </Box>
