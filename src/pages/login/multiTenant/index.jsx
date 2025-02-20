@@ -4,6 +4,7 @@ import { useAuth } from "../../../hooks/auth";
 import { useNavigate, Navigate } from "react-router-dom";
 import { useTenant } from "../../../hooks/tenant";
 import { Server } from "lucide-react";
+import { queryClient } from "../../../config/react-query";
 
 export function MultiTenant() {
   const { user, isLoading } = useAuth();
@@ -14,6 +15,7 @@ export function MultiTenant() {
   const selectTenant = (tenant) => {
     setTenant({ tenant });
     navigate("/", { viewTransition: true });
+    queryClient.invalidateQueries([]);
   };
 
   if (!user && isLoading === false) {

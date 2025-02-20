@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import { useAuth } from "../../hooks/auth";
 import { Navigate } from "react-router-dom";
-import { Grid, GridItem, Button, Text } from "@chakra-ui/react";
+import { Grid, GridItem, Button, Text, Box } from "@chakra-ui/react";
 import { Navbar } from "../../components/navbar";
 import { useTenant } from "../../hooks/tenant";
 
@@ -78,8 +78,17 @@ export function AuthLayout() {
             </Navbar.footer>
           </Navbar.root>
         </GridItem>
-        <GridItem px="4" py="2" colSpan={7} m="2" rounded="md" bg="white">
-          <Outlet />
+        <GridItem
+          py="1"
+          colSpan={7}
+          rounded="md"
+          maxH="vh"
+          overflowY="auto"
+          scrollbarWidth="thin"
+        >
+          <Box m="1" p="2" px="4" rounded="md" minH="99%" bg="white">
+            <Outlet />
+          </Box>
         </GridItem>
       </Grid>
     );

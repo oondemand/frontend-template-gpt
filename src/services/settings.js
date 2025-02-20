@@ -27,6 +27,14 @@ const listUniqueSettings = async () => {
   return data;
 };
 
+const listOmieCategories = async (baseOmieId) => {
+  const { data } = await api.get(
+    `configuracoes/listar-categorias-omie/${baseOmieId}`
+  );
+
+  return data;
+};
+
 export const SettingService = {
   listSettings,
   createSetting,
@@ -34,4 +42,5 @@ export const SettingService = {
   getSetting,
   updateSetting,
   listUniqueSettings,
+  listOmieCategories,
 };
