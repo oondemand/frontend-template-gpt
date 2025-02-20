@@ -74,7 +74,7 @@ export const AutocompleteInput = ({
         placeholder={placeholder}
         value={inputValue}
         onChange={handleInputChange}
-        onFocus={() => setIsOpen(true)} // abre a lista ao focar no input
+        onFocus={() => setIsOpen(true)}
         onBlur={handleBlur}
         name={name}
         borderBottom="1px solid"
@@ -106,8 +106,6 @@ export const AutocompleteInput = ({
               py={2}
               cursor="pointer"
               _hover={{ backgroundColor: "gray.100" }}
-              // onMouseDown para evitar perder o foco ao clicar (assim conseguimos
-              // manter o clique no item antes do blur do input)
               onMouseDown={() => handleSelectSuggestion(item)}
             >
               {item}
