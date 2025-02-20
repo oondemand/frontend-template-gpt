@@ -1,43 +1,90 @@
-import {
-  Box,
-  Flex,
-  Heading,
-  Input,
-  Tabs,
-  Text,
-  Button,
-  IconButton,
-} from "@chakra-ui/react";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { Box, Flex, Text } from "@chakra-ui/react";
+import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "../../../config/react-query";
 import { SettingService } from "../../../services/settings";
 import { toast } from "sonner";
 import { FlushedInput } from "../input";
-import { SelectTemplate } from "../../../components/selectTemplate";
 import { useState } from "react";
-import { Trash } from "lucide-react";
 import { CaracteristicasForm } from "./caracteristicas";
 import { SelectBaseOmie } from "../../../components/selectBaseOmie";
-import { BaseOmieService } from "../../../services/baseOmie";
 import { SelectEtapa } from "../../../components/selectEtapa";
+import { Switch } from "../../../components/ui/switch";
+import { SelectCategoria } from "../../../components/selectCategoria";
 
 export function Tab2({ settings, defaultBaseOmie }) {
   const [baseOmie, setBaseOmie] = useState(defaultBaseOmie);
+  const [addManualCode, setAddManualCode] = useState(false);
 
   const { mutateAsync: updateSettingsMutation } = useMutation({
     mutationFn: SettingService.updateSetting,
   });
 
-  const handleValueChange = async (e) => {
-    console.log("VALUE:", e.target.defaultValue, e.target.value, e.target.name);
+  const { mutateAsync: createSettingsMutation } = useMutation({
+    mutationFn: SettingService.createSetting,
+  });
 
+  const settingsPerBaseOmie = settings?.filter(
+    (e) => e?.baseOmie?._id === baseOmie
+  );
+
+  const handleValueChange = async (e) => {
     if (e.target.defaultValue === e.target.value) return;
 
     try {
-      await updateSettingsMutation({
-        id: settings?.find((setting) => setting.codigo == e.target.name)?._id,
-        body: { valor: e.target.value.trim() },
+      const settingBaseOmie = settingsPerBaseOmie?.find(
+        (setting) => setting.codigo == e.target.name
+      );
+
+      if (!settingBaseOmie) {
+        await createSettingsMutation({
+          body: {
+            baseOmie,
+            valor: e.target.value.trim(),
+            codigo: e.target.name,
+          },
+        });
+      }
+
+      if (settingBaseOmie) {
+        await updateSettingsMutation({
+          id: settingBaseOmie?._id,
+          body: { valor: e.target.value.trim() },
+        });
+      }
+
+      queryClient.invalidateQueries({
+        queryKey: ["list-settings"],
       });
+
+      toast.success("Configuração atualizada com sucesso!");
+    } catch (error) {
+      toast.error("Ouve um erro ao atualizar campo!");
+      console.error(error);
+    }
+  };
+
+  const handleSwitchChange = async (e) => {
+    try {
+      const settingBaseOmie = settingsPerBaseOmie?.find(
+        (setting) => setting.codigo == e.target.name
+      );
+
+      if (!settingBaseOmie) {
+        await createSettingsMutation({
+          body: {
+            baseOmie,
+            valor: e.target.checked,
+            codigo: e.target.name,
+          },
+        });
+      }
+
+      if (settingBaseOmie) {
+        await updateSettingsMutation({
+          id: settingBaseOmie?._id,
+          body: { valor: e.target.checked },
+        });
+      }
 
       queryClient.invalidateQueries({
         queryKey: ["list-settings"],
@@ -52,7 +99,9 @@ export function Tab2({ settings, defaultBaseOmie }) {
 
   const inputSettingConfig = (name) => {
     return {
-      defaultValue: settings?.find((setting) => setting.codigo == name)?.valor,
+      defaultValue: settingsPerBaseOmie?.find(
+        (setting) => setting.codigo == name
+      )?.valor,
       onBlur: handleValueChange,
       name,
     };
@@ -60,8 +109,20 @@ export function Tab2({ settings, defaultBaseOmie }) {
 
   const selectSettingConfig = (name) => {
     return {
-      defaultValue: settings?.find((setting) => setting.codigo == name)?.valor,
+      defaultValue: settingsPerBaseOmie?.find(
+        (setting) => setting.codigo == name
+      )?.valor,
       onChange: handleValueChange,
+      name,
+    };
+  };
+
+  const switchSettingConfig = (name) => {
+    return {
+      checked:
+        settingsPerBaseOmie?.find((setting) => setting.codigo == name)?.valor ==
+        true,
+      onChange: handleSwitchChange,
       name,
     };
   };
@@ -118,10 +179,51 @@ export function Tab2({ settings, defaultBaseOmie }) {
             label="Etapa erro"
           />
         </Flex>
+        <Flex mt="6" gap="4" alignItems="center">
+          <Text fontWeight="semibold" fontSize="md" color="orange.500">
+            Adiantamento
+          </Text>
+          <Switch
+            colorPalette="orange"
+            {...switchSettingConfig("omie-adiantamento-gerar")}
+          />
+        </Flex>
+        <Flex wrap="wrap" gap="4" mt="4" alignItems="flex-end">
+          <SelectCategoria
+            {...selectSettingConfig("omie-adiantamento-categoria")}
+            clearable
+            w="md"
+            size="md"
+            variant=""
+            borderBottom="1px solid"
+            borderBottomColor="gray.200"
+            label="Categoria adiantamento"
+            baseOmieId={baseOmie}
+          />
+        </Flex>
+        <Flex flexDir="column" mt="4" gap="2">
+          <Box
+            color="gray.500"
+            cursor="pointer"
+            fontSize="sm"
+            _hover={{ color: "gray.800" }}
+            onClick={() => setAddManualCode(!addManualCode)}
+          >
+            <Text>Adicionar cód categoria manualmente</Text>
+          </Box>
+          {addManualCode && (
+            <FlushedInput
+              {...inputSettingConfig("omie-adiantamento-categoria")}
+              placeholder="Digite cód categoria"
+              label=" "
+            />
+          )}
+        </Flex>
+
         {baseOmie && (
           <CaracteristicasForm
             title="Características do omie"
-            initialSettings={settings}
+            initialSettings={settingsPerBaseOmie}
             baseOmie={baseOmie}
           />
         )}

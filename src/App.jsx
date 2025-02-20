@@ -20,9 +20,9 @@ function App() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        {/* {env.MODE === "development" && (
+        {env.MODE === "development" && (
           <ReactQueryDevtools initialIsOpen={false} />
-        )} */}
+        )}
         <AuthProvider>
           <Toaster richColors position="bottom-right" />
           <ChakraProvider value={defaultSystem}>

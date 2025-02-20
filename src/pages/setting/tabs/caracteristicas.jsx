@@ -35,7 +35,6 @@ export function CaracteristicasForm({
     .map(({ nome, codigo, valor, _id }) => ({ nome, codigo, valor, _id }));
 
   const [settings, setSettings] = useState(filteredData);
-  const [config, setConfig] = useState("");
 
   const { requestConfirmation } = useConfirmation();
 

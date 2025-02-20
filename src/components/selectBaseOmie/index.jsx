@@ -18,6 +18,7 @@ export function SelectBaseOmie({ label, ...props }) {
   const { data: baseOmies } = useQuery({
     queryKey: ["list-base-omies"],
     queryFn: BaseOmieService.listBaseOmies,
+    staleTime: 1000 * 60 * 10, // 10 minutos
   });
 
   const baseOmiesCollection = createListCollection({

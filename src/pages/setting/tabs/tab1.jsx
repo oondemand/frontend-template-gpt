@@ -24,14 +24,35 @@ export function Tab1({ settings }) {
     mutationFn: SettingService.updateSetting,
   });
 
+  const { mutateAsync: createSettingsMutation } = useMutation({
+    mutationFn: SettingService.createSetting,
+  });
+
+  const settingsWithoutBaseOmies = settings?.filter((e) => !e?.baseOmie);
+
   const handleValueChange = async (e) => {
     if (e.target.defaultValue === e.target.value) return;
 
     try {
-      await updateSettingsMutation({
-        id: settings?.find((setting) => setting.codigo == e.target.name)?._id,
-        body: { valor: e.target.value.trim() },
-      });
+      const settingBaseOmie = settingsWithoutBaseOmies?.find(
+        (setting) => setting.codigo == e.target.name
+      );
+
+      if (!settingBaseOmie) {
+        await createSettingsMutation({
+          body: {
+            valor: e.target.value.trim(),
+            codigo: e.target.name,
+          },
+        });
+      }
+
+      if (settingBaseOmie) {
+        await updateSettingsMutation({
+          id: settingBaseOmie?._id,
+          body: { valor: e.target.value.trim() },
+        });
+      }
 
       queryClient.invalidateQueries({
         queryKey: ["list-settings"],
@@ -46,7 +67,9 @@ export function Tab1({ settings }) {
 
   const inputSettingConfig = (name) => {
     return {
-      defaultValue: settings?.find((setting) => setting.codigo == name)?.valor,
+      defaultValue: settingsWithoutBaseOmies?.find(
+        (setting) => setting.codigo == name
+      )?.valor,
       onBlur: handleValueChange,
       name,
     };
@@ -54,7 +77,9 @@ export function Tab1({ settings }) {
 
   const selectSettingConfig = (name) => {
     return {
-      defaultValue: settings?.find((setting) => setting.codigo == name)?.valor,
+      defaultValue: settingsWithoutBaseOmies?.find(
+        (setting) => setting.codigo == name
+      )?.valor,
       onChange: handleValueChange,
       name,
     };
