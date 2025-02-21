@@ -13,7 +13,7 @@ import { useQuery } from "@tanstack/react-query";
 import { SettingService } from "../../services/settings";
 
 import { Box } from "@chakra-ui/react";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { queryClient } from "../../config/react-query";
 
 export function SelectCategoria({
@@ -22,10 +22,13 @@ export function SelectCategoria({
   placeholder,
   defaultValue,
   clearable,
+  onChange,
   ...props
 }) {
+  const [value, setValue] = useState([defaultValue]);
+
   const { data: categorias } = useQuery({
-    queryKey: ["list-categorias"],
+    queryKey: ["list-categorias", { baseOmieId }],
     queryFn: async () => await SettingService.listOmieCategories(baseOmieId),
     staleTime: 1000 * 60 * 10, // 10 minutos
   });
@@ -42,7 +45,20 @@ export function SelectCategoria({
       <SelectRoot
         rounded="md"
         collection={categoriasCollection}
-        defaultValue={[defaultValue]}
+        value={value}
+        onValueChange={(e) => {
+          setValue((prev) => {
+            onChange({
+              target: {
+                name: props.name,
+                value: e.value[0],
+                defaultValue: prev[0],
+              },
+            });
+
+            return e.value;
+          });
+        }}
         {...props}
       >
         {label && (

@@ -75,7 +75,7 @@ export function CaracteristicasForm({
     try {
       const { data } = await updateSettingsMutation({
         id: id,
-        body: { [e.target.name]: e.target.value.trim() },
+        body: { [e.target.name]: e.target.value?.trim() ?? "" },
       });
 
       setSettings((prevSettings) =>

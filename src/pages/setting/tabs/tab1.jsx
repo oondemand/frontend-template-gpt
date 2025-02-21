@@ -41,7 +41,7 @@ export function Tab1({ settings }) {
       if (!settingBaseOmie) {
         await createSettingsMutation({
           body: {
-            valor: e.target.value.trim(),
+            valor: e.target.value?.trim() ?? "",
             codigo: e.target.name,
           },
         });
@@ -50,7 +50,7 @@ export function Tab1({ settings }) {
       if (settingBaseOmie) {
         await updateSettingsMutation({
           id: settingBaseOmie?._id,
-          body: { valor: e.target.value.trim() },
+          body: { valor: e.target.value?.trim() ?? "" },
         });
       }
 

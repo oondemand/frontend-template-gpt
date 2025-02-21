@@ -35,6 +35,14 @@ const listOmieCategories = async (baseOmieId) => {
   return data;
 };
 
+const listOmieStage = async (baseOmieId) => {
+  const { data } = await api.get(
+    `configuracoes/listar-etapas-omie/${baseOmieId}`
+  );
+
+  return data;
+};
+
 export const SettingService = {
   listSettings,
   createSetting,
@@ -43,4 +51,5 @@ export const SettingService = {
   updateSetting,
   listUniqueSettings,
   listOmieCategories,
+  listOmieStage,
 };
