@@ -149,7 +149,8 @@ export function IncludeForm({ onSubmit, formId, data }) {
           borderColor="gray.200"
           flexDir="column"
           gap="16"
-          p="2"
+          py="4"
+          px="2"
           w="full"
         >
           <Flex alignItems="center" gap="2">
@@ -198,7 +199,11 @@ export function IncludeForm({ onSubmit, formId, data }) {
                       </FileUploadClearTrigger>
                     }
                   >
-                    <FileInput truncate size="sm" />
+                    <FileInput
+                      truncate
+                      size="sm"
+                      placeholder="Selecionar arquivo"
+                    />
                   </InputGroup>
                 </FileUploadRoot>
               )}
@@ -206,6 +211,7 @@ export function IncludeForm({ onSubmit, formId, data }) {
           </Flex>
           {preview && (
             <Image
+              pointerEvents="none"
               fit="contain"
               src={`data:image/;base64,${preview}`}
               alt="Imagem em Base64"
