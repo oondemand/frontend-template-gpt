@@ -1,4 +1,8 @@
 import { createListCollection } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
+import { SettingService } from "../../services/settings";
+
+import { useEffect, useMemo, useState } from "react";
 
 import {
   SelectContent,
@@ -10,77 +14,69 @@ import {
 } from "../ui/select";
 
 import { Box } from "@chakra-ui/react";
-
-const etapas = [
-  {
-    cCodigo: "00",
-    cDescrPadrao: "Proposta",
-    cDescricao: "Primeira etapa",
-    cInativo: "S",
-  },
-  {
-    cCodigo: "10",
-    cDescrPadrao: "Ordem de Serviço",
-    cDescricao: "Segunda etapa",
-    cInativo: "N",
-  },
-  {
-    cCodigo: "20",
-    cDescrPadrao: "Em Execução",
-    cDescricao: "Terceira etapa",
-    cInativo: "N",
-  },
-  {
-    cCodigo: "30",
-    cDescrPadrao: "Executada",
-    cDescricao: "Quarta etapa",
-    cInativo: "N",
-  },
-  {
-    cCodigo: "40",
-    cDescrPadrao: "Executada",
-    cDescricao: "Quinta etapa",
-    cInativo: "N",
-  },
-  {
-    cCodigo: "50",
-    cDescrPadrao: "Faturar",
-    cDescricao: "Sexta etapa",
-    cInativo: "N",
-  },
-  {
-    cCodigo: "60",
-    cDescrPadrao: "Faturado",
-    cDescricao: "Sétima etapa",
-    cInativo: "N",
-  },
-];
+import { DEFAULT_ETAPAS_SETTINGS } from "../../_constants/defaultConfigs";
 
 export function SelectEtapa({
   label,
   placeholder,
   defaultValue,
   clearable,
+  baseOmieId,
+  onChange,
   ...props
 }) {
-  const items =
-    etapas?.map((e) => {
-      return {
-        label: `${e.cDescricao} - n ${e?.cCodigo}`,
-        value: e?.cCodigo,
-      };
-    }) ?? [];
+  const [value, setValue] = useState([defaultValue]);
 
-  const etapasCollection = createListCollection({
-    items: items,
+  const { data: etapasOmie } = useQuery({
+    queryKey: ["list-etapas", { baseOmieId }],
+    queryFn: async () => await SettingService.listOmieStage(baseOmieId),
+    staleTime: 1000 * 60 * 10, // 10 minutos
+    enabled: !!baseOmieId,
   });
+
+  let items = [];
+
+  if (etapasOmie) {
+    items = etapasOmie?.map((etapa) => ({
+      label: `${etapa?.cDescrPadrao} - ${etapa?.cCodigo}`,
+      value: etapa?.cCodigo,
+    }));
+  }
+
+  if (!etapasOmie) {
+    items = DEFAULT_ETAPAS_SETTINGS.map((etapa) => ({
+      label: `${etapa?.cCodigo}`,
+      value: etapa?.cCodigo,
+    }));
+  }
+
+  const etapasCollection = useMemo(() => {
+    return createListCollection({ items });
+  }, [etapasOmie, baseOmieId]);
+
+  useEffect(() => {
+    setValue([defaultValue]);
+  }, [defaultValue, baseOmieId]);
 
   return (
     <Box>
       <SelectRoot
-        defaultValue={[defaultValue]}
+        value={value}
         rounded="xs"
         collection={etapasCollection}
+        onValueChange={(e) => {
+          setValue((prev) => {
+            onChange({
+              target: {
+                name: props.name,
+                value: e.value[0],
+                defaultValue: prev[0],
+              },
+            });
+
+            return e.value;
+          });
+        }}
         {...props}
       >
         {label && (

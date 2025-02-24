@@ -39,7 +39,7 @@ export function Tab2({ settings, defaultBaseOmie }) {
         await createSettingsMutation({
           body: {
             baseOmie,
-            valor: e.target.value.trim(),
+            valor: e.target.value?.trim() ?? "",
             codigo: e.target.name,
           },
         });
@@ -48,7 +48,7 @@ export function Tab2({ settings, defaultBaseOmie }) {
       if (settingBaseOmie) {
         await updateSettingsMutation({
           id: settingBaseOmie?._id,
-          body: { valor: e.target.value.trim() },
+          body: { valor: e.target.value?.trim() ?? "" },
         });
       }
 
@@ -139,6 +139,7 @@ export function Tab2({ settings, defaultBaseOmie }) {
           borderBottomColor="gray.200"
           onChange={(e) => {
             setBaseOmie(e.target.value);
+            setAddManualCode(false);
           }}
         />
       </Box>
@@ -150,6 +151,7 @@ export function Tab2({ settings, defaultBaseOmie }) {
         <Flex wrap="wrap" gap="4" mt="4">
           <SelectEtapa
             {...selectSettingConfig("omie-etapa-gerar")}
+            baseOmieId={baseOmie}
             clearable
             w="md"
             size="md"
@@ -160,6 +162,7 @@ export function Tab2({ settings, defaultBaseOmie }) {
           />
           <SelectEtapa
             {...selectSettingConfig("omie-etapa-processado")}
+            baseOmieId={baseOmie}
             clearable
             w="md"
             size="md"
@@ -170,6 +173,7 @@ export function Tab2({ settings, defaultBaseOmie }) {
           />
           <SelectEtapa
             {...selectSettingConfig("omie-etapa-erro")}
+            baseOmieId={baseOmie}
             clearable
             w="md"
             size="md"
