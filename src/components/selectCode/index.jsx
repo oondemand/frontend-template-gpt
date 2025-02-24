@@ -49,7 +49,7 @@ export const SelectCode = ({ data, onChange, value, w = "sm" }) => {
   return (
     <Box position="relative" mt="1" w={w}>
       <VStack align="start" mb="2" gap="1">
-        <Text color="orange.600">Codigo</Text>
+        <Text color="orange.600">Código</Text>
         <Input
           ref={inputRef}
           w="full"
