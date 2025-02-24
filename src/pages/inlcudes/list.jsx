@@ -84,7 +84,7 @@ export function ListIncludes() {
             <Table.Header>
               <Table.Row>
                 <Table.ColumnHeader>Nome</Table.ColumnHeader>
-                <Table.ColumnHeader>Conteúdo</Table.ColumnHeader>
+                <Table.ColumnHeader>Código</Table.ColumnHeader>
                 <Table.ColumnHeader>Descricao</Table.ColumnHeader>
                 <Table.ColumnHeader>Content type</Table.ColumnHeader>
                 <Table.ColumnHeader>Status</Table.ColumnHeader>
@@ -96,7 +96,7 @@ export function ListIncludes() {
                 <Table.Row key={include._id}>
                   <Table.Cell>{include.nome}</Table.Cell>
                   <Table.Cell maxW="300px">
-                    <Text truncate>{include.conteudo}</Text>
+                    <Text truncate>{include?.codigo}</Text>
                   </Table.Cell>
                   <Table.Cell>{include.descricao}</Table.Cell>
                   <Table.Cell>{include.contenType}</Table.Cell>

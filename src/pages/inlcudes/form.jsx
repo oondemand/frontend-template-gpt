@@ -16,6 +16,7 @@ import {
   Flex,
   Textarea,
   createListCollection,
+  Image,
 } from "@chakra-ui/react";
 
 import {
@@ -26,6 +27,17 @@ import {
   SelectTrigger,
   SelectValueText,
 } from "../../components/ui/select";
+
+import {
+  FileUploadDropzone,
+  FileUploadList,
+  FileUploadRoot,
+  FileInput,
+  FileUploadClearTrigger,
+} from "../../components/ui/file-upload";
+
+import { InputGroup } from "../../components/ui/input-group";
+import { CloseButton } from "../../components/ui/close-button";
 
 import { useForm, Controller } from "react-hook-form";
 
@@ -42,6 +54,9 @@ const schema = z.object({
 });
 
 import { TextInput } from "../../components/input/textInput";
+import { useState } from "react";
+
+import { FileUpIcon } from "lucide-react";
 
 const statusOptions = createListCollection({
   items: [
@@ -64,6 +79,8 @@ export function IncludeForm({ onSubmit, formId, data }) {
       status: data?.status ? [data.status] : ["ativo"],
     },
   });
+
+  const [preview, setPreview] = useState(data?.conteudo);
 
   return (
     <form id={formId} onSubmit={handleSubmit(onSubmit)}>
@@ -118,22 +135,85 @@ export function IncludeForm({ onSubmit, formId, data }) {
 
         <Box>
           <Text color="orange.600">Descrição</Text>
-          <Textarea {...register("descricao")} />
+          <Textarea minH="32" {...register("descricao")} />
           {errors.descricao?.message && (
             <Text color="red.500" fontSize="sm">
               {errors.descricao?.message}
             </Text>
           )}
         </Box>
-        <Box>
-          <Text color="orange.600">Conteúdo *</Text>
-          <Textarea {...register("conteudo")} />
-          {errors.conteudo?.message && (
-            <Text color="red.500" fontSize="sm">
-              {errors.conteudo?.message}
+
+        <Flex
+          border="2px dashed"
+          rounded="sm"
+          borderColor="gray.200"
+          flexDir="column"
+          gap="16"
+          p="2"
+          w="full"
+        >
+          <Flex alignItems="center" gap="2">
+            <Text px="2" fontSize="md" color="orange.500">
+              Conteúdo:
             </Text>
+
+            <Controller
+              name="conteudo"
+              control={control}
+              render={({ field }) => (
+                <FileUploadRoot
+                  accept="image/*"
+                  maxW="xs"
+                  alignItems="stretch"
+                  maxFiles={1}
+                  onFileChange={({ acceptedFiles, rejectedFiles }) => {
+                    if (acceptedFiles.length == 0) {
+                      setPreview(data?.conteudo ?? null);
+                    }
+
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                      const pureBase64 = reader.result.split(",")[1];
+                      field.onChange(pureBase64);
+                      setPreview(pureBase64);
+                    };
+
+                    reader.readAsDataURL(acceptedFiles[0]);
+                  }}
+                >
+                  <InputGroup
+                    w="full"
+                    startElement={<FileUpIcon size={14} />}
+                    endElement={
+                      <FileUploadClearTrigger asChild>
+                        <CloseButton
+                          me="-1"
+                          size="xs"
+                          variant="plain"
+                          focusVisibleRing="inside"
+                          focusRingWidth="2px"
+                          pointerEvents="auto"
+                          color="fg.subtle"
+                        />
+                      </FileUploadClearTrigger>
+                    }
+                  >
+                    <FileInput truncate size="sm" />
+                  </InputGroup>
+                </FileUploadRoot>
+              )}
+            />
+          </Flex>
+          {preview && (
+            <Image
+              fit="contain"
+              src={`data:image/;base64,${preview}`}
+              alt="Imagem em Base64"
+              h="300px"
+              w="auto"
+            />
           )}
-        </Box>
+        </Flex>
       </Flex>
     </form>
   );

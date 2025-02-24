@@ -207,6 +207,8 @@ export function Tab2({ settings, defaultBaseOmie }) {
         </Flex>
         <Flex flexDir="column" mt="4" gap="2">
           <Box
+            py="0.5"
+            w="md"
             color="gray.500"
             cursor="pointer"
             fontSize="sm"

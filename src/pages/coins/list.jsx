@@ -35,6 +35,8 @@ export function ListCoins() {
     queryFn: CoinService.listCoins,
   });
 
+  console.log("Coins", coins);
+
   const { mutateAsync: deleteCoinMutation } = useMutation({
     mutationFn: CoinService.deleteCoinById,
     onSuccess() {
@@ -104,7 +106,9 @@ export function ListCoins() {
                     <Table.Cell>{coin.nome}</Table.Cell>
                     <Table.Cell>{coin.simbolo}</Table.Cell>
                     <Table.Cell>{tipoCotacaoMap[coin.tipoCotacao]}</Table.Cell>
-                    <Table.Cell>{coin.valor}</Table.Cell>
+                    <Table.Cell>
+                      {Number(coin?.cotacao?.valorFinal).toFixed(2)}
+                    </Table.Cell>
                     <Table.Cell>{statusMap[coin.status]}</Table.Cell>
                     <Table.Cell placeItems="end">
                       <Flex gap="4">

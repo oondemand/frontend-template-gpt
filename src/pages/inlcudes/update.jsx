@@ -68,7 +68,6 @@ export function UpdateInclude() {
           formId="update-include-form"
         />
       )}
-      <IaChat />
     </Box>
   );
 }

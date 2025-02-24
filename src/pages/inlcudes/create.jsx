@@ -43,7 +43,6 @@ export function CreateInclude() {
         </Button>
       </Flex>
       <IncludeForm onSubmit={onSubmit} formId="create-include-form" />
-      <IaChat />
     </Box>
   );
 }

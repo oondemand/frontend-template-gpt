@@ -63,7 +63,6 @@ export function CloneInclude() {
           formId="clone-include-form"
         />
       )}
-      <IaChat />
     </Box>
   );
 }
