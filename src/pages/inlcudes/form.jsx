@@ -48,7 +48,9 @@ const schema = z.object({
   nome: z.string().nonempty("Nome obrigatório!"),
   codigo: z.string().nonempty("Código obrigatório!"),
   descricao: z.string().optional(),
-  conteudo: z.string().nonempty("Conteúdo obrigatório!"),
+  conteudo: z
+    .string({ message: "Conteúdo obrigatório!" })
+    .nonempty("Conteúdo obrigatório!"),
   contenType: z.string().nonempty("Content Type obrigatório!"),
   status: z.string().nonempty("Status obrigatório!").array(),
 });
@@ -72,6 +74,7 @@ export function IncludeForm({ onSubmit, formId, data }) {
     handleSubmit,
     formState: { errors },
     control,
+    setValue,
   } = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -98,17 +101,12 @@ export function IncludeForm({ onSubmit, formId, data }) {
             error={errors.codigo?.message}
           />
 
-          <TextInput
-            {...register("contenType")}
-            label="Content Type *"
-            error={errors.contenType?.message}
-          />
-
           <Controller
             control={control}
             name="status"
             render={({ field }) => (
               <SelectRoot
+                w="sm"
                 name={field.name}
                 value={field.value}
                 onValueChange={({ value }) => field.onChange(value)}
@@ -158,56 +156,71 @@ export function IncludeForm({ onSubmit, formId, data }) {
               Conteúdo:
             </Text>
 
-            <Controller
-              name="conteudo"
-              control={control}
-              render={({ field }) => (
-                <FileUploadRoot
-                  accept="image/*"
-                  maxW="xs"
-                  alignItems="stretch"
-                  maxFiles={1}
-                  onFileChange={({ acceptedFiles, rejectedFiles }) => {
-                    if (acceptedFiles.length == 0) {
-                      setPreview(data?.conteudo ?? null);
-                    }
+            <Box>
+              <Controller
+                name="conteudo"
+                control={control}
+                render={({ field }) => (
+                  <FileUploadRoot
+                    accept="image/*"
+                    maxW="xs"
+                    alignItems="stretch"
+                    maxFiles={1}
+                    onFileChange={({ acceptedFiles, rejectedFiles }) => {
+                      if (acceptedFiles.length == 0) {
+                        setPreview(data?.conteudo ?? null);
+                      }
 
-                    const reader = new FileReader();
-                    reader.onloadend = () => {
-                      const pureBase64 = reader.result.split(",")[1];
-                      field.onChange(pureBase64);
-                      setPreview(pureBase64);
-                    };
+                      const reader = new FileReader();
+                      reader.onloadend = () => {
+                        const base64Arr = reader.result.split(",");
 
-                    reader.readAsDataURL(acceptedFiles[0]);
-                  }}
-                >
-                  <InputGroup
-                    w="full"
-                    startElement={<FileUpIcon size={14} />}
-                    endElement={
-                      <FileUploadClearTrigger asChild>
-                        <CloseButton
-                          me="-1"
-                          size="xs"
-                          variant="plain"
-                          focusVisibleRing="inside"
-                          focusRingWidth="2px"
-                          pointerEvents="auto"
-                          color="fg.subtle"
-                        />
-                      </FileUploadClearTrigger>
-                    }
+                        const pureBase64 = base64Arr[1];
+                        const contentType = base64Arr[0]
+                          .split(";")[0]
+                          .split(":")[1];
+
+                        field.onChange(pureBase64);
+                        setValue("contenType", contentType);
+                        setPreview(pureBase64);
+                      };
+
+                      reader.readAsDataURL(acceptedFiles[0]);
+                    }}
                   >
-                    <FileInput
-                      truncate
-                      size="sm"
-                      placeholder="Selecionar arquivo"
-                    />
-                  </InputGroup>
-                </FileUploadRoot>
+                    <InputGroup
+                      w="full"
+                      startElement={<FileUpIcon size={14} />}
+                      endElement={
+                        <FileUploadClearTrigger asChild>
+                          <CloseButton
+                            me="-1"
+                            size="xs"
+                            variant="plain"
+                            focusVisibleRing="inside"
+                            focusRingWidth="2px"
+                            pointerEvents="auto"
+                            color="fg.subtle"
+                          />
+                        </FileUploadClearTrigger>
+                      }
+                    >
+                      <FileInput
+                        truncate
+                        size="sm"
+                        placeholder="Selecionar arquivo"
+                      />
+                    </InputGroup>
+                  </FileUploadRoot>
+                )}
+              />
+
+              {errors.conteudo?.message && (
+                <Text color="red.500" fontSize="sm">
+                  {errors.conteudo?.message}
+                </Text>
               )}
-            />
+            </Box>
           </Flex>
           {preview && (
             <Image

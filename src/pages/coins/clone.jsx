@@ -12,7 +12,6 @@ import { useParams } from "react-router-dom";
 import { withRestriction } from "../../components/withRestriction";
 
 export function _CloneCoins() {
-  _;
   const { id } = useParams();
 
   const {
