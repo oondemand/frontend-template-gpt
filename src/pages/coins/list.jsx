@@ -92,7 +92,6 @@ export function ListCoins() {
             <Table.Root variant="line" striped>
               <Table.Header>
                 <Table.Row>
-                  <Table.ColumnHeader>Nome</Table.ColumnHeader>
                   <Table.ColumnHeader>Símbolo</Table.ColumnHeader>
                   <Table.ColumnHeader>Tipo de cotação</Table.ColumnHeader>
                   <Table.ColumnHeader>Valor</Table.ColumnHeader>
@@ -103,7 +102,6 @@ export function ListCoins() {
               <Table.Body>
                 {coins.map((coin) => (
                   <Table.Row key={coin._id}>
-                    <Table.Cell>{coin.nome}</Table.Cell>
                     <Table.Cell>{coin.simbolo}</Table.Cell>
                     <Table.Cell>{tipoCotacaoMap[coin.tipoCotacao]}</Table.Cell>
                     <Table.Cell>

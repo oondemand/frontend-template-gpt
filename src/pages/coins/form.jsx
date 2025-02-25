@@ -82,14 +82,6 @@ export function CoinsForm({ onSubmit, formId, data }) {
   return (
     <form id={formId} onSubmit={handleSubmit(onSubmit)}>
       <Flex wrap="wrap" alignItems="center" gap="2">
-        {data && (
-          <TextInput
-            label="Nome"
-            {...register("nome")}
-            error={errors.nome?.message}
-          />
-        )}
-
         <TextInput
           label="Simbolo *"
           {...register("simbolo")}

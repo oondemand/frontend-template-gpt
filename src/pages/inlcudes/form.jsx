@@ -141,15 +141,12 @@ export function IncludeForm({ onSubmit, formId, data }) {
           )}
         </Box>
 
-        <Flex
+        <Box
           border="2px dashed"
           rounded="sm"
           borderColor="gray.200"
-          flexDir="column"
-          gap="16"
           py="4"
           px="2"
-          w="full"
         >
           <Flex alignItems="center" gap="2">
             <Text px="2" fontSize="md" color="orange.500">
@@ -224,15 +221,14 @@ export function IncludeForm({ onSubmit, formId, data }) {
           </Flex>
           {preview && (
             <Image
+              mt="2"
               pointerEvents="none"
               fit="contain"
               src={`data:image/;base64,${preview}`}
               alt="Imagem em Base64"
-              h="300px"
-              w="auto"
             />
           )}
-        </Flex>
+        </Box>
       </Flex>
     </form>
   );
