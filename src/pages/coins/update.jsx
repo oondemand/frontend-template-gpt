@@ -16,6 +16,7 @@ import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "../../config/react-query";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
+import { BackButton } from "../../components/ui/back-button";
 
 export function UpdateCoins() {
   const { id } = useParams();
@@ -64,9 +65,12 @@ export function UpdateCoins() {
         <Heading fontSize="2xl" color="orange.500">
           Detalhes da moeda
         </Heading>
-        <Button type="submit" form="update-coin-form" colorPalette="cyan">
-          Atualizar
-        </Button>
+        <Flex alignItems="center" gap="2">
+          <BackButton />
+          <Button type="submit" form="update-coin-form" colorPalette="cyan">
+            Atualizar
+          </Button>
+        </Flex>
       </Flex>
       {coin && !isLoading && (
         <CoinsForm data={coin} onSubmit={onSubmit} formId="update-coin-form" />

@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { useParams } from "react-router-dom";
 
 import { Eye } from "lucide-react";
+import { BackButton } from "../../components/ui/back-button";
 
 export function CloneTemplate() {
   const { id } = useParams();
@@ -56,7 +57,8 @@ export function CloneTemplate() {
         <Heading fontSize="2xl" color="orange.500">
           Clonar template
         </Heading>
-        <Flex gap="2" alignItems="center">
+        <Flex alignItems="center" gap="2">
+          <BackButton />
           <Button type="submit" form="clone-template-form" colorPalette="cyan">
             Salvar
           </Button>

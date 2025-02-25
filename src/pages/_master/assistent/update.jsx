@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import { useConfirmation } from "../../../hooks/confirmationModal";
 import { usePromptDialog } from "../../../hooks/promptContext";
+import { BackButton } from "../../../components/ui/back-button";
 
 export function UpdateAssistente() {
   const { id } = useParams();
@@ -182,10 +183,16 @@ export function UpdateAssistente() {
         <Heading fontSize="2xl" color="orange.500">
           Detalhes do prompt
         </Heading>
-
-        <Button type="submit" form="update-assistant-form" colorPalette="cyan">
-          Atualizar
-        </Button>
+        <Flex alignItems="center" gap="2">
+          <BackButton />
+          <Button
+            type="submit"
+            form="update-assistant-form"
+            colorPalette="cyan"
+          >
+            Atualizar
+          </Button>
+        </Flex>
       </Flex>
       {!isLoading && assistant && (
         <AssistantForm

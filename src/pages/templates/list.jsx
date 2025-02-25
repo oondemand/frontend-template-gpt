@@ -18,6 +18,7 @@ import { queryClient } from "../../config/react-query";
 import { useConfirmation } from "../../hooks/confirmationModal";
 import { Eye } from "lucide-react";
 import { usePreviewDialog } from "../../hooks/previewModalContext";
+import { BackButton } from "../../components/ui/back-button";
 
 export function ListTemplates() {
   const navigate = useNavigate();
@@ -68,12 +69,15 @@ export function ListTemplates() {
         <Heading fontSize="2xl" color="orange.500">
           Templates
         </Heading>
-        <Button
-          onClick={() => navigate("/templates/create")}
-          colorPalette="cyan"
-        >
-          Criar template
-        </Button>
+        <Flex alignItems="center" gap="2">
+          <BackButton />
+          <Button
+            onClick={() => navigate("/templates/create")}
+            colorPalette="cyan"
+          >
+            Criar template
+          </Button>
+        </Flex>
       </Flex>
 
       <Box mt="8" maxH="800px" overflow="auto">

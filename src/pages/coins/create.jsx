@@ -15,6 +15,7 @@ import { useMutation } from "@tanstack/react-query";
 
 import { queryClient } from "../../config/react-query";
 import { withRestriction } from "../../components/withRestriction";
+import { BackButton } from "../../components/ui/back-button";
 
 function _CreateCoins() {
   const { mutateAsync: createCoinsMutation } = useMutation({
@@ -50,9 +51,12 @@ function _CreateCoins() {
         <Heading fontSize="2xl" color="orange.500">
           Criar moeda
         </Heading>
-        <Button type="submit" form="create-coin-form" colorPalette="cyan">
-          Salvar
-        </Button>
+        <Flex alignItems="center" gap="2">
+          <BackButton />
+          <Button type="submit" form="create-coin-form" colorPalette="cyan">
+            Salvar
+          </Button>
+        </Flex>
       </Flex>
       <CoinsForm onSubmit={onSubmit} formId="create-coin-form" />
     </Box>

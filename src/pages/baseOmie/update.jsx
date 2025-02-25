@@ -17,6 +17,7 @@ import { BaseOmieService } from "../../services/baseOmie";
 
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
+import { BackButton } from "../../components/ui/back-button";
 
 export function UpdateBaseOmies() {
   const { id } = useParams();
@@ -64,9 +65,16 @@ export function UpdateBaseOmies() {
         <Heading fontSize="2xl" color="orange.500">
           Detalhes base omie
         </Heading>
-        <Button type="submit" form="update-base-omie-form" colorPalette="cyan">
-          Atualizar
-        </Button>
+        <Flex alignItems="center" gap="2">
+          <BackButton />
+          <Button
+            type="submit"
+            form="update-base-omie-form"
+            colorPalette="cyan"
+          >
+            Atualizar
+          </Button>
+        </Flex>
       </Flex>
       {baseOmie && !isLoading && (
         <BaseOmiesForm

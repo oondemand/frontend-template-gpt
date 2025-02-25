@@ -9,6 +9,8 @@ import { toast } from "sonner";
 import { useParams } from "react-router-dom";
 
 import { useQuery } from "@tanstack/react-query";
+import { BackButton } from "../../../components/ui/back-button";
+
 
 export function CloneTenant() {
   const { id } = useParams();
@@ -53,9 +55,12 @@ export function CloneTenant() {
         <Heading fontSize="2xl" color="orange.500">
           Clonar tenant
         </Heading>
-        <Button type="submit" form="clonar-tenant-form" colorPalette="cyan">
-          Salvar
-        </Button>
+        <Flex alignItems="center" gap="2">
+          <BackButton />
+          <Button type="submit" form="clonar-tenant-form" colorPalette="cyan">
+            Salvar
+          </Button>
+        </Flex>
       </Flex>
       {!isLoading && tenant && (
         <TenantForm

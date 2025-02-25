@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import { useMutation } from "@tanstack/react-query";
 
 import { queryClient } from "../../config/react-query";
+import { BackButton } from "../../components/ui/back-button";
 
 import { Eye } from "lucide-react";
 
@@ -48,7 +49,8 @@ export function CreateTemplate() {
         <Heading fontSize="2xl" color="orange.500">
           Criar template
         </Heading>
-        <Flex gap="2" alignItems="center">
+        <Flex alignItems="center" gap="2">
+          <BackButton />
           <Button type="submit" form="create-template-form" colorPalette="cyan">
             Salvar
           </Button>

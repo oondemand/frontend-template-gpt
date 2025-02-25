@@ -18,6 +18,8 @@ import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "../../config/react-query";
 import { useConfirmation } from "../../hooks/confirmationModal";
 
+import { BackButton } from "../../components/ui/back-button";
+
 export function ListIncludes() {
   const navigate = useNavigate();
   const { requestConfirmation } = useConfirmation();
@@ -65,12 +67,15 @@ export function ListIncludes() {
         <Heading fontSize="2xl" color="orange.500">
           Includes
         </Heading>
-        <Button
-          onClick={() => navigate("/includes/create")}
-          colorPalette="cyan"
-        >
-          Criar include
-        </Button>
+        <Flex alignItems="center" gap="2">
+          <BackButton />
+          <Button
+            onClick={() => navigate("/includes/create")}
+            colorPalette="cyan"
+          >
+            Criar include
+          </Button>
+        </Flex>
       </Flex>
 
       <Box mt="8" maxH="800px" overflow="auto">

@@ -10,6 +10,7 @@ import { queryClient } from "../../config/react-query";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { withRestriction } from "../../components/withRestriction";
+import { BackButton } from "../../components/ui/back-button";
 
 export function _CloneCoins() {
   const { id } = useParams();
@@ -57,9 +58,12 @@ export function _CloneCoins() {
         <Heading fontSize="2xl" color="orange.500">
           Clonar moeda
         </Heading>
-        <Button type="submit" form="clone-coin-form" colorPalette="cyan">
-          Salvar
-        </Button>
+        <Flex alignItems="center" gap="2">
+          <BackButton />
+          <Button type="submit" form="clone-coin-form" colorPalette="cyan">
+            Salvar
+          </Button>
+        </Flex>
       </Flex>
       {coin && !isLoading && (
         <CoinsForm data={coin} onSubmit={onSubmit} formId="clone-coin-form" />

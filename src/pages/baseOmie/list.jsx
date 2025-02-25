@@ -19,6 +19,7 @@ import { BaseOmieService } from "../../services/baseOmie";
 import { useConfirmation } from "../../hooks/confirmationModal";
 
 import { tipoCotacaoMap, statusMap } from "../../_constants/maps.js";
+import { BackButton } from "../../components/ui/back-button.jsx";
 
 export function ListBaseOmies() {
   const navigate = useNavigate();
@@ -67,12 +68,15 @@ export function ListBaseOmies() {
           <Heading fontSize="2xl" color="orange.500">
             Base Omies
           </Heading>
-          <Button
-            onClick={() => navigate("/base-omies/create")}
-            colorPalette="cyan"
-          >
-            Criar base omie
-          </Button>
+          <Flex alignItems="center" gap="2">
+            <BackButton />
+            <Button
+              onClick={() => navigate("/base-omies/create")}
+              colorPalette="cyan"
+            >
+              Criar base omie
+            </Button>
+          </Flex>
         </Flex>
 
         <Box mt="8">
@@ -89,8 +93,6 @@ export function ListBaseOmies() {
                 <Table.Row>
                   <Table.ColumnHeader>Nome</Table.ColumnHeader>
                   <Table.ColumnHeader>Cnpj</Table.ColumnHeader>
-                  {/* <Table.ColumnHeader>App key</Table.ColumnHeader>
-                  <Table.ColumnHeader>App secret</Table.ColumnHeader> */}
                   <Table.ColumnHeader>Status</Table.ColumnHeader>
                   <Table.ColumnHeader />
                 </Table.Row>
@@ -100,8 +102,6 @@ export function ListBaseOmies() {
                   <Table.Row key={baseOmie._id}>
                     <Table.Cell>{baseOmie.nome}</Table.Cell>
                     <Table.Cell>{baseOmie.cnpj}</Table.Cell>
-                    {/* <Table.Cell>{baseOmie.appKey}</Table.Cell>
-                    <Table.Cell>{baseOmie.appSecret}</Table.Cell> */}
                     <Table.Cell>{statusMap[baseOmie.status]}</Table.Cell>
                     <Table.Cell placeItems="end">
                       <Flex gap="4">

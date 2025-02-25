@@ -16,6 +16,7 @@ import { useParams } from "react-router-dom";
 
 import { queryClient } from "../../../config/react-query";
 import { UserService } from "../../../services/users";
+import { BackButton } from "../../../components/ui/back-button";
 
 export function UpdateUsers() {
   const { id } = useParams();
@@ -39,8 +40,6 @@ export function UpdateUsers() {
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
-
     try {
       const response = await updateUsersMutation({
         id,
@@ -61,9 +60,12 @@ export function UpdateUsers() {
         <Heading fontSize="2xl" color="orange.500">
           Detalhes do usuário
         </Heading>
-        <Button type="submit" form="update-user-form" colorPalette="cyan">
-          Salvar
-        </Button>
+        <Flex alignItems="center" gap="2">
+          <BackButton />
+          <Button type="submit" form="update-user-form" colorPalette="cyan">
+            Salvar
+          </Button>
+        </Flex>
       </Flex>
       {user && !isLoading && (
         <UsersForm data={user} onSubmit={onSubmit} formId="update-user-form" />

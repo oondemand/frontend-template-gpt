@@ -192,6 +192,7 @@ export function Tab2({ settings, defaultBaseOmie }) {
             {...switchSettingConfig("omie-adiantamento-gerar")}
           />
         </Flex>
+
         <Flex wrap="wrap" gap="4" mt="4" alignItems="flex-end">
           <SelectCategoria
             {...selectSettingConfig("omie-adiantamento-categoria")}

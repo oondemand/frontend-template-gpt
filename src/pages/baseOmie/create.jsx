@@ -14,6 +14,7 @@ import { useMutation } from "@tanstack/react-query";
 
 import { queryClient } from "../../config/react-query";
 import { BaseOmieService } from "../../services/baseOmie";
+import { BackButton } from "../../components/ui/back-button";
 
 export function CreateBaseOmies() {
   const { mutateAsync: createBaseOmieMutation } = useMutation({
@@ -48,9 +49,12 @@ export function CreateBaseOmies() {
         <Heading fontSize="2xl" color="orange.500">
           Criar base omie
         </Heading>
-        <Button type="submit" form="create-coin-form" colorPalette="cyan">
-          Salvar
-        </Button>
+        <Flex alignItems="center" gap="2">
+          <BackButton />
+          <Button type="submit" form="create-coin-form" colorPalette="cyan">
+            Salvar
+          </Button>
+        </Flex>
       </Flex>
       <BaseOmiesForm onSubmit={onSubmit} formId="create-coin-form" />
     </Box>

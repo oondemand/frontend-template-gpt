@@ -20,6 +20,7 @@ import { useConfirmation } from "../../hooks/confirmationModal";
 
 import { tipoCotacaoMap, statusMap } from "../../_constants/maps.js";
 import { useAuth } from "../../hooks/auth.jsx";
+import { BackButton } from "../../components/ui/back-button";
 
 export function ListCoins() {
   const navigate = useNavigate();
@@ -71,15 +72,18 @@ export function ListCoins() {
           <Heading fontSize="2xl" color="orange.500">
             Moedas
           </Heading>
+          <Flex alignItems="center" gap="2">
+            <BackButton />
 
-          {user.tipo !== "padrao" && (
-            <Button
-              onClick={() => navigate("/moedas/create")}
-              colorPalette="cyan"
-            >
-              Criar moeda
-            </Button>
-          )}
+            {user.tipo !== "padrao" && (
+              <Button
+                onClick={() => navigate("/moedas/create")}
+                colorPalette="cyan"
+              >
+                Criar moeda
+              </Button>
+            )}
+          </Flex>
         </Flex>
 
         <Box mt="8">
