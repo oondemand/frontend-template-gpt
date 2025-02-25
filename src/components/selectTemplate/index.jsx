@@ -23,7 +23,7 @@ export function SelectTemplate({ label, placeholder, defaultValue, ...props }) {
   const templateCollection = createListCollection({
     items:
       templates?.map((e) => {
-        return { label: e.nome, value: e?.codigo };
+        return { label: e.codigo, value: e?.codigo };
       }) ?? [],
   });
 
