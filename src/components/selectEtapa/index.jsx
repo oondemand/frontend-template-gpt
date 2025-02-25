@@ -38,7 +38,7 @@ export function SelectEtapa({
 
   if (etapasOmie) {
     items = etapasOmie?.map((etapa) => ({
-      label: `${etapa?.cDescrPadrao} - ${etapa?.cCodigo}`,
+      label: `${etapa?.cDescricao} - ${etapa?.cCodigo}`,
       value: etapa?.cCodigo,
     }));
   }
