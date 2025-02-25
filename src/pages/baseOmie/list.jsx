@@ -89,8 +89,8 @@ export function ListBaseOmies() {
                 <Table.Row>
                   <Table.ColumnHeader>Nome</Table.ColumnHeader>
                   <Table.ColumnHeader>Cnpj</Table.ColumnHeader>
-                  <Table.ColumnHeader>App key</Table.ColumnHeader>
-                  <Table.ColumnHeader>App secret</Table.ColumnHeader>
+                  {/* <Table.ColumnHeader>App key</Table.ColumnHeader>
+                  <Table.ColumnHeader>App secret</Table.ColumnHeader> */}
                   <Table.ColumnHeader>Status</Table.ColumnHeader>
                   <Table.ColumnHeader />
                 </Table.Row>
@@ -100,8 +100,8 @@ export function ListBaseOmies() {
                   <Table.Row key={baseOmie._id}>
                     <Table.Cell>{baseOmie.nome}</Table.Cell>
                     <Table.Cell>{baseOmie.cnpj}</Table.Cell>
-                    <Table.Cell>{baseOmie.appKey}</Table.Cell>
-                    <Table.Cell>{baseOmie.appSecret}</Table.Cell>
+                    {/* <Table.Cell>{baseOmie.appKey}</Table.Cell>
+                    <Table.Cell>{baseOmie.appSecret}</Table.Cell> */}
                     <Table.Cell>{statusMap[baseOmie.status]}</Table.Cell>
                     <Table.Cell placeItems="end">
                       <Flex gap="4">
