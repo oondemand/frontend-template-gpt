@@ -28,7 +28,7 @@ export function Login() {
           <Flex flexDir="column" alignItems="center">
             <Flex alignItems="center">
               <FileSliders size={22} />
-              <Heading>Fatura personalizada</Heading>
+              <Heading>Doc Custom</Heading>
             </Flex>
             <Text>v 1.0.0</Text>
           </Flex>

@@ -72,7 +72,7 @@ export const AutocompleteInput = ({
         size="xs"
         variant=""
         placeholder={placeholder}
-        value={inputValue}
+        value={inputValue.toLowerCase()}
         onChange={handleInputChange}
         onFocus={() => setIsOpen(true)}
         onBlur={handleBlur}

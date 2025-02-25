@@ -33,16 +33,18 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const schema = z.object({
-  nome: z
-    .string({ message: "Nome obrigatório!" })
-    .nonempty("Nome obrigatório!"),
-  codigo: z.string().optional(),
+  codigo: z
+    .string()
+    .nonempty("Código obrigatório!")
+    .transform((valor) => valor.toLowerCase().trim())
+    .refine((valor) => /^[a-z0-9\-_]+$/.test(valor), {
+      message: "Somente letras, números, '-' e '_' são permitidos.",
+    }),
   descricao: z.string().optional(),
   conteudo: z.string().optional(),
   tipo: z.enum(["assistant", "function", "system", "tool", "user"]).array(),
 });
 
-import { TextInput } from "../../../../components/input/textInput";
 import { SelectCode } from "../../../../components/selectCode";
 
 const options = createListCollection({
@@ -70,25 +72,19 @@ export function PromptForm({ onSubmit, formId, data }) {
   });
 
   const defaultCodes = [
-    "MENSAGEM_DE_CONTEXTO_INICIALIZACAO",
-    "CONTEXTO_DE_GERACAO",
-    "CONTEXTO_VARIAVEIS_OMIE",
-    "CONTEXTO_VARIAVEIS_TEMPLATE",
-    "CONTEXTO_VARIAVEIS_SISTEMA",
-    "CONTEXTO_DE_IMAGEM",
-    "CONTEXTO_DE_CHAT",
+    "mensagem_de_contexto_inicializacao",
+    "contexto_de_geracao",
+    "contexto_variaveis_omie",
+    "contexto_variaveis_template",
+    "contexto_variaveis_sistema",
+    "contexto_de_imagem",
+    "contexto_de_chat",
   ];
 
   return (
     <form id={formId} onSubmit={handleSubmit(onSubmit)}>
       <Flex flexDir="column" gap="2">
         <HStack flexWrap="wrap">
-          <TextInput
-            label="Nome *"
-            {...register("nome")}
-            error={errors?.nome?.message}
-          />
-
           <Box>
             <Controller
               control={control}

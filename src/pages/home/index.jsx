@@ -25,8 +25,8 @@ export function Home() {
         <Heading color="gray.600">Integração com omie </Heading>
 
         <Text mt="4" mb="2">
-          Para integrar o fatura personalizada com o omie, na etapa de criação
-          de aplicação use a url de integração abaixo:
+          Para integrar o Doc Custom com o omie, na etapa de criação de
+          aplicação use a url de integração abaixo:
         </Text>
         <Flex alignItems="center" gap="4" mb="4">
           <Text
@@ -68,7 +68,7 @@ export function Home() {
         <VStack mt="-10" color="orange.500" textAlign="center">
           <FileSliders size={72} />
           <Heading textAlign="center" lineHeight="1.1" fontSize="5xl">
-            Fatura personalizada
+            Doc Custom
           </Heading>
         </VStack>
       </Center> */}

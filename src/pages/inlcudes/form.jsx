@@ -45,8 +45,13 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const schema = z.object({
-  nome: z.string().nonempty("Nome obrigatório!"),
-  codigo: z.string().nonempty("Código obrigatório!"),
+  codigo: z
+    .string()
+    .nonempty("Código obrigatório!")
+    .transform((valor) => valor.toLowerCase().trim())
+    .refine((valor) => /^[a-z0-9\-_]+$/.test(valor), {
+      message: "Somente letras, números, '-' e '_' são permitidos.",
+    }),
   descricao: z.string().optional(),
   conteudo: z
     .string({ message: "Conteúdo obrigatório!" })
@@ -89,12 +94,6 @@ export function IncludeForm({ onSubmit, formId, data }) {
     <form id={formId} onSubmit={handleSubmit(onSubmit)}>
       <Flex flexDir="column" gap="2">
         <HStack>
-          <TextInput
-            label="Nome *"
-            {...register("nome")}
-            error={errors.nome?.message}
-          />
-
           <TextInput
             {...register("codigo")}
             label="Código *"
@@ -213,7 +212,7 @@ export function IncludeForm({ onSubmit, formId, data }) {
               />
 
               {errors.conteudo?.message && (
-                <Text color="red.500" fontSize="sm">
+                <Text m="0.5" color="red.500" fontSize="xs">
                   {errors.conteudo?.message}
                 </Text>
               )}

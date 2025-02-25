@@ -86,9 +86,8 @@ export function ListTemplates() {
           <Table.Root variant="line" striped>
             <Table.Header>
               <Table.Row>
-                <Table.ColumnHeader>Nome</Table.ColumnHeader>
+                <Table.ColumnHeader>Código</Table.ColumnHeader>
                 <Table.ColumnHeader>Descrição</Table.ColumnHeader>
-                {/* <Table.ColumnHeader>Conteúdo</Table.ColumnHeader> */}
                 <Table.ColumnHeader>Status</Table.ColumnHeader>
                 <Table.ColumnHeader />
               </Table.Row>
@@ -96,9 +95,8 @@ export function ListTemplates() {
             <Table.Body>
               {templates.map((template) => (
                 <Table.Row key={template._id}>
-                  <Table.Cell>{template.nome}</Table.Cell>
+                  <Table.Cell>{template.codigo}</Table.Cell>
                   <Table.Cell>{template.descricao}</Table.Cell>
-                  {/* <Table.Cell>{template.templateEjs}</Table.Cell> */}
                   <Table.Cell>{template.status}</Table.Cell>
                   <Table.Cell placeItems="end">
                     <Flex gap="4">

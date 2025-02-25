@@ -83,7 +83,6 @@ export function ListIncludes() {
           <Table.Root variant="line" striped>
             <Table.Header>
               <Table.Row>
-                <Table.ColumnHeader>Nome</Table.ColumnHeader>
                 <Table.ColumnHeader>Código</Table.ColumnHeader>
                 <Table.ColumnHeader>Descricao</Table.ColumnHeader>
                 <Table.ColumnHeader>Content type</Table.ColumnHeader>
@@ -94,7 +93,6 @@ export function ListIncludes() {
             <Table.Body>
               {includes.map((include) => (
                 <Table.Row key={include._id}>
-                  <Table.Cell>{include.nome}</Table.Cell>
                   <Table.Cell maxW="300px">
                     <Text truncate>{include?.codigo}</Text>
                   </Table.Cell>
