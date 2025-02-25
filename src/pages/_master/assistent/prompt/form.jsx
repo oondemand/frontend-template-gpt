@@ -36,7 +36,7 @@ const schema = z.object({
   nome: z
     .string({ message: "Nome obrigatório!" })
     .nonempty("Nome obrigatório!"),
-  codigo: z.string({ message: "Código obrigatório!" }),
+  codigo: z.string().optional(),
   descricao: z.string().optional(),
   conteudo: z.string().optional(),
   tipo: z.enum(["assistant", "function", "system", "tool", "user"]).array(),

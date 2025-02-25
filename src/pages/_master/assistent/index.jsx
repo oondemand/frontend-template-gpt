@@ -69,12 +69,6 @@ export function ListAssistant() {
   });
 
   const onClone = async (id) => {
-    // const response = await requestConfirmation({
-    //   title: "Tem certeza que deseja deletar assistente?",
-    //   description: "Essa operação não pode ser desfeita!",
-    // });
-
-    // if (response.action === "confirmed") {
     try {
       const response = await cloneAssistant({ id });
       if (response.status === 200) {
@@ -83,7 +77,6 @@ export function ListAssistant() {
     } catch (error) {
       toast.error("Erro ao clonar assistente!");
     }
-    // }
   };
 
   return (
