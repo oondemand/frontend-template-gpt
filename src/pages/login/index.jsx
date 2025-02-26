@@ -1,6 +1,7 @@
 import { Flex, Heading, VStack, Text } from "@chakra-ui/react";
 import { Form } from "./form";
 import { FileSliders } from "lucide-react";
+import { env } from "../../config/env";
 
 export function Login() {
   return (
@@ -30,7 +31,7 @@ export function Login() {
               <FileSliders size={22} />
               <Heading>Doc Custom</Heading>
             </Flex>
-            <Text>v 1.0.0</Text>
+            <Text>{env.SERVICE_VERSION}</Text>
           </Flex>
         </Flex>
         <VStack px="8" gap="8">
