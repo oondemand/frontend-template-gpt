@@ -17,6 +17,7 @@ import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "../../../config/react-query";
 import { UserService } from "../../../services/users";
 import { useConfirmation } from "../../../hooks/confirmationModal";
+import { BackButton } from "../../../components/ui/back-button";
 
 export function ListUsers() {
   const navigate = useNavigate();
@@ -65,12 +66,15 @@ export function ListUsers() {
           <Heading fontSize="2xl" color="orange.500">
             Usuários
           </Heading>
-          <Button
-            onClick={() => navigate(`/adm/usuarios/create`)}
-            colorPalette="cyan"
-          >
-            Criar usuário
-          </Button>
+          <Flex alignItems="center" gap="2">
+            <BackButton />
+            <Button
+              onClick={() => navigate(`/adm/usuarios/create`)}
+              colorPalette="cyan"
+            >
+              Criar usuário
+            </Button>
+          </Flex>
         </Flex>
 
         <Box mt="8" maxH="800px" overflow="auto">

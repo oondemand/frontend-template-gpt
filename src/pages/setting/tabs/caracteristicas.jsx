@@ -19,6 +19,15 @@ import { Trash } from "lucide-react";
 import { DEFAULT_SYSTEM_SETTINGS } from "../../../_constants/defaultConfigs";
 import { useConfirmation } from "../../../hooks/confirmationModal";
 import { AutocompleteInput } from "./autocompleteInput";
+import { z } from "zod";
+
+const codigoSchema = z
+  .string()
+  .min(1, { message: "O código não pode ser vazio." })
+  .transform((valor) => valor.toLowerCase())
+  .refine((valor) => /^[a-z0-9\-_]+$/.test(valor), {
+    message: "Somente letras, números, '-' e '_' são permitidos.",
+  });
 
 export function CaracteristicasForm({
   title,
@@ -35,6 +44,7 @@ export function CaracteristicasForm({
     .map(({ nome, codigo, valor, _id }) => ({ nome, codigo, valor, _id }));
 
   const [settings, setSettings] = useState(filteredData);
+  const [codError, setCodError] = useState("");
 
   const { requestConfirmation } = useConfirmation();
 
@@ -148,31 +158,49 @@ export function CaracteristicasForm({
       <Box gap="4" mt="4">
         {settings.map((e, i) => (
           <Flex key={e._id} gap="6" mb="4" alignItems="center">
+            <Box>
+              <AutocompleteInput
+                name="codigo"
+                suggestions={[
+                  ...new Set(
+                    initialSettings
+                      .map((e) => e.codigo)
+                      .filter(
+                        (codigo) =>
+                          codigo !== "" &&
+                          codigo !== undefined &&
+                          !DEFAULT_SYSTEM_SETTINGS.includes(codigo)
+                      )
+                  ),
+                ]}
+                defaultValue={e.codigo}
+                onBlur={async (event) => {
+                  setCodError("");
+                  try {
+                    const codigoValido = codigoSchema.parse(event.target.value);
+                    event.target.value = codigoValido;
+
+                    await handleValueChange(event, e._id);
+                  } catch (error) {
+                    setCodError({
+                      id: e._id,
+                      error: JSON.parse(error)[0].message,
+                    });
+                  }
+                }}
+              />
+              {codError && e._id === codError?.id && (
+                <Text fontSize="xs" color="red.500">
+                  {codError.error}
+                </Text>
+              )}
+            </Box>
+
             <FlushedInput
               w="sm"
               label="Observação"
               name="nome"
               defaultValue={e.nome}
-              onBlur={async (event) => {
-                await handleValueChange(event, e._id);
-              }}
-            />
-
-            <AutocompleteInput
-              name="codigo"
-              suggestions={[
-                ...new Set(
-                  initialSettings
-                    .map((e) => e.codigo)
-                    .filter(
-                      (codigo) =>
-                        codigo !== "" &&
-                        codigo !== undefined &&
-                        !DEFAULT_SYSTEM_SETTINGS.includes(codigo)
-                    )
-                ),
-              ]}
-              defaultValue={e.codigo}
               onBlur={async (event) => {
                 await handleValueChange(event, e._id);
               }}

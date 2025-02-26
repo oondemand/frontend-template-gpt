@@ -18,6 +18,7 @@ import { queryClient } from "../../config/react-query";
 import { UserService } from "../../services/users";
 import { useConfirmation } from "../../hooks/confirmationModal";
 import { InviteUserModal } from "./dialog";
+import { BackButton } from "../../components/ui/back-button";
 
 export function ListUsers() {
   const { requestConfirmation } = useConfirmation();
@@ -65,7 +66,10 @@ export function ListUsers() {
           <Heading fontSize="2xl" color="orange.500">
             Usuários
           </Heading>
-          <InviteUserModal />
+          <Flex alignItems="center" gap="2">
+            <BackButton />
+            <InviteUserModal />
+          </Flex>
         </Flex>
 
         <Box mt="8" maxH="800px" overflow="auto">

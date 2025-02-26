@@ -17,6 +17,7 @@ import { toast } from "sonner";
 import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "../../../config/react-query";
 import { useConfirmation } from "../../../hooks/confirmationModal";
+import { BackButton } from "../../../components/ui/back-button";
 
 export function ListAssistant() {
   const navigate = useNavigate();
@@ -69,12 +70,6 @@ export function ListAssistant() {
   });
 
   const onClone = async (id) => {
-    // const response = await requestConfirmation({
-    //   title: "Tem certeza que deseja deletar assistente?",
-    //   description: "Essa operação não pode ser desfeita!",
-    // });
-
-    // if (response.action === "confirmed") {
     try {
       const response = await cloneAssistant({ id });
       if (response.status === 200) {
@@ -83,7 +78,6 @@ export function ListAssistant() {
     } catch (error) {
       toast.error("Erro ao clonar assistente!");
     }
-    // }
   };
 
   return (
@@ -92,12 +86,15 @@ export function ListAssistant() {
         <Heading fontSize="2xl" color="orange.500">
           Assistente
         </Heading>
-        <Button
-          onClick={() => navigate("/adm/assistentes/create")}
-          colorPalette="cyan"
-        >
-          Criar assistente
-        </Button>
+        <Flex alignItems="center" gap="2">
+          <BackButton />
+          <Button
+            onClick={() => navigate("/adm/assistentes/create")}
+            colorPalette="cyan"
+          >
+            Criar assistente
+          </Button>
+        </Flex>
       </Flex>
 
       <Box mt="8" maxH="800px" overflow="auto">

@@ -50,7 +50,7 @@ export function AuthLayout() {
     return (
       <Grid templateColumns="repeat(8, 1fr)" bg="gray.50" minH="vh" minW="vw">
         <GridItem colSpan={1}>
-          <Navbar.root navItems={routes} title="Fatura Personalizada">
+          <Navbar.root navItems={routes} title="Doc Custom">
             <Navbar.footer>
               {user?.tipo === "master" && (
                 <Button

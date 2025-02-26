@@ -51,14 +51,17 @@ const countingOptions = createListCollection({
 });
 
 const schema = z.object({
-  nome: z.string().min(1, "O nome é obrigatório"),
+  nome: z.string().min(1, "O nome é obrigatório").optional(),
   simbolo: z
     .string()
     .max(5, "Símbolo deve ter no máximo 5 caracteres")
     .min(1, "Símbolo é obrigatório"),
-  valor: z.coerce.number().positive("Valor deve ser positivo"),
-  status: z.enum(["ativo", "inativo", "arquivado"]).array(),
-  tipoCotacao: z.enum(["cotacao", "porcentagem", "valorFixo"]).array(),
+  valor: z.coerce.number().positive("Valor deve ser positivo").optional(),
+  status: z.enum(["ativo", "inativo", "arquivado"]).array().optional(),
+  tipoCotacao: z
+    .enum(["cotacao", "porcentagem", "valorFixo"])
+    .array()
+    .optional(),
 });
 
 export function CoinsForm({ onSubmit, formId, data }) {
@@ -80,80 +83,80 @@ export function CoinsForm({ onSubmit, formId, data }) {
     <form id={formId} onSubmit={handleSubmit(onSubmit)}>
       <Flex wrap="wrap" alignItems="center" gap="2">
         <TextInput
-          label="Nome *"
-          {...register("nome")}
-          error={errors.nome?.message}
-        />
-
-        <TextInput
           label="Simbolo *"
           {...register("simbolo")}
           error={errors.simbolo?.message}
         />
 
-        <TextInput
-          label="Valor"
-          {...register("valor")}
-          error={errors.valor?.message}
-        />
+        {data && (
+          <TextInput
+            label="Valor"
+            {...register("valor")}
+            error={errors.valor?.message}
+          />
+        )}
 
-        <Controller
-          control={control}
-          name="status"
-          render={({ field }) => (
-            <SelectRoot
-              name={field.name}
-              value={field.value}
-              onValueChange={({ value }) => field.onChange(value)}
-              onInteractOutside={() => field.onBlur()}
-              collection={statusOptions}
-              w="xs"
-            >
-              <SelectLabel fontSize="md" color="orange.500">
-                Status
-              </SelectLabel>
-              <SelectTrigger>
-                <SelectValueText placeholder={field.name} />
-              </SelectTrigger>
-              <SelectContent>
-                {statusOptions.items.map((status) => (
-                  <SelectItem item={status} key={status.value}>
-                    {status.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </SelectRoot>
-          )}
-        />
+        {data && (
+          <Controller
+            control={control}
+            name="status"
+            render={({ field }) => (
+              <SelectRoot
+                name={field.name}
+                value={field.value}
+                onValueChange={({ value }) => field.onChange(value)}
+                onInteractOutside={() => field.onBlur()}
+                collection={statusOptions}
+                w="xs"
+              >
+                <SelectLabel fontSize="md" color="orange.500">
+                  Status
+                </SelectLabel>
+                <SelectTrigger>
+                  <SelectValueText placeholder={field.name} />
+                </SelectTrigger>
+                <SelectContent>
+                  {statusOptions.items.map((status) => (
+                    <SelectItem item={status} key={status.value}>
+                      {status.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </SelectRoot>
+            )}
+          />
+        )}
 
-        <Controller
-          control={control}
-          name="tipoCotacao"
-          render={({ field }) => (
-            <SelectRoot
-              name={field.name}
-              value={field.value}
-              onValueChange={({ value }) => field.onChange(value)}
-              onInteractOutside={() => field.onBlur()}
-              collection={countingOptions}
-              w="xs"
-            >
-              <SelectLabel fontSize="md" color="orange.500">
-                Cotação
-              </SelectLabel>
-              <SelectTrigger>
-                <SelectValueText placeholder={field.name} />
-              </SelectTrigger>
-              <SelectContent>
-                {countingOptions.items.map((tipoCotacao) => (
-                  <SelectItem item={tipoCotacao} key={tipoCotacao.value}>
-                    {tipoCotacao.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </SelectRoot>
-          )}
-        />
+        {data && (
+          <Controller
+            control={control}
+            name="tipoCotacao"
+            render={({ field }) => (
+              <SelectRoot
+                name={field.name}
+                value={field.value}
+                onValueChange={({ value }) => field.onChange(value)}
+                onInteractOutside={() => field.onBlur()}
+                collection={countingOptions}
+                w="xs"
+              >
+                <SelectLabel fontSize="md" color="orange.500">
+                  Cotação
+                </SelectLabel>
+                <SelectTrigger>
+                  <SelectValueText placeholder={field.name} />
+                </SelectTrigger>
+                <SelectContent>
+                  {countingOptions.items.map((tipoCotacao) => (
+                    <SelectItem item={tipoCotacao} key={tipoCotacao.value}>
+                      {tipoCotacao.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </SelectRoot>
+            )}
+          />
+        )}
       </Flex>
     </form>
   );

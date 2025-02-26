@@ -17,6 +17,7 @@ import { queryClient } from "../../../config/react-query";
 import { useParams } from "react-router-dom";
 
 import { useQuery } from "@tanstack/react-query";
+import { BackButton } from "../../../components/ui/back-button";
 
 export function CloneUsers() {
   const { id } = useParams();
@@ -59,9 +60,12 @@ export function CloneUsers() {
         <Heading fontSize="2xl" color="orange.500">
           Clonar usuário
         </Heading>
-        <Button type="submit" form="clone-user-form" colorPalette="cyan">
-          Salvar
-        </Button>
+        <Flex alignItems="center" gap="2">
+          <BackButton />
+          <Button type="submit" form="clone-user-form" colorPalette="cyan">
+            Salvar
+          </Button>
+        </Flex>
       </Flex>
       {user && !isLoading && (
         <UsersForm data={user} onSubmit={onSubmit} formId="clone-user-form" />

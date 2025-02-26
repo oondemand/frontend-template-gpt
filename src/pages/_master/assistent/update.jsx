@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import { useConfirmation } from "../../../hooks/confirmationModal";
 import { usePromptDialog } from "../../../hooks/promptContext";
+import { BackButton } from "../../../components/ui/back-button";
 
 export function UpdateAssistente() {
   const { id } = useParams();
@@ -182,10 +183,16 @@ export function UpdateAssistente() {
         <Heading fontSize="2xl" color="orange.500">
           Detalhes do prompt
         </Heading>
-
-        <Button type="submit" form="update-assistant-form" colorPalette="cyan">
-          Atualizar
-        </Button>
+        <Flex alignItems="center" gap="2">
+          <BackButton />
+          <Button
+            type="submit"
+            form="update-assistant-form"
+            colorPalette="cyan"
+          >
+            Atualizar
+          </Button>
+        </Flex>
       </Flex>
       {!isLoading && assistant && (
         <AssistantForm
@@ -198,7 +205,7 @@ export function UpdateAssistente() {
       <Box mt="6">
         <Flex alignItems="center" justifyContent="space-between">
           <Heading fontSize="2xl" color="orange.500">
-            Prompts
+            Mensagens
           </Heading>
           <Button
             onClick={() => {
@@ -207,40 +214,36 @@ export function UpdateAssistente() {
             border="1px solid"
             colorPalette="cyan"
           >
-            Criar prompt
+            Criar mensagem
           </Button>
         </Flex>
 
         <Box mt="6" maxH="800px" overflow="auto">
-          {isLoadingPrompts && <Text>Listando prompts...</Text>}
+          {isLoadingPrompts && <Text>Listando mensagens...</Text>}
           {!isLoadingPrompts && errorPrompts && (
-            <Text>Ouve um erro ao listar prompts!</Text>
+            <Text>Ouve um erro ao listar mensagens!</Text>
           )}
           {!isLoadingPrompts && !errorPrompts && prompts.length == 0 && (
-            <Text>Não foram encontradas prompts</Text>
+            <Text>Não foram encontradas mensagens</Text>
           )}
           {!isLoadingPrompts && prompts && prompts.length > 0 && (
             <Table.Root variant="line" striped>
               <Table.Header>
                 <Table.Row>
-                  <Table.ColumnHeader>Nome</Table.ColumnHeader>
-                  <Table.ColumnHeader>Tipo</Table.ColumnHeader>
                   <Table.ColumnHeader>Código</Table.ColumnHeader>
+                  <Table.ColumnHeader>Tipo</Table.ColumnHeader>
                   <Table.ColumnHeader>Conteúdo</Table.ColumnHeader>
-                  {/* <Table.ColumnHeader></Table.ColumnHeader> */}
                   <Table.ColumnHeader />
                 </Table.Row>
               </Table.Header>
               <Table.Body>
                 {prompts.map((prompt, i) => (
                   <Table.Row key={prompt._id}>
-                    <Table.Cell>{prompt.nome}</Table.Cell>
-                    <Table.Cell>{prompt.tipo}</Table.Cell>
                     <Table.Cell>{prompt.codigo}</Table.Cell>
+                    <Table.Cell>{prompt.tipo}</Table.Cell>
                     <Table.Cell maxW="300px">
                       <Text truncate>{prompt.conteudo}</Text>
                     </Table.Cell>
-                    {/* <Table.Cell>{prompt}</Table.Cell> */}
                     <Table.Cell placeItems="end">
                       <Flex gap="4">
                         <IconButton

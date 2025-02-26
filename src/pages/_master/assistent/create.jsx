@@ -8,6 +8,7 @@ import { queryClient } from "../../../config/react-query";
 import { toast } from "sonner";
 
 import { useParams } from "react-router-dom";
+import { BackButton } from "../../../components/ui/back-button";
 
 export function CreateAssistant() {
   const { mutateAsync: createAssistantMutation } = useMutation({
@@ -37,9 +38,17 @@ export function CreateAssistant() {
         <Heading fontSize="2xl" color="orange.500">
           Criar assistente
         </Heading>
-        <Button type="submit" form="create-assistant-form" colorPalette="cyan">
-          Salvar
-        </Button>
+
+        <Flex alignItems="center" gap="2">
+          <BackButton />
+          <Button
+            type="submit"
+            form="create-assistant-form"
+            colorPalette="cyan"
+          >
+            Salvar
+          </Button>
+        </Flex>
       </Flex>
 
       <AssistantForm

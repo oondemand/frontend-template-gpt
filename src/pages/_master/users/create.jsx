@@ -14,6 +14,7 @@ import { toast } from "sonner";
 import { useMutation } from "@tanstack/react-query";
 
 import { queryClient } from "../../../config/react-query";
+import { BackButton } from "../../../components/ui/back-button";
 
 export function CreateUsers() {
   const { mutateAsync: createUsersMutation } = useMutation({
@@ -45,9 +46,12 @@ export function CreateUsers() {
         <Heading fontSize="2xl" color="orange.500">
           Criar usuário
         </Heading>
-        <Button type="submit" form="create-user-form" colorPalette="cyan">
-          Salvar
-        </Button>
+        <Flex alignItems="center" gap="2">
+          <BackButton />
+          <Button type="submit" form="create-user-form" colorPalette="cyan">
+            Salvar
+          </Button>
+        </Flex>
       </Flex>
       <UsersForm onSubmit={onSubmit} formId="create-user-form" />
     </Box>

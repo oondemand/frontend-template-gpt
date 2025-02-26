@@ -29,8 +29,13 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 const schema = z.object({
-  nome: z.string().nonempty("Nome obrigatório!"),
-  codigo: z.string().nonempty("Código obrigatório!"),
+  codigo: z
+    .string()
+    .nonempty("Código obrigatório!")
+    .transform((valor) => valor.toLowerCase().trim())
+    .refine((valor) => /^[a-z0-9\-_]+$/.test(valor), {
+      message: "Somente letras, números, '-' e '_' são permitidos.",
+    }),
   descricao: z.string().optional(),
   templateEjs: z.string().nonempty("Conteúdo obrigatório!"),
   status: z.string().nonempty("Status obrigatório!").array(),
@@ -107,12 +112,6 @@ export function TemplateForm({ onSubmit, formId, data, dialogId }) {
       <form id={formId} onSubmit={handleSubmit(onSubmit)}>
         <Flex flexDir="column" gap="2">
           <HStack>
-            <TextInput
-              label="Nome *"
-              {...register("nome")}
-              error={errors.nome?.message}
-            />
-
             <TextInput
               label="Código *"
               {...register("codigo")}

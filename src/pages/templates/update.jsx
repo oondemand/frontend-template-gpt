@@ -8,6 +8,7 @@ import { queryClient } from "../../config/react-query";
 import { toast } from "sonner";
 
 import { useParams } from "react-router-dom";
+import { BackButton } from "../../components/ui/back-button";
 
 export function UpdateTemplate() {
   const { id } = useParams();
@@ -53,7 +54,8 @@ export function UpdateTemplate() {
         <Heading fontSize="2xl" color="orange.500">
           Detalhes do template
         </Heading>
-        <Flex gap="2" alignItems="center">
+        <Flex alignItems="center" gap="2">
+          <BackButton />
           <Button type="submit" form="update-template-form" colorPalette="cyan">
             Atualizar
           </Button>

@@ -20,6 +20,7 @@ import { useConfirmation } from "../../hooks/confirmationModal";
 
 import { tipoCotacaoMap, statusMap } from "../../_constants/maps.js";
 import { useAuth } from "../../hooks/auth.jsx";
+import { BackButton } from "../../components/ui/back-button";
 
 export function ListCoins() {
   const navigate = useNavigate();
@@ -34,6 +35,8 @@ export function ListCoins() {
     queryKey: ["list-coins"],
     queryFn: CoinService.listCoins,
   });
+
+  console.log("Coins", coins);
 
   const { mutateAsync: deleteCoinMutation } = useMutation({
     mutationFn: CoinService.deleteCoinById,
@@ -69,15 +72,18 @@ export function ListCoins() {
           <Heading fontSize="2xl" color="orange.500">
             Moedas
           </Heading>
+          <Flex alignItems="center" gap="2">
+            <BackButton />
 
-          {user.tipo !== "padrao" && (
-            <Button
-              onClick={() => navigate("/moedas/create")}
-              colorPalette="cyan"
-            >
-              Criar moeda
-            </Button>
-          )}
+            {user.tipo !== "padrao" && (
+              <Button
+                onClick={() => navigate("/moedas/create")}
+                colorPalette="cyan"
+              >
+                Criar moeda
+              </Button>
+            )}
+          </Flex>
         </Flex>
 
         <Box mt="8">
@@ -90,7 +96,6 @@ export function ListCoins() {
             <Table.Root variant="line" striped>
               <Table.Header>
                 <Table.Row>
-                  <Table.ColumnHeader>Nome</Table.ColumnHeader>
                   <Table.ColumnHeader>Símbolo</Table.ColumnHeader>
                   <Table.ColumnHeader>Tipo de cotação</Table.ColumnHeader>
                   <Table.ColumnHeader>Valor</Table.ColumnHeader>
@@ -101,10 +106,11 @@ export function ListCoins() {
               <Table.Body>
                 {coins.map((coin) => (
                   <Table.Row key={coin._id}>
-                    <Table.Cell>{coin.nome}</Table.Cell>
                     <Table.Cell>{coin.simbolo}</Table.Cell>
                     <Table.Cell>{tipoCotacaoMap[coin.tipoCotacao]}</Table.Cell>
-                    <Table.Cell>{coin.valor}</Table.Cell>
+                    <Table.Cell>
+                      {Number(coin?.cotacao?.valorFinal).toFixed(2)}
+                    </Table.Cell>
                     <Table.Cell>{statusMap[coin.status]}</Table.Cell>
                     <Table.Cell placeItems="end">
                       <Flex gap="4">

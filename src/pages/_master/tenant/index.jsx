@@ -17,6 +17,8 @@ import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "../../../config/react-query";
 import { TenantService } from "../../../services/tenant";
 import { useConfirmation } from "../../../hooks/confirmationModal";
+import { BackButton } from "../../../components/ui/back-button";
+
 
 export function ListTenants() {
   const navigate = useNavigate();
@@ -65,12 +67,15 @@ export function ListTenants() {
           <Heading fontSize="2xl" color="orange.500">
             Tenants
           </Heading>
-          <Button
-            onClick={() => navigate("/adm/tenants/create")}
-            colorPalette="cyan"
-          >
-            Criar tenant
-          </Button>
+          <Flex alignItems="center" gap="2">
+            <BackButton />
+            <Button
+              onClick={() => navigate("/adm/tenants/create")}
+              colorPalette="cyan"
+            >
+              Criar tenant
+            </Button>
+          </Flex>
         </Flex>
 
         <Box mt="8" maxH="800px" overflow="auto">

@@ -6,6 +6,7 @@ import { queryClient } from "../../../config/react-query";
 import { TenantService } from "../../../services/tenant";
 
 import { toast } from "sonner";
+import { BackButton } from "../../../components/ui/back-button";
 
 export function CreateTenant() {
   const { mutateAsync: createTenantMutation } = useMutation({
@@ -37,9 +38,12 @@ export function CreateTenant() {
         <Heading fontSize="2xl" color="orange.500">
           Criar tenant
         </Heading>
-        <Button type="submit" form="create-tenant-form" colorPalette="cyan">
-          Salvar
-        </Button>
+        <Flex alignItems="center" gap="2">
+          <BackButton />
+          <Button type="submit" form="create-tenant-form" colorPalette="cyan">
+            Salvar
+          </Button>
+        </Flex>
       </Flex>
       <TenantForm onSubmit={onSubmit} formId="create-tenant-form" />
     </Box>

@@ -9,6 +9,7 @@ import { queryClient } from "../../config/react-query";
 import { toast } from "sonner";
 
 import { useParams } from "react-router-dom";
+import { BackButton } from "../../components/ui/back-button";
 
 export function UpdateInclude() {
   const { id } = useParams();
@@ -57,9 +58,12 @@ export function UpdateInclude() {
         <Heading fontSize="2xl" color="orange.500">
           Detalhes do include
         </Heading>
-        <Button type="submit" form="update-include-form" colorPalette="cyan">
-          Atualizar
-        </Button>
+        <Flex alignItems="center" gap="2">
+          <BackButton />
+          <Button type="submit" form="update-include-form" colorPalette="cyan">
+            Atualizar
+          </Button>
+        </Flex>
       </Flex>
       {!isLoading && include && (
         <IncludeForm
@@ -68,7 +72,6 @@ export function UpdateInclude() {
           formId="update-include-form"
         />
       )}
-      <IaChat />
     </Box>
   );
 }

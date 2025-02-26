@@ -16,6 +16,7 @@ import {
   Flex,
   Textarea,
   createListCollection,
+  Image,
 } from "@chakra-ui/react";
 
 import {
@@ -27,21 +28,42 @@ import {
   SelectValueText,
 } from "../../components/ui/select";
 
+import {
+  FileUploadDropzone,
+  FileUploadList,
+  FileUploadRoot,
+  FileInput,
+  FileUploadClearTrigger,
+} from "../../components/ui/file-upload";
+
+import { InputGroup } from "../../components/ui/input-group";
+import { CloseButton } from "../../components/ui/close-button";
+
 import { useForm, Controller } from "react-hook-form";
 
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const schema = z.object({
-  nome: z.string().nonempty("Nome obrigatório!"),
-  codigo: z.string().nonempty("Código obrigatório!"),
+  codigo: z
+    .string()
+    .nonempty("Código obrigatório!")
+    .transform((valor) => valor.toLowerCase().trim())
+    .refine((valor) => /^[a-z0-9\-_]+$/.test(valor), {
+      message: "Somente letras, números, '-' e '_' são permitidos.",
+    }),
   descricao: z.string().optional(),
-  conteudo: z.string().nonempty("Conteúdo obrigatório!"),
+  conteudo: z
+    .string({ message: "Conteúdo obrigatório!" })
+    .nonempty("Conteúdo obrigatório!"),
   contenType: z.string().nonempty("Content Type obrigatório!"),
   status: z.string().nonempty("Status obrigatório!").array(),
 });
 
 import { TextInput } from "../../components/input/textInput";
+import { useState } from "react";
+
+import { FileUpIcon } from "lucide-react";
 
 const statusOptions = createListCollection({
   items: [
@@ -57,6 +79,7 @@ export function IncludeForm({ onSubmit, formId, data }) {
     handleSubmit,
     formState: { errors },
     control,
+    setValue,
   } = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -65,26 +88,16 @@ export function IncludeForm({ onSubmit, formId, data }) {
     },
   });
 
+  const [preview, setPreview] = useState(data?.conteudo);
+
   return (
     <form id={formId} onSubmit={handleSubmit(onSubmit)}>
       <Flex flexDir="column" gap="2">
         <HStack>
           <TextInput
-            label="Nome *"
-            {...register("nome")}
-            error={errors.nome?.message}
-          />
-
-          <TextInput
             {...register("codigo")}
             label="Código *"
             error={errors.codigo?.message}
-          />
-
-          <TextInput
-            {...register("contenType")}
-            label="Content Type *"
-            error={errors.contenType?.message}
           />
 
           <Controller
@@ -92,6 +105,7 @@ export function IncludeForm({ onSubmit, formId, data }) {
             name="status"
             render={({ field }) => (
               <SelectRoot
+                w="sm"
                 name={field.name}
                 value={field.value}
                 onValueChange={({ value }) => field.onChange(value)}
@@ -118,20 +132,100 @@ export function IncludeForm({ onSubmit, formId, data }) {
 
         <Box>
           <Text color="orange.600">Descrição</Text>
-          <Textarea {...register("descricao")} />
+          <Textarea minH="32" {...register("descricao")} />
           {errors.descricao?.message && (
             <Text color="red.500" fontSize="sm">
               {errors.descricao?.message}
             </Text>
           )}
         </Box>
-        <Box>
-          <Text color="orange.600">Conteúdo *</Text>
-          <Textarea {...register("conteudo")} />
-          {errors.conteudo?.message && (
-            <Text color="red.500" fontSize="sm">
-              {errors.conteudo?.message}
+
+        <Box
+          border="2px dashed"
+          rounded="sm"
+          borderColor="gray.200"
+          py="4"
+          px="2"
+        >
+          <Flex alignItems="center" gap="2">
+            <Text px="2" fontSize="md" color="orange.500">
+              Conteúdo:
             </Text>
+
+            <Box>
+              <Controller
+                name="conteudo"
+                control={control}
+                render={({ field }) => (
+                  <FileUploadRoot
+                    accept="image/*"
+                    maxW="xs"
+                    alignItems="stretch"
+                    maxFiles={1}
+                    onFileChange={({ acceptedFiles, rejectedFiles }) => {
+                      if (acceptedFiles.length == 0) {
+                        setPreview(data?.conteudo ?? null);
+                      }
+
+                      const reader = new FileReader();
+                      reader.onloadend = () => {
+                        const base64Arr = reader.result.split(",");
+
+                        const pureBase64 = base64Arr[1];
+                        const contentType = base64Arr[0]
+                          .split(";")[0]
+                          .split(":")[1];
+
+                        field.onChange(pureBase64);
+                        setValue("contenType", contentType);
+                        setPreview(pureBase64);
+                      };
+
+                      reader.readAsDataURL(acceptedFiles[0]);
+                    }}
+                  >
+                    <InputGroup
+                      w="full"
+                      startElement={<FileUpIcon size={14} />}
+                      endElement={
+                        <FileUploadClearTrigger asChild>
+                          <CloseButton
+                            me="-1"
+                            size="xs"
+                            variant="plain"
+                            focusVisibleRing="inside"
+                            focusRingWidth="2px"
+                            pointerEvents="auto"
+                            color="fg.subtle"
+                          />
+                        </FileUploadClearTrigger>
+                      }
+                    >
+                      <FileInput
+                        truncate
+                        size="sm"
+                        placeholder="Selecionar arquivo"
+                      />
+                    </InputGroup>
+                  </FileUploadRoot>
+                )}
+              />
+
+              {errors.conteudo?.message && (
+                <Text m="0.5" color="red.500" fontSize="xs">
+                  {errors.conteudo?.message}
+                </Text>
+              )}
+            </Box>
+          </Flex>
+          {preview && (
+            <Image
+              mt="2"
+              pointerEvents="none"
+              fit="contain"
+              src={`data:image/;base64,${preview}`}
+              alt="Imagem em Base64"
+            />
           )}
         </Box>
       </Flex>

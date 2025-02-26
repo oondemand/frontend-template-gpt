@@ -18,6 +18,8 @@ import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "../../config/react-query";
 import { useConfirmation } from "../../hooks/confirmationModal";
 
+import { BackButton } from "../../components/ui/back-button";
+
 export function ListIncludes() {
   const navigate = useNavigate();
   const { requestConfirmation } = useConfirmation();
@@ -65,12 +67,15 @@ export function ListIncludes() {
         <Heading fontSize="2xl" color="orange.500">
           Includes
         </Heading>
-        <Button
-          onClick={() => navigate("/includes/create")}
-          colorPalette="cyan"
-        >
-          Criar include
-        </Button>
+        <Flex alignItems="center" gap="2">
+          <BackButton />
+          <Button
+            onClick={() => navigate("/includes/create")}
+            colorPalette="cyan"
+          >
+            Criar include
+          </Button>
+        </Flex>
       </Flex>
 
       <Box mt="8" maxH="800px" overflow="auto">
@@ -83,8 +88,7 @@ export function ListIncludes() {
           <Table.Root variant="line" striped>
             <Table.Header>
               <Table.Row>
-                <Table.ColumnHeader>Nome</Table.ColumnHeader>
-                <Table.ColumnHeader>Conteúdo</Table.ColumnHeader>
+                <Table.ColumnHeader>Código</Table.ColumnHeader>
                 <Table.ColumnHeader>Descricao</Table.ColumnHeader>
                 <Table.ColumnHeader>Content type</Table.ColumnHeader>
                 <Table.ColumnHeader>Status</Table.ColumnHeader>
@@ -94,9 +98,8 @@ export function ListIncludes() {
             <Table.Body>
               {includes.map((include) => (
                 <Table.Row key={include._id}>
-                  <Table.Cell>{include.nome}</Table.Cell>
                   <Table.Cell maxW="300px">
-                    <Text truncate>{include.conteudo}</Text>
+                    <Text truncate>{include?.codigo}</Text>
                   </Table.Cell>
                   <Table.Cell>{include.descricao}</Table.Cell>
                   <Table.Cell>{include.contenType}</Table.Cell>

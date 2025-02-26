@@ -86,6 +86,7 @@ export function BaseOmiesForm({ onSubmit, formId, data }) {
         />
 
         <TextInput
+          type="password"
           label="App secret"
           {...register("appSecret")}
           error={errors.appSecret?.message}

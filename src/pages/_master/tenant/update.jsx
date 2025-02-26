@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { useParams } from "react-router-dom";
 
 import { useQuery } from "@tanstack/react-query";
+import { BackButton } from "../../../components/ui/back-button";
 
 export function UpdateTenant() {
   const { id } = useParams();
@@ -54,9 +55,12 @@ export function UpdateTenant() {
         <Heading fontSize="2xl" color="orange.500">
           Detalhes do tenant
         </Heading>
-        <Button type="submit" form="update-tenant-form" colorPalette="cyan">
-          Atualizar
-        </Button>
+        <Flex alignItems="center" gap="2">
+          <BackButton />
+          <Button type="submit" form="update-tenant-form" colorPalette="cyan">
+            Atualizar
+          </Button>
+        </Flex>
       </Flex>
       {!isLoading && tenant && (
         <TenantForm

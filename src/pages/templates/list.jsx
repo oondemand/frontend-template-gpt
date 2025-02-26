@@ -18,6 +18,7 @@ import { queryClient } from "../../config/react-query";
 import { useConfirmation } from "../../hooks/confirmationModal";
 import { Eye } from "lucide-react";
 import { usePreviewDialog } from "../../hooks/previewModalContext";
+import { BackButton } from "../../components/ui/back-button";
 
 export function ListTemplates() {
   const navigate = useNavigate();
@@ -68,12 +69,15 @@ export function ListTemplates() {
         <Heading fontSize="2xl" color="orange.500">
           Templates
         </Heading>
-        <Button
-          onClick={() => navigate("/templates/create")}
-          colorPalette="cyan"
-        >
-          Criar template
-        </Button>
+        <Flex alignItems="center" gap="2">
+          <BackButton />
+          <Button
+            onClick={() => navigate("/templates/create")}
+            colorPalette="cyan"
+          >
+            Criar template
+          </Button>
+        </Flex>
       </Flex>
 
       <Box mt="8" maxH="800px" overflow="auto">
@@ -86,9 +90,8 @@ export function ListTemplates() {
           <Table.Root variant="line" striped>
             <Table.Header>
               <Table.Row>
-                <Table.ColumnHeader>Nome</Table.ColumnHeader>
+                <Table.ColumnHeader>Código</Table.ColumnHeader>
                 <Table.ColumnHeader>Descrição</Table.ColumnHeader>
-                {/* <Table.ColumnHeader>Conteúdo</Table.ColumnHeader> */}
                 <Table.ColumnHeader>Status</Table.ColumnHeader>
                 <Table.ColumnHeader />
               </Table.Row>
@@ -96,9 +99,8 @@ export function ListTemplates() {
             <Table.Body>
               {templates.map((template) => (
                 <Table.Row key={template._id}>
-                  <Table.Cell>{template.nome}</Table.Cell>
+                  <Table.Cell>{template.codigo}</Table.Cell>
                   <Table.Cell>{template.descricao}</Table.Cell>
-                  {/* <Table.Cell>{template.templateEjs}</Table.Cell> */}
                   <Table.Cell>{template.status}</Table.Cell>
                   <Table.Cell placeItems="end">
                     <Flex gap="4">

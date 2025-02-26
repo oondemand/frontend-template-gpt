@@ -7,6 +7,7 @@ import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "../../config/react-query";
 
 import { toast } from "sonner";
+import { BackButton } from "../../components/ui/back-button";
 
 export function CreateInclude() {
   const { mutateAsync: createIncludeMutation } = useMutation({
@@ -38,12 +39,14 @@ export function CreateInclude() {
         <Heading fontSize="2xl" color="orange.500">
           Criar include
         </Heading>
-        <Button type="submit" form="create-include-form" colorPalette="cyan">
-          Salvar
-        </Button>
+        <Flex alignItems="center" gap="2">
+          <BackButton />
+          <Button type="submit" form="create-include-form" colorPalette="cyan">
+            Salvar
+          </Button>
+        </Flex>
       </Flex>
       <IncludeForm onSubmit={onSubmit} formId="create-include-form" />
-      <IaChat />
     </Box>
   );
 }
