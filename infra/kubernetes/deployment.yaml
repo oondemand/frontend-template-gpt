@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: doc-custom-frontend
-  namespace: doc-custom-v2
+  namespace: doc-custom
 spec:
   replicas: 1
   selector:

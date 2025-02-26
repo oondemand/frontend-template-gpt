@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: doc-custom-frontend-service
-  namespace: doc-custom-v2
+  namespace: doc-custom
 spec:
   type: NodePort
   selector:

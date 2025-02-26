@@ -2,7 +2,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: app-tls
-  namespace: doc-custom-v2
+  namespace: doc-custom
 spec:
   secretName: app-tls
   issuerRef:
