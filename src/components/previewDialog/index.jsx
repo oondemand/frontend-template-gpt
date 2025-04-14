@@ -240,11 +240,16 @@ export function PreviewDialog({
         );
       }
 
+      const modelo = queryClient
+        .getQueryData(["list-assistants"])
+        .find((e) => e._id === values.assistente[0])?.modelo;
+
       const response = await questionIaMutation({
         body: {
           ...values,
           templateEjs: values.templateEjs,
           prompts,
+          modelo,
         },
       });
 

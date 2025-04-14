@@ -16,6 +16,7 @@ const askQuestion = ({ body }) => {
   formData.append("question", body?.question);
   formData.append("omieVar", body?.omieVar);
   formData.append("systemVar", body?.systemVar);
+  formData.append("modelo", body?.modelo);
 
   if (body.prompts) {
     formData.append("prompts", JSON.stringify(body.prompts));
