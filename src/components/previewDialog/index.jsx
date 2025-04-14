@@ -410,13 +410,13 @@ export function PreviewDialog({
                       control={control}
                       render={({ field }) => (
                         <FileUploadRoot
-                          accept="image/*"
                           onFileAccept={(e) => {
+                            console.log("LOG", e.files);
                             field.onChange(e.files);
                           }}
                           maxW="full"
                           alignItems="stretch"
-                          maxFiles={1}
+                          maxFiles={10}
                         >
                           <FileUploadList showSize clearable />
                           <FileUploadDropzone

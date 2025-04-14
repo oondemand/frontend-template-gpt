@@ -7,7 +7,9 @@ const askQuestion = ({ body }) => {
   const formData = new FormData();
 
   if (body.file) {
-    formData.append("file", body.file[0], body.file.name);
+    for (const file of body.file) {
+      formData.append("file", file, file.name);
+    }
   }
 
   formData.append("templateEjs", body?.templateEjs);
