@@ -21,6 +21,7 @@ import { useConfirmation } from "../../hooks/confirmationModal";
 import { tipoCotacaoMap, statusMap } from "../../_constants/maps.js";
 import { useAuth } from "../../hooks/auth.jsx";
 import { BackButton } from "../../components/ui/back-button";
+import { currency } from "../../utils/currency.js";
 
 export function ListCoins() {
   const navigate = useNavigate();
@@ -109,7 +110,7 @@ export function ListCoins() {
                     <Table.Cell>{coin.simbolo}</Table.Cell>
                     <Table.Cell>{tipoCotacaoMap[coin.tipoCotacao]}</Table.Cell>
                     <Table.Cell>
-                      {Number(coin?.cotacao?.valorFinal).toFixed(2)}
+                      {currency.format(coin?.cotacao?.valorFinal)}
                     </Table.Cell>
                     <Table.Cell>{statusMap[coin.status]}</Table.Cell>
                     <Table.Cell placeItems="end">
