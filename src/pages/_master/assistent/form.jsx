@@ -41,10 +41,16 @@ const schema = z.object({
 
 const modelsOptions = createListCollection({
   items: [
-    { label: "GPT-4", value: "gpt-4" },
+    { label: "GPT-4.1", value: "gpt-4.1" },
     { label: "GPT-4.1 mine", value: "gpt-4.1-mini" },
     { label: "GPT-4O", value: "gpt-4o" },
     { label: "GPT-4O mine", value: "gpt-4o-mini" },
+    { label: "GPT-4", value: "gpt-4" },
+    { label: "GPT-3.5 turbo", value: "gpt-3.5-turbo" },
+    { label: "O3 mine", value: "o3-mini" },
+    { label: "O1 pro", value: "o1-pro" },
+    { label: "O1", value: "o1" },
+    { label: "O1 mine", value: "o1-mine" },
   ],
 });
 
