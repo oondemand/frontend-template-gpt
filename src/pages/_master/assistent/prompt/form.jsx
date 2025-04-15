@@ -46,6 +46,8 @@ const schema = z.object({
 });
 
 import { SelectCode } from "../../../../components/selectCode";
+import { Search } from "lucide-react";
+import { VariablesDialog } from "./dialog";
 
 const options = createListCollection({
   items: [
@@ -160,6 +162,7 @@ export function PromptForm({ onSubmit, formId, data }) {
             </Text>
           )}
         </Box>
+        <VariablesDialog />
       </Flex>
     </form>
   );

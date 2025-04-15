@@ -7,13 +7,16 @@ const askQuestion = ({ body }) => {
   const formData = new FormData();
 
   if (body.file) {
-    formData.append("file", body.file[0], body.file.name);
+    for (const file of body.file) {
+      formData.append("file", file, file.name);
+    }
   }
 
   formData.append("templateEjs", body?.templateEjs);
   formData.append("question", body?.question);
   formData.append("omieVar", body?.omieVar);
   formData.append("systemVar", body?.systemVar);
+  formData.append("modelo", body?.modelo);
 
   if (body.prompts) {
     formData.append("prompts", JSON.stringify(body.prompts));
