@@ -1,0 +1,368 @@
+{
+  "os": {
+    "Cabecalho": {
+      "cCodIntCli": "CLI123",
+      "cCodIntOS": "OS456",
+      "cCodParc": "999",
+      "cEtapa": "20",
+      "cNumOS": "66",
+      "dDtPrevisao": "01/01/2025",
+      "nCodCli": 4927954939,
+      "nCodOS": 4951206440,
+      "nCodVend": 0,
+      "nQtdeParc": 1,
+      "nValorTotal": 910,
+      "nValorTotalImpRet": 186.6
+    },
+    "InformacoesAdicionais": {
+      "cCidPrestServ": "ARACARIGUAMA (SP)",
+      "cCodART": "ART123",
+      "cCodCateg": "1.01.01",
+      "cCodObra": "teste para enco",
+      "cContato": "João Silva",
+      "cDadosAdicNF": "Informações adicionais",
+      "cNumContrato": "CTO789",
+      "cNumPedido": "PED654",
+      "cNumRecibo": "0",
+      "dDataRps": "21/10/2024",
+      "nCodCC": 4814121437,
+      "nCodProj": 0
+    },
+    "Email": {
+      "cEnvBoleto": "S",
+      "cEnvLink": "N",
+      "cEnvPix": "N",
+      "cEnvRecibo": "N",
+      "cEnvViaUnica": "N",
+      "cEnviarPara": "email@exemplo.com"
+    },
+    "Departamentos": [{}],
+    "ServicosPrestados": [{}],
+    "Parcelas": [{}],
+    "Observacoes": {
+      "cObsOS": "Observação importante"
+    },
+    "InfoCadastro": {
+      "cAmbiente": "Produção",
+      "cCancelada": "N",
+      "cFaturada": "N",
+      "cHrAlt": "15:58:43",
+      "cHrInc": "23:17:50",
+      "dDtAlt": "23/01/2025",
+      "dDtInc": "19/10/2024"
+    },
+    "despesasReembolsaveis": {
+      "cCodCategReemb": "1.03.04",
+      "despesaReembolsavel": [{}]
+    },
+    "produtosUtilizados": {
+      "cAcaoProdUtilizados": "REM",
+      "cCodCategRem": "1.01.01",
+      "produtoUtilizado": [{}]
+    }
+  },
+  "cliente": {
+    "codigo_cliente_omie": 4927954939,
+    "codigo_cliente_integracao": "524ed6ce-8b6d-4a3e-8dd2-d567ecd13994",
+    "razao_social": "Empresa Teste LTDA",
+    "cnpj_cpf": "00.000.000/0001-00",
+    "nome_fantasia": "Empresa Teste",
+    "telefone1_ddd": "11",
+    "telefone1_numero": "999999999",
+    "contato": "Fulano de Tal",
+    "endereco": "Rua Exemplo, 123",
+    "endereco_numero": "271",
+    "bairro": "Centro",
+    "complemento": "Sala 45",
+    "estado": "SP",
+    "cidade": "São Paulo",
+    "cep": "00000-000",
+    "codigo_pais": "1058",
+    "separar_endereco": "",
+    "pesquisar_cep": "",
+    "telefone2_ddd": "",
+    "telefone2_numero": "",
+    "fax_ddd": "",
+    "fax_numero": "",
+    "email": "contato@empresa.com",
+    "homepage": "www.empresa.com",
+    "inscricao_estadual": "123.456.789.000",
+    "inscricao_municipal": "",
+    "inscricao_suframa": "",
+    "optante_simples_nacional": "S",
+    "tipo_atividade": "COMERCIO",
+    "cnae": "1234-5/00",
+    "produtor_rural": "N",
+    "contribuinte": "S",
+    "observacao": "",
+    "obs_detalhadas": "",
+    "recomendacao_atraso": "",
+    "tags": [],
+    "pessoa_fisica": "N",
+    "exterior": "S",
+    "logradouro": "",
+    "importado_api": "",
+    "bloqueado": "N",
+    "cidade_ibge": "3550308",
+    "valor_limite_credito": 0,
+    "bloquear_faturamento": "N",
+    "recomendacoes": {
+      "gerar_boletos": "S"
+    },
+    "enderecoEntrega": {},
+    "nif": "",
+    "documento_exterior": "",
+    "inativo": "N",
+    "dadosBancarios": {
+      "agencia": "0001",
+      "cChavePix": "chave-pix@empresa.com",
+      "codigo_banco": "001",
+      "conta_corrente": "123456-7",
+      "doc_titular": "00.000.000/0001-00",
+      "nome_titular": "Empresa Teste LTDA",
+      "transf_padrao": "S"
+    },
+    "caracteristicas": [],
+    "enviar_anexos": "",
+    "info": {
+      "cImpAPI": "S",
+      "dAlt": "18/11/2024",
+      "dInc": "18/09/2024",
+      "hAlt": "14:09:41",
+      "hInc": "15:34:12",
+      "uAlt": "P000875035",
+      "uInc": "WEBSERVICE"
+    },
+    "bloquear_exclusao": "N",
+    "pais": "Brasil"
+  },
+  "includes": [
+    {
+      "_id": "678a333bca6e3efda86cfff3",
+      "nome": "Documento Exemplo",
+      "tenant": "6777d887c0cda53e93c74907",
+      "codigo": "COD001",
+      "descricao": "Descrição do documento",
+      "conteudo": "base64...",
+      "contenType": "image/png",
+      "status": "ativo",
+      "__v": 0
+    }
+  ],
+  "moedas": [
+    {
+      "simbolo": "USD",
+      "tipoCotacao": "cotacao",
+      "status": "ativo",
+      "cotacao": 5.8425,
+      "valorFinal": "5.8419"
+    }
+  ],
+  "configuracoes": [
+    {
+      "_id": "66f6d99fa58f464c35950526",
+      "nome": "Config Exemplo",
+      "codigo": "config-001",
+      "valor": "valor-exemplo",
+      "baseOmie": null,
+      "tenant": "6777d887c0cda53e93c74907",
+      "updatedAt": "2025-02-20T19:41:48.068Z"
+    }
+  ],
+  "baseOmie": {
+    "_id": "66f169ec27834c6d3debd007",
+    "nome": "Base Omie Exemplo",
+    "cnpj": "00.000.000/0001-00",
+    "status": "ativo",
+    "__v": 0,
+    "appKey": "xxxxxxxxxxxx",
+    "appSecret": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "tenant": "6777d887c0cda53e93c74907"
+  },
+  "template": "<html>...</html>",
+  "conteudo": "<html>...</html>",
+  "omie": {
+    "os": {
+      "Cabecalho": {
+        "cCodIntCli": "CLI123",
+        "cCodIntOS": "OS456",
+        "cCodParc": "999",
+        "cEtapa": "20",
+        "cNumOS": "66",
+        "dDtPrevisao": "01/01/2025",
+        "nCodCli": 4927954939,
+        "nCodOS": 4951206440,
+        "nCodVend": 0,
+        "nQtdeParc": 1,
+        "nValorTotal": 910,
+        "nValorTotalImpRet": 186.6
+      },
+      "InformacoesAdicionais": {
+        "cCidPrestServ": "ARACARIGUAMA (SP)",
+        "cCodART": "ART123",
+        "cCodCateg": "1.01.01",
+        "cCodObra": "teste para enco",
+        "cContato": "João Silva",
+        "cDadosAdicNF": "Informações adicionais",
+        "cNumContrato": "CTO789",
+        "cNumPedido": "PED654",
+        "cNumRecibo": "0",
+        "dDataRps": "21/10/2024",
+        "nCodCC": 4814121437,
+        "nCodProj": 0
+      },
+      "Email": {
+        "cEnvBoleto": "S",
+        "cEnvLink": "N",
+        "cEnvPix": "N",
+        "cEnvRecibo": "N",
+        "cEnvViaUnica": "N",
+        "cEnviarPara": "email@exemplo.com"
+      },
+      "Departamentos": [{}],
+      "ServicosPrestados": [{}],
+      "Parcelas": [{}],
+      "Observacoes": {
+        "cObsOS": "Observação importante"
+      },
+      "InfoCadastro": {
+        "cAmbiente": "Produção",
+        "cCancelada": "N",
+        "cFaturada": "N",
+        "cHrAlt": "15:58:43",
+        "cHrInc": "23:17:50",
+        "dDtAlt": "23/01/2025",
+        "dDtInc": "19/10/2024"
+      },
+      "despesasReembolsaveis": {
+        "cCodCategReemb": "1.03.04",
+        "despesaReembolsavel": [{}]
+      },
+      "produtosUtilizados": {
+        "cAcaoProdUtilizados": "REM",
+        "cCodCategRem": "1.01.01",
+        "produtoUtilizado": [{}]
+      }
+    },
+    "cliente": {
+    "codigo_cliente_omie": 4927954939,
+    "codigo_cliente_integracao": "524ed6ce-8b6d-4a3e-8dd2-d567ecd13994",
+    "razao_social": "Empresa Teste LTDA",
+    "cnpj_cpf": "00.000.000/0001-00",
+    "nome_fantasia": "Empresa Teste",
+    "telefone1_ddd": "11",
+    "telefone1_numero": "999999999",
+    "contato": "Fulano de Tal",
+    "endereco": "Rua Exemplo, 123",
+    "endereco_numero": "271",
+    "bairro": "Centro",
+    "complemento": "Sala 45",
+    "estado": "SP",
+    "cidade": "São Paulo",
+    "cep": "00000-000",
+    "codigo_pais": "1058",
+    "separar_endereco": "",
+    "pesquisar_cep": "",
+    "telefone2_ddd": "",
+    "telefone2_numero": "",
+    "fax_ddd": "",
+    "fax_numero": "",
+    "email": "contato@empresa.com",
+    "homepage": "www.empresa.com",
+    "inscricao_estadual": "123.456.789.000",
+    "inscricao_municipal": "",
+    "inscricao_suframa": "",
+    "optante_simples_nacional": "S",
+    "tipo_atividade": "COMERCIO",
+    "cnae": "1234-5/00",
+    "produtor_rural": "N",
+    "contribuinte": "S",
+    "observacao": "",
+    "obs_detalhadas": "",
+    "recomendacao_atraso": "",
+    "tags": [],
+    "pessoa_fisica": "N",
+    "exterior": "S",
+    "logradouro": "",
+    "importado_api": "",
+    "bloqueado": "N",
+    "cidade_ibge": "3550308",
+    "valor_limite_credito": 0,
+    "bloquear_faturamento": "N",
+    "recomendacoes": {
+      "gerar_boletos": "S"
+    },
+    "enderecoEntrega": {},
+    "nif": "",
+    "documento_exterior": "",
+    "inativo": "N",
+    "dadosBancarios": {
+      "agencia": "0001",
+      "cChavePix": "chave-pix@empresa.com",
+      "codigo_banco": "001",
+      "conta_corrente": "123456-7",
+      "doc_titular": "00.000.000/0001-00",
+      "nome_titular": "Empresa Teste LTDA",
+      "transf_padrao": "S"
+    },
+    "caracteristicas": [],
+    "enviar_anexos": "",
+    "info": {
+      "cImpAPI": "S",
+      "dAlt": "18/11/2024",
+      "dInc": "18/09/2024",
+      "hAlt": "14:09:41",
+      "hInc": "15:34:12",
+      "uAlt": "P000875035",
+      "uInc": "WEBSERVICE"
+    },
+    "bloquear_exclusao": "N",
+    "pais": "Brasil"
+  }
+  },
+  "sistema": {
+    "includes":  [
+      {
+        "_id": "678a333bca6e3efda86cfff3",
+        "nome": "Documento Exemplo",
+        "tenant": "6777d887c0cda53e93c74907",
+        "codigo": "COD001",
+        "descricao": "Descrição do documento",
+        "conteudo": "base64...",
+        "contenType": "image/png",
+        "status": "ativo",
+        "__v": 0
+      }
+    ],
+    "moedas": [
+      {
+        "simbolo": "USD",
+        "tipoCotacao": "cotacao",
+        "status": "ativo",
+        "cotacao": 5.8425,
+        "valorFinal": "5.8419"
+      }
+    ],
+    "configuracoes": [
+      {
+        "_id": "66f6d99fa58f464c35950526",
+        "nome": "Config Exemplo",
+        "codigo": "config-001",
+        "valor": "valor-exemplo",
+        "baseOmie": null,
+        "tenant": "6777d887c0cda53e93c74907",
+        "updatedAt": "2025-02-20T19:41:48.068Z"
+      }
+    ],
+    "baseOmie": {
+      "_id": "66f169ec27834c6d3debd007",
+      "nome": "Base Omie Exemplo",
+      "cnpj": "00.000.000/0001-00",
+      "status": "ativo",
+      "__v": 0,
+      "appKey": "xxxxxxxxxxxx",
+      "appSecret": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "tenant": "6777d887c0cda53e93c74907"
+    }
+  }
+}

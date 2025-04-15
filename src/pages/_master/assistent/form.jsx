@@ -41,16 +41,34 @@ const schema = z.object({
 
 const modelsOptions = createListCollection({
   items: [
+    { label: "O3 mine", value: "o3-mini" },
+    { label: "O1", value: "o1" },
+    { label: "O1 pro", value: "o1-pro" },
+    { label: "O1 mine", value: "o1-mine" },
+
     { label: "GPT-4.1", value: "gpt-4.1" },
+    { label: "GPT-4o", value: "gpt-4o" },
+    { label: "GPT-4o audio", value: "gpt-4o-audio-preview" },
+    { label: "ChatGPT-4o", value: "chatgpt-4o-latest" },
+
     { label: "GPT-4.1 mine", value: "gpt-4.1-mini" },
-    { label: "GPT-4O", value: "gpt-4o" },
-    { label: "GPT-4O mine", value: "gpt-4o-mini" },
+    { label: "GPT-4.1 nano", value: "gpt-4.1-nano" },
+    { label: "GPT-4o mine", value: "gpt-4o-mini" },
+    { label: "GPT-4o mine audio", value: "gpt-4o-mini-audio-preview" },
+
+    { label: "GPT-4o realtime", value: "gpt-4o-realtime-preview" },
+    { label: "GPT-4o mine realtime", value: "gpt-4o-mini-realtime-preview" },
+
+    { label: "GPT-4 turbo", value: "gpt-4-turbo" },
     { label: "GPT-4", value: "gpt-4" },
     { label: "GPT-3.5 turbo", value: "gpt-3.5-turbo" },
-    { label: "O3 mine", value: "o3-mini" },
-    { label: "O1 pro", value: "o1-pro" },
-    { label: "O1", value: "o1" },
-    { label: "O1 mine", value: "o1-mine" },
+
+    { label: "DALLE3", value: "dall-e-3" },
+    { label: "DALLE2", value: "dall-e-2" },
+
+    { label: "text-embedding-3-small", value: "text-embedding-3-small" },
+    { label: "text-embedding-3-large", value: "text-embedding-3-large" },
+    { label: "text-embedding-ada-002", value: "text-embedding-ada-002" },
   ],
 });
 
