@@ -43,6 +43,7 @@ const schema = z.object({
   descricao: z.string().optional(),
   conteudo: z.string().optional(),
   tipo: z.enum(["assistant", "function", "system", "tool", "user"]).array(),
+  tipoConteudo: z.enum(["texto", "arquivo", "objetoJson", "ejs"]).array(),
 });
 
 import { SelectCode } from "../../../../components/selectCode";
@@ -59,6 +60,15 @@ const options = createListCollection({
   ],
 });
 
+const optionsConteudo = createListCollection({
+  items: [
+    { label: "Texto", value: "texto" },
+    { label: "Arquivo", value: "arquivo" },
+    { label: "Objeto JSON", value: "objetoJson" },
+    { label: "EJS", value: "ejs" },
+  ],
+});
+
 export function PromptForm({ onSubmit, formId, data }) {
   const {
     register,
@@ -70,6 +80,7 @@ export function PromptForm({ onSubmit, formId, data }) {
     defaultValues: {
       ...data,
       tipo: data?.tipo ? [data.tipo] : ["user"],
+      tipoConteudo: data?.tipoConteudo ? [data.tipoConteudo] : ["user"],
     },
   });
 
@@ -153,6 +164,36 @@ export function PromptForm({ onSubmit, formId, data }) {
             </Text>
           )}
         </Box>
+
+        <Controller
+          control={control}
+          name="tipoConteudo"
+          render={({ field }) => (
+            <SelectRoot
+              name={field.name}
+              value={field.value}
+              onValueChange={({ value }) => field.onChange(value)}
+              onInteractOutside={() => field.onBlur()}
+              collection={optionsConteudo}
+              w="sm"
+            >
+              <SelectLabel fontSize="md" color="orange.500">
+                Tipo de conteúdo
+              </SelectLabel>
+              <SelectTrigger>
+                <SelectValueText placeholder={field.value} />
+              </SelectTrigger>
+              <SelectContent zIndex={9999}>
+                {optionsConteudo.items.map((status) => (
+                  <SelectItem cursor="pointer" item={status} key={status.value}>
+                    {status.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </SelectRoot>
+          )}
+        />
+
         <Box>
           <Text color="orange.600">Conteúdo</Text>
           <Textarea h="44" {...register("conteudo")} />
