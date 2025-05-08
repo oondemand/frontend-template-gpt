@@ -61,6 +61,7 @@ export function PromptDialog({ isVisible, onClose, data: dialogData, type }) {
         body: {
           ...data,
           tipo: data.tipo[0],
+          tipoConteudo: data.tipoConteudo[0],
         },
       });
       onClose();

@@ -135,8 +135,6 @@ export function UpdateAssistente() {
         },
       });
 
-      console.log(r1.ordem, r2.ordem);
-
       queryClient.invalidateQueries({
         queryKey: ["list-prompts"],
       });
