@@ -16,7 +16,6 @@ import { PromptService } from "../../services/prompt";
 import { toast } from "sonner";
 import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "../../config/react-query";
-import { useState } from "react";
 
 export function PromptDialog({ isVisible, onClose, data: dialogData, type }) {
   const { mutateAsync: createPromptMutation } = useMutation({
