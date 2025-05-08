@@ -37,6 +37,7 @@ export function UpdatePrompt() {
         body: {
           ...data,
           tipo: data.tipo[0],
+          tipoConteudo: data.tipoConteudo[0],
         },
       });
       if (response) {

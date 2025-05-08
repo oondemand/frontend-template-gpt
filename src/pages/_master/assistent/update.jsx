@@ -135,8 +135,6 @@ export function UpdateAssistente() {
         },
       });
 
-      console.log(r1.ordem, r2.ordem);
-
       queryClient.invalidateQueries({
         queryKey: ["list-prompts"],
       });
@@ -232,6 +230,7 @@ export function UpdateAssistente() {
                 <Table.Row>
                   <Table.ColumnHeader>Código</Table.ColumnHeader>
                   <Table.ColumnHeader>Tipo</Table.ColumnHeader>
+                  <Table.ColumnHeader>Tipo de conteúdo</Table.ColumnHeader>
                   <Table.ColumnHeader>Conteúdo</Table.ColumnHeader>
                   <Table.ColumnHeader />
                 </Table.Row>
@@ -241,6 +240,7 @@ export function UpdateAssistente() {
                   <Table.Row key={prompt._id}>
                     <Table.Cell>{prompt.codigo}</Table.Cell>
                     <Table.Cell>{prompt.tipo}</Table.Cell>
+                    <Table.Cell>{prompt.tipoConteudo}</Table.Cell>
                     <Table.Cell maxW="300px">
                       <Text truncate>{prompt.conteudo}</Text>
                     </Table.Cell>
