@@ -29,28 +29,21 @@ export function SelectEtapa({
 
   const { data: etapasOmie } = useQuery({
     queryKey: ["list-etapas", { baseOmieId }],
-    queryFn: async () => await SettingService.listOmieStage(baseOmieId),
-    staleTime: 1000 * 60 * 10, // 10 minutos
+    queryFn: () => SettingService.listOmieStage(baseOmieId),
+    staleTime: Infinity,
     enabled: !!baseOmieId,
   });
 
-  let items = [];
-
-  if (etapasOmie) {
-    items = etapasOmie?.map((etapa) => ({
-      label: `${etapa?.cDescricao} - ${etapa?.cCodigo}`,
-      value: etapa?.cCodigo,
-    }));
-  }
-
-  if (!etapasOmie) {
-    items = DEFAULT_ETAPAS_SETTINGS.map((etapa) => ({
-      label: `${etapa?.cCodigo}`,
-      value: etapa?.cCodigo,
-    }));
-  }
-
   const etapasCollection = useMemo(() => {
+    const source = etapasOmie ?? DEFAULT_ETAPAS_SETTINGS;
+
+    const items = source.map((etapa) => ({
+      label: etapa.cDescricao
+        ? `${etapa.cDescricao} - ${etapa.cCodigo}`
+        : etapa.cCodigo,
+      value: etapa.cCodigo,
+    }));
+
     return createListCollection({ items });
   }, [etapasOmie, baseOmieId]);
 
