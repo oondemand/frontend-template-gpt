@@ -60,7 +60,7 @@ export function ListSettings() {
           <Heading fontSize="2xl" color="orange.500">
             Configurações
           </Heading>
-          {user.tipo !== "padrao" && (
+          {user.tipo !== "usuario" && (
             <Button
               onClick={() => navigate("/settings/create")}
               colorPalette="cyan"

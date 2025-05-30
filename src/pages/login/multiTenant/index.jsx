@@ -51,7 +51,7 @@ export function MultiTenant() {
         </Text>
         <Box p="4" />
         <Flex gap="2" wrap="wrap">
-          {user?.tipo === "master" && (
+          {user?.tipo === "admin" && (
             <Button
               onClick={() =>
                 navigate("/adm/usuarios", { viewTransition: true })

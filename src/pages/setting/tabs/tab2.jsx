@@ -145,7 +145,7 @@ export function Tab2({ settings, defaultBaseOmie }) {
       </Box>
 
       <Box mt="6">
-        <Text fontWeight="semibold" fontSize="md" color="orange.500">
+        {/* <Text fontWeight="semibold" fontSize="md" color="orange.500">
           Etapas/omie
         </Text>
         <Flex wrap="wrap" gap="4" mt="4">
@@ -182,8 +182,8 @@ export function Tab2({ settings, defaultBaseOmie }) {
             borderBottomColor="gray.200"
             label="Etapa erro"
           />
-        </Flex>
-        <Flex mt="6" gap="4" alignItems="center">
+        </Flex> */}
+        {/* <Flex mt="6" gap="4" alignItems="center">
           <Text fontWeight="semibold" fontSize="md" color="orange.500">
             Adiantamento
           </Text>
@@ -191,9 +191,9 @@ export function Tab2({ settings, defaultBaseOmie }) {
             colorPalette="orange"
             {...switchSettingConfig("omie-adiantamento-gerar")}
           />
-        </Flex>
+        </Flex> */}
 
-        <Flex wrap="wrap" gap="4" mt="4" alignItems="flex-end">
+        {/* <Flex wrap="wrap" gap="4" mt="4" alignItems="flex-end">
           <SelectCategoria
             {...selectSettingConfig("omie-adiantamento-categoria")}
             clearable
@@ -205,8 +205,8 @@ export function Tab2({ settings, defaultBaseOmie }) {
             label="Categoria adiantamento"
             baseOmieId={baseOmie}
           />
-        </Flex>
-        <Flex flexDir="column" mt="4" gap="2">
+        </Flex> */}
+        {/* <Flex flexDir="column" mt="4" gap="2">
           <Box
             py="0.5"
             w="md"
@@ -225,7 +225,7 @@ export function Tab2({ settings, defaultBaseOmie }) {
               label=" "
             />
           )}
-        </Flex>
+        </Flex> */}
 
         {baseOmie && (
           <CaracteristicasForm

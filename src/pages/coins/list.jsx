@@ -76,7 +76,7 @@ export function ListCoins() {
           <Flex alignItems="center" gap="2">
             <BackButton />
 
-            {user.tipo !== "padrao" && (
+            {user.tipo !== "usuario" && (
               <Button
                 onClick={() => navigate("/moedas/create")}
                 colorPalette="cyan"
@@ -123,7 +123,7 @@ export function ListCoins() {
                           <FilePenLine />
                         </IconButton>
 
-                        {user.tipo !== "padrao" && (
+                        {user.tipo !== "usuario" && (
                           <IconButton
                             onClick={() => navigate(`/moeda/${coin._id}/clone`)}
                             colorPalette="green"
@@ -133,7 +133,7 @@ export function ListCoins() {
                           </IconButton>
                         )}
 
-                        {user.tipo !== "padrao" && (
+                        {user.tipo !== "usuario" && (
                           <IconButton
                             onClick={() => {
                               onDelete(coin._id);

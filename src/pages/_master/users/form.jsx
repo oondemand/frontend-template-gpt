@@ -26,8 +26,8 @@ const statusOptions = createListCollection({
 
 const tipeOptions = createListCollection({
   items: [
-    { label: "Padrão", value: "padrao" },
-    { label: "Admin", value: "admin" },
+    { label: "Padrão", value: "usuario" },
+    { label: "Administrador tenant", value: "admin-tenant" },
   ],
 });
 
@@ -43,7 +43,7 @@ export function UsersForm({ onSubmit, formId, data, isCreating }) {
         message: "A senha deve ter no mínimo 6 caracteres",
       }),
     status: z.enum(["ativo", "inativo", "arquivado"]).array(),
-    tipo: z.enum(["padrao", "admin"]).array(),
+    tipo: z.enum(["usuario", "admin-tenant"]).array(),
   });
 
   const {
@@ -56,7 +56,7 @@ export function UsersForm({ onSubmit, formId, data, isCreating }) {
     defaultValues: {
       ...data,
       status: data?.status ? [data.status] : ["ativo"],
-      tipo: data?.tipo ? [data.tipo] : ["padrao"],
+      tipo: data?.tipo ? [data.tipo] : ["usuario"],
     },
   });
 

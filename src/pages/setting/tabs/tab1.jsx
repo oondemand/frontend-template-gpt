@@ -139,7 +139,7 @@ export function Tab1({ settings }) {
           <FlushedInput {...inputSettingConfig("email-from-nome")} />
           <FlushedInput {...inputSettingConfig("email-copia")} />
 
-          <SelectTemplate
+          {/* <SelectTemplate
             {...selectSettingConfig("template-email-assunto")}
             w="md"
             size="md"
@@ -148,9 +148,9 @@ export function Tab1({ settings }) {
             borderBottomColor="gray.200"
             label="Template Assunto e-mail"
             placeholder="Template Assunto e-mail"
-          />
+          /> */}
 
-          <SelectTemplate
+          {/* <SelectTemplate
             {...selectSettingConfig("template-email-corpo")}
             w="md"
             size="md"
@@ -158,7 +158,7 @@ export function Tab1({ settings }) {
             borderBottom="1px solid"
             borderBottomColor="gray.200"
             label="Template corpo"
-          />
+          /> */}
 
           <FlushedInput
             {...inputSettingConfig("sendgrid-api-key")}
@@ -167,7 +167,7 @@ export function Tab1({ settings }) {
           />
         </Flex>
 
-        <Flex mt="6" gap="4" alignItems="center">
+        {/* <Flex mt="6" gap="4" alignItems="center">
           <Text fontWeight="semibold" fontSize="md" color="orange.500">
             Enviar email
           </Text>
@@ -175,9 +175,9 @@ export function Tab1({ settings }) {
             colorPalette="orange"
             {...switchSettingConfig("enviar-email")}
           />
-        </Flex>
+        </Flex> */}
       </Box>
-      <Box mt="6">
+      {/* <Box mt="6">
         <Text fontWeight="semibold" fontSize="md" color="orange.500">
           Fatura/documento:
         </Text>
@@ -190,9 +190,9 @@ export function Tab1({ settings }) {
           borderBottomColor="gray.200"
           label="Template fatura"
         />
-      </Box>
+      </Box> */}
       <Box mt="6">
-        <Text fontWeight="semibold" fontSize="md" color="orange.500">
+        {/* <Text fontWeight="semibold" fontSize="md" color="orange.500">
           Etapas/omie
         </Text>
         <Flex wrap="wrap" gap="4" mt="4">
@@ -223,7 +223,7 @@ export function Tab1({ settings }) {
             borderBottomColor="gray.200"
             label="Etapa erro"
           />
-        </Flex>
+        </Flex> */}
         <CaracteristicasForm
           title="Características do sistema"
           initialSettings={settings}

@@ -54,4 +54,4 @@ export function _CreateSettings() {
   );
 }
 
-export const CreateSettings = withRestriction(["padrao"], _CreateSettings);
+export const CreateSettings = withRestriction(["usuario"], _CreateSettings);

@@ -53,8 +53,8 @@ export function SettingsTable({ data, onDelete }) {
       <Table.Body maxH="720px" overflow="auto">
         {settings.map(
           (setting) =>
-            ((user.tipo === "padrao" && setting.baseOmie?.nome) ||
-              user.tipo !== "padrao") && (
+            ((user.tipo === "usuario" && setting.baseOmie?.nome) ||
+              user.tipo !== "usuario") && (
               <Table.Row key={setting._id}>
                 <Table.Cell>
                   {setting.baseOmie?.nome || "Configuração geral"}
@@ -71,7 +71,7 @@ export function SettingsTable({ data, onDelete }) {
                     >
                       <FilePenLine />
                     </IconButton>
-                    {user.tipo !== "padrao" && (
+                    {user.tipo !== "usuario" && (
                       <IconButton
                         onClick={() =>
                           navigate(`/setting/${setting._id}/clone`)
@@ -82,7 +82,7 @@ export function SettingsTable({ data, onDelete }) {
                         <CopyPlus />
                       </IconButton>
                     )}
-                    {user.tipo !== "padrao" && (
+                    {user.tipo !== "usuario" && (
                       <IconButton
                         onClick={() => {
                           onDelete(setting._id);

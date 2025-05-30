@@ -59,7 +59,7 @@ export function SelectEtapa({
         collection={etapasCollection}
         onValueChange={(e) => {
           setValue((prev) => {
-            onChange({
+            onChange?.({
               target: {
                 name: props.name,
                 value: e.value[0],

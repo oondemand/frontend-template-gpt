@@ -13,17 +13,30 @@ import { useTenant } from "../../hooks/tenant";
 import { Airplay } from "lucide-react";
 
 const routes = [
-  { name: "Home", path: "/", rules: ["admin", "master", "padrao"] },
-  { name: "Includes", path: "/includes", rules: ["admin", "master"] },
-  { name: "Templates", path: "/templates", rules: ["admin", "master"] },
-  { name: "Moedas", path: "/moedas", rules: ["admin", "master", "padrao"] },
-  { name: "Base omies", path: "/base-omies", rules: ["admin", "master"] },
+  { name: "Home", path: "/", rules: ["admin-tenant", "admin", "usuario"] },
+  { name: "Includes", path: "/includes", rules: ["admin-tenant", "admin"] },
+  { name: "Templates", path: "/templates", rules: ["admin-tenant", "admin"] },
+  {
+    name: "Moedas",
+    path: "/moedas",
+    rules: ["admin-tenant", "admin", "usuario"],
+  },
+  {
+    name: "Base omies",
+    path: "/base-omies",
+    rules: ["admin-tenant", "admin"],
+  },
   {
     name: "Configurações",
     path: "/settings",
-    rules: ["admin", "master", "padrao"],
+    rules: ["admin-tenant", "admin"],
   },
-  { name: "Usuários", path: "/usuarios", rules: ["admin", "master"] },
+  {
+    name: "Gatilhos",
+    path: "/gatilhos",
+    rules: ["admin-tenant", "admin"],
+  },
+  { name: "Usuários", path: "/usuarios", rules: ["admin-tenant", "admin"] },
 ];
 
 export function AuthLayout() {
@@ -40,9 +53,9 @@ export function AuthLayout() {
     return <Navigate to="/multi-tenant" />;
   }
 
-  const route = routes.find((e) => location.pathname.includes(e.path));
+  const route = routes.find((e, i) => location.pathname == e.path);
 
-  if (user && isLoading === false && !route.rules.includes(user.tipo)) {
+  if (user && isLoading === false && !route?.rules.includes(user.tipo)) {
     return <Navigate to="/login" />;
   }
 
@@ -52,7 +65,7 @@ export function AuthLayout() {
         <GridItem colSpan={1}>
           <Navbar.root navItems={routes} title="Doc Custom">
             <Navbar.footer>
-              {user?.tipo === "master" && (
+              {user?.tipo === "admin" && (
                 <Button
                   onClick={() =>
                     navigate("/adm/usuarios", { viewTransition: true })

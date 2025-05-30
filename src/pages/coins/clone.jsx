@@ -72,4 +72,4 @@ export function _CloneCoins() {
   );
 }
 
-export const CloneCoins = withRestriction(["padrao"], _CloneCoins);
+export const CloneCoins = withRestriction(["usuario"], _CloneCoins);

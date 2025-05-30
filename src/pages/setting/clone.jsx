@@ -81,4 +81,4 @@ function _CloneSettings() {
   );
 }
 
-export const CloneSettings = withRestriction(["padrao"], _CloneSettings);
+export const CloneSettings = withRestriction(["usuario"], _CloneSettings);

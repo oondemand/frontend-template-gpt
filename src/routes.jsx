@@ -50,6 +50,7 @@ import { ListAssistant } from "./pages/_master/assistent";
 import { CreateAssistant } from "./pages/_master/assistent/create";
 import { UpdateAssistente } from "./pages/_master/assistent/update";
 import { Settings } from "./pages/setting";
+import { Triggers } from "./pages/triggers";
 
 export const router = createBrowserRouter([
   {
@@ -76,8 +77,7 @@ export const router = createBrowserRouter([
       { path: "/base-omie/:id", element: <UpdateBaseOmies /> },
       { path: "/base-omie/:id/clone", element: <CloneBaseOmies /> },
       { path: "/settings", element: <Settings /> },
-      { path: "/settings/list", element: <ListSettings /> },
-
+      { path: "/gatilhos", element: <Triggers /> },
       { path: "/settings/create", element: <CreateSettings /> },
       { path: "/setting/:id", element: <UpdateSettings /> },
       { path: "/setting/:id/clone", element: <CloneSettings /> },
