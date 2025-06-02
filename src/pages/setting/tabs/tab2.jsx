@@ -229,7 +229,7 @@ export function Tab2({ settings, defaultBaseOmie }) {
 
         {baseOmie && (
           <CaracteristicasForm
-            title="Características do omie"
+            title="Características do sistema por base omie"
             initialSettings={settingsPerBaseOmie}
             baseOmie={baseOmie}
           />

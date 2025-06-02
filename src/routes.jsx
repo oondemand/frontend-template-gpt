@@ -39,10 +39,9 @@ import { ListBaseOmies } from "./pages/baseOmie/list";
 import { CreateBaseOmies } from "./pages/baseOmie/create";
 import { UpdateBaseOmies } from "./pages/baseOmie/update";
 import { CloneBaseOmies } from "./pages/baseOmie/clone";
-import { ListSettings } from "./pages/setting/list";
-import { CreateSettings } from "./pages/setting/create";
-import { UpdateSettings } from "./pages/setting/update";
-import { CloneSettings } from "./pages/setting/clone";
+// import { CreateSettings } from "./pages/setting/create";
+// import { UpdateSettings } from "./pages/setting/update";
+// import { CloneSettings } from "./pages/setting/clone";
 import { FirstAccess } from "./pages/login/firstLogin";
 
 import { AccessDenied } from "./pages/accessDenied";
@@ -77,10 +76,8 @@ export const router = createBrowserRouter([
       { path: "/base-omie/:id", element: <UpdateBaseOmies /> },
       { path: "/base-omie/:id/clone", element: <CloneBaseOmies /> },
       { path: "/settings", element: <Settings /> },
+      { path: "/settings/rastreabilidade", element: <Settings /> },
       { path: "/gatilhos", element: <Triggers /> },
-      { path: "/settings/create", element: <CreateSettings /> },
-      { path: "/setting/:id", element: <UpdateSettings /> },
-      { path: "/setting/:id/clone", element: <CloneSettings /> },
     ],
   },
   {
