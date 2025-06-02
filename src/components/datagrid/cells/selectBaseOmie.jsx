@@ -57,9 +57,10 @@ export const SelectBaseOmieCell = ({
 
   return (
     <SelectRoot
-      value={[value]}
+      value={value}
+      multiple
       onValueChange={(e) => {
-        setValue(e.value[0]);
+        setValue(e.value);
       }}
       collection={baseOmiesCollection}
       size="xs"

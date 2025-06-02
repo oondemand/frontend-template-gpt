@@ -8,6 +8,8 @@ import { SelectTemplateCell } from "../../components/datagrid/cells/selectTempla
 import { CreateConfigForm } from "./dialog";
 import { SwitchCell } from "../../components/datagrid/cells/switchCelll";
 import { PlusIcon, PencilIcon } from "lucide-react";
+import { api } from "../../config/axios";
+import { useQuery } from "@tanstack/react-query";
 
 const columns = [
   {
@@ -25,7 +27,7 @@ const columns = [
     ),
   },
   {
-    accessorKey: "kanban-omie",
+    accessorKey: "kanbanOmie",
     header: "Kanban Omie",
     cell: (props) => (
       <SelectCell
@@ -38,42 +40,42 @@ const columns = [
     ),
   },
   {
-    accessorKey: "base-omie",
+    accessorKey: "baseOmie",
     header: "Base Omie",
     cell: SelectBaseOmieCell,
   },
   {
-    accessorKey: "etapa-geracao",
+    accessorKey: "etapaGeracao",
     header: "Etapa de Geração",
     cell: SelectEtapaCell,
   },
   {
-    accessorKey: "etapa-processado",
+    accessorKey: "etapaProcessado",
     header: "Etapa de Processado",
     cell: SelectEtapaCell,
   },
   {
-    accessorKey: "etapa-erro",
+    accessorKey: "etapaErro",
     header: "Etapa de Erro",
     cell: SelectEtapaCell,
   },
   {
-    accessorKey: "enviar-email",
+    accessorKey: "enviarEmail",
     header: "Enviar Email",
     cell: SwitchCell,
   },
   {
-    accessorKey: "template-assunto-email",
+    accessorKey: "templateAssuntoEmail",
     header: "Template Assunto Email",
     cell: SelectTemplateCell,
   },
   {
-    accessorKey: "template-corpo-email",
+    accessorKey: "templateCorpoEmail",
     header: "Template Corpo Email",
     cell: SelectTemplateCell,
   },
   {
-    accessorKey: "template-documento",
+    accessorKey: "templateDocumento",
     header: "Template Documento",
     cell: SelectTemplateCell,
   },
@@ -146,6 +148,13 @@ const fakeData = [
 ];
 
 export function Triggers() {
+  const { data } = useQuery({
+    queryKey: ["triggers"],
+    queryFn: async () => await api.get("gatilhos"),
+  });
+
+  console.log("[data]:", data?.data);
+
   return (
     <Box>
       <Heading fontSize="md" color="gray.500" fontWeight="normal">
@@ -160,11 +169,13 @@ export function Triggers() {
             </Button>
           }
         />
-        <Datagrid
-          data={fakeData}
-          columns={columns}
-          onUpdateData={(data) => console.log(data)}
-        />
+        {data?.data && (
+          <Datagrid
+            data={data?.data}
+            columns={columns}
+            onUpdateData={(data) => console.log(data)}
+          />
+        )}
       </Box>
     </Box>
   );

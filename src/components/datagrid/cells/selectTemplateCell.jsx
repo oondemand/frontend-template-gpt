@@ -22,6 +22,8 @@ export const SelectTemplateCell = ({
   const initialValue = getValue();
   const [value, setValue] = useState(initialValue);
 
+  console.log("[value]:", initialValue);
+
   const { data: templates } = useQuery({
     queryKey: ["list-templates"],
     queryFn: TemplateService.listTemplates,
