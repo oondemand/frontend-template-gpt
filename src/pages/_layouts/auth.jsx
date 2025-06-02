@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import { useAuth } from "../../hooks/auth";
 import { Navigate } from "react-router-dom";
-import { Grid, GridItem, Button, Text, Box, Flex } from "@chakra-ui/react";
+import { Grid, GridItem, Button, Text, Box } from "@chakra-ui/react";
 import { Navbar } from "../../components/navbar";
 import { useTenant } from "../../hooks/tenant";
 
@@ -99,9 +99,9 @@ export function AuthLayout() {
           overflowY="auto"
           scrollbarWidth="thin"
         >
-          <Flex m="1" p="2" px="4" rounded="md" h="99%" bg="white">
+          <Box m="1" p="2" px="4" rounded="md" h="99%" bg="white">
             <Outlet />
-          </Flex>
+          </Box>
         </GridItem>
       </Grid>
     );
