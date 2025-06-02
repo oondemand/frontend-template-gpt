@@ -66,7 +66,7 @@ export const TableHeader = ({ table }) => {
                     )} */}
                 </Flex>
 
-                {/* <Box
+                <Box
                   onMouseDown={header.getResizeHandler()}
                   onTouchStart={header.getResizeHandler()}
                   position="absolute"
@@ -81,7 +81,7 @@ export const TableHeader = ({ table }) => {
                   rounded="xs"
                   _hover={{ opacity: 1 }}
                   opacity={header.column.getIsResizing() ? 1 : 0}
-                /> */}
+                />
               </Table.ColumnHeader>
             );
           })}

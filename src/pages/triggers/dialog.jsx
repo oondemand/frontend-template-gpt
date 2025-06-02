@@ -2,6 +2,7 @@ import {
   DialogBody,
   DialogCloseTrigger,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogRoot,
   DialogTitle,
@@ -104,7 +105,7 @@ export const CreateConfigForm = ({ defaultValues, trigger }) => {
           <DialogTitle>Gatilho</DialogTitle>
         </DialogHeader>
         <DialogBody w="full" h="full" overflow="auto" scrollbarWidth="thin">
-          <form onSubmit={form.handleSubmit(onSubmit)}>
+          <form id="form-trigger" onSubmit={form.handleSubmit(onSubmit)}>
             <DashedBox>
               <Text color="orange.500" mb="2" fontWeight="medium">
                 Geral
@@ -245,16 +246,6 @@ export const CreateConfigForm = ({ defaultValues, trigger }) => {
                 />
               </Flex>
             </DashedBox>
-
-            <Button
-              variant="subtle"
-              w="xs"
-              colorPalette="gray"
-              mt="4"
-              type="submit"
-            >
-              Salvar
-            </Button>
           </form>
         </DialogBody>
         <DialogCloseTrigger
@@ -263,6 +254,26 @@ export const CreateConfigForm = ({ defaultValues, trigger }) => {
             queryClient.invalidateQueries(["triggers"]);
           }}
         />
+        <DialogFooter justifyContent="flex-start" gap="4">
+          <Button
+            form="form-trigger"
+            variant="subtle"
+            colorPalette="green"
+            type="submit"
+          >
+            Salvar
+          </Button>
+          <Button
+            variant="subtle"
+            colorPalette="gray"
+            onClick={() => {
+              form.reset();
+              queryClient.invalidateQueries(["triggers"]);
+            }}
+          >
+            Cancelar
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </DialogRoot>
   );

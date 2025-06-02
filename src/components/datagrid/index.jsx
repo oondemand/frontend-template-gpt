@@ -12,10 +12,9 @@ import { Pagination } from "./pagination";
 
 export const Datagrid = ({
   striped = true,
-  columns,
-  // TableBody = MemoizedTableBody,
-  // table: tableProps,
-  // rowCount,
+  TableBody = MemoizedTableBody,
+  table: tableProps,
+  rowCount,
   // isDataLoading,
   data,
   // form: Form,
@@ -25,10 +24,10 @@ export const Datagrid = ({
   onUpdateData,
 }) => {
   const table = useReactTable({
+    ...tableProps,
+    rowCount,
     data,
-    columns,
     getCoreRowModel: getCoreRowModel(),
-    enableColumnResizing: false,
     meta: {
       updateData: async (...props) => await onUpdateData(...props),
     },
@@ -140,7 +139,7 @@ export const Datagrid = ({
             table={table}
           />
 
-          <MemoizedTableBody
+          <TableBody
             data={table.options.data}
             columns={table.getVisibleLeafColumns()}
             rows={table.getRowModel().rows}
