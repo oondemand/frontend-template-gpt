@@ -63,4 +63,4 @@ function _CreateCoins() {
   );
 }
 
-export const CreateCoins = withRestriction(["usuario"], _CreateCoins);
+export const CreateCoins = _CreateCoins;

@@ -65,6 +65,7 @@ export const CreateConfigForm = ({ defaultValues, trigger }) => {
     },
     onSuccess: () => {
       toast.success("Gatilho criado com sucesso");
+      form.reset();
     },
     onError: () => {
       toast.error("Erro!", {
@@ -73,9 +74,23 @@ export const CreateConfigForm = ({ defaultValues, trigger }) => {
     },
   });
 
+  const { mutate: updateTrigger } = useMutation({
+    mutationFn: async ({ id, body }) => await api.put(`/gatilhos/${id}`, body),
+    onSuccess: () => {
+      toast.success("Gatilho atualizado com sucesso");
+      queryClient.invalidateQueries(["triggers"]);
+    },
+    onError: () => {
+      toast.error("Erro ao atualizar gatilho");
+    },
+  });
+
   const onSubmit = (data) => {
-    console.log("[data]:", data);
-    createConfig({ body: data });
+    if (!defaultValues) {
+      return createConfig({ body: data });
+    }
+
+    return updateTrigger({ id: defaultValues._id, body: data });
   };
 
   useEffect(() => {

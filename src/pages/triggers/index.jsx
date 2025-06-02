@@ -12,20 +12,26 @@ import { api } from "../../config/axios";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryClient } from "../../config/react-query";
 import { toast } from "sonner";
+import { DocAction } from "../../components/datagrid/actions/doc";
+import { DeleteTriggerAction } from "../../components/datagrid/actions/deleteTriggerAction";
 
 const columns = [
   {
     accessorKey: "acoes",
     header: "Açoes",
     cell: (props) => (
-      <CreateConfigForm
-        defaultValues={props.row.original}
-        trigger={
-          <IconButton colorPalette="gray" variant="surface" size="2xs" mx="2">
-            <PencilIcon />
-          </IconButton>
-        }
-      />
+      <>
+        <CreateConfigForm
+          defaultValues={props.row.original}
+          trigger={
+            <IconButton colorPalette="gray" variant="surface" size="2xs" mx="2">
+              <PencilIcon />
+            </IconButton>
+          }
+        />
+        <DeleteTriggerAction id={props.row.original?._id} />
+        <DocAction {...props} />
+      </>
     ),
   },
   {
@@ -84,7 +90,13 @@ const columns = [
   {
     accessorKey: "categoria",
     header: "Categoria",
-    cell: DefaultEditableCell,
+    cell: (props) => {
+      if (props.row.original?.["kanbanOmie"] === "OrdemServiço") {
+        return <DefaultEditableCell {...props} />;
+      }
+
+      return null;
+    },
   },
   {
     accessorKey: "adiantamento",

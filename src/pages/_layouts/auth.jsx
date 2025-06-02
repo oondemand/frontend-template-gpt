@@ -55,9 +55,9 @@ export function AuthLayout() {
 
   const route = routes.find((e, i) => location.pathname == e.path);
 
-  if (user && isLoading === false && !route?.rules.includes(user.tipo)) {
-    return <Navigate to="/login" />;
-  }
+  // if (user && isLoading === false && !route?.rules.includes(user.tipo)) {
+  //   return <Navigate to="/login" />;
+  // }
 
   if (user && isLoading === false) {
     return (
