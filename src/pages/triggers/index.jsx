@@ -7,11 +7,17 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryClient } from "../../config/react-query";
 import { toast } from "sonner";
 import { columns } from "./columns";
+import { useDataGrid } from "../../hooks/useDataGrid";
 
 export function Triggers() {
+  const { table, filters } = useDataGrid({
+    columns,
+    key: "TRIGGERS",
+  });
+
   const { data } = useQuery({
-    queryKey: ["triggers"],
-    queryFn: async () => await api.get("gatilhos"),
+    queryKey: ["triggers", filters],
+    queryFn: async () => await api.get("gatilhos", { params: filters }),
     keepPreviousData: true,
   });
 
@@ -42,8 +48,9 @@ export function Triggers() {
         />
         {data?.data && (
           <Datagrid
-            data={data?.data}
-            columns={columns}
+            table={table}
+            data={data?.data?.results}
+            rowCount={data?.data?.pagination?.totalItems}
             onUpdateData={({ id, data }) => {
               updateTrigger({ id, body: data });
             }}

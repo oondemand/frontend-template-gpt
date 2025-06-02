@@ -5,18 +5,20 @@ import { Datagrid } from "../../../../components/datagrid";
 import { useDataGrid } from "../../../../hooks/useDataGrid";
 import { columns } from "./columns";
 
-export function Tab1() {
+export function Tab2() {
   const { table, filters } = useDataGrid({
     columns,
-    key: "RASTREABILIDADE/LOGS",
+    key: "RASTREABILIDADE/DOCUMENTOS",
   });
 
   const { data } = useQuery({
-    queryKey: ["rastreabilidade/logs", filters],
+    queryKey: ["rastreabilidade/documentos", filters],
     queryFn: async () =>
-      await api.get("/rastreabilidade/logs", { params: filters }),
+      await api.get("/rastreabilidade/documentos", { params: filters }),
     keepPreviousData: true,
   });
+
+  console.log(data?.data?.results);
 
   return (
     <Box>

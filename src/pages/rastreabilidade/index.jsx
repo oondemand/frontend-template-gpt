@@ -1,24 +1,23 @@
 import { Box, Heading, Tabs } from "@chakra-ui/react";
-import { useQuery } from "@tanstack/react-query";
 import { Tab1 } from "./tabs/tab1";
+import { Tab2 } from "./tabs/tab2";
+import { useStateWithStorage } from "../../hooks/useStateStorage";
 
 export function Rastreabilidade() {
-  // const { data: settings } = useQuery({
-  //   queryKey: ["list-settings"],
-  //   queryFn: SettingService.listSettings,
-  // });
-
-  // const { data: baseOmies } = useQuery({
-  //   queryKey: ["list-base-omies"],
-  //   queryFn: BaseOmieService.listBaseOmies,
-  // });
+  const [tab, setTab] = useStateWithStorage("RASTREABILIDADE_TAB", "tab-1");
 
   return (
     <Box>
       <Heading fontSize="md" color="gray.500" fontWeight="normal">
         Rastreabilidade
       </Heading>
-      <Tabs.Root mt="2" lazyMount unmountOnExit defaultValue="tab-1">
+      <Tabs.Root
+        mt="2"
+        lazyMount
+        unmountOnExit
+        value={tab}
+        onValueChange={(e) => setTab(e.value)}
+      >
         <Tabs.List>
           <Tabs.Trigger
             fontSize="md"
@@ -50,7 +49,9 @@ export function Rastreabilidade() {
         <Tabs.Content value="tab-1">
           <Tab1 />
         </Tabs.Content>
-        <Tabs.Content value="tab-2">Conteúdo da aba 2</Tabs.Content>
+        <Tabs.Content value="tab-2">
+          <Tab2 />
+        </Tabs.Content>
       </Tabs.Root>
     </Box>
   );
