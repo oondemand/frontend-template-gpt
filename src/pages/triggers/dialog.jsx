@@ -22,6 +22,8 @@ import { useMutation } from "@tanstack/react-query";
 import { api } from "../../config/axios";
 import { toast } from "sonner";
 import { queryClient } from "../../config/react-query";
+import { useEffect } from "react";
+import { Save } from "lucide-react";
 
 export const schema = z.object({
   kanbanOmie: z.enum(["OrdemServiço", "PedidoVenda"]),
@@ -52,10 +54,6 @@ const kanbanOptions = [
 ];
 
 export const CreateConfigForm = ({ defaultValues, trigger }) => {
-  // const [formValues, setFormValues] = useState(defaultValues);
-
-  console.log("[defaultValues]:", defaultValues);
-
   const form = useForm({
     defaultValues,
     resolver: zodResolver(schema),
@@ -80,9 +78,9 @@ export const CreateConfigForm = ({ defaultValues, trigger }) => {
     createConfig({ body: data });
   };
 
-  // useEffect(() => {
-  //   setFormValues(defaultValues);
-  // }, [defaultValues]);
+  useEffect(() => {
+    form.reset(defaultValues);
+  }, [defaultValues]);
   return (
     <DialogRoot lazyMount placement="center" size="cover">
       <DialogTrigger cursor="pointer">{trigger}</DialogTrigger>

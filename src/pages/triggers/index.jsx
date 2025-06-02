@@ -9,7 +9,9 @@ import { CreateConfigForm } from "./dialog";
 import { SwitchCell } from "../../components/datagrid/cells/switchCelll";
 import { PlusIcon, PencilIcon } from "lucide-react";
 import { api } from "../../config/axios";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { queryClient } from "../../config/react-query";
+import { toast } from "sonner";
 
 const columns = [
   {
@@ -80,70 +82,20 @@ const columns = [
     cell: SelectTemplateCell,
   },
   {
+    accessorKey: "categoria",
+    header: "Categoria",
+    cell: DefaultEditableCell,
+  },
+  {
     accessorKey: "adiantamento",
     header: "Adiantamento",
     cell: (props) => {
-      if (props.row.original?.["kanban-omie"] === "OrdemServiço") {
+      if (props.row.original?.["kanbanOmie"] === "OrdemServiço") {
         return <SwitchCell {...props} />;
       }
 
       return null;
     },
-  },
-  {
-    accessorKey: "categoria",
-    header: "Categoria",
-    cell: DefaultEditableCell,
-  },
-];
-
-const fakeData = [
-  {
-    _id: "1",
-    "kanban-omie": "OrdemServiço",
-    "base-omie": "66f169ec27834c6d3debd007",
-    "etapa-geracao": "Em Análise",
-    "etapa-processado": "Concluído",
-    "etapa-erro": "Erro de Processamento",
-    "enviar-email": true,
-    "template-assunto-email": "OS #{numero} - {cliente}",
-    "template-corpo-email":
-      "Prezado cliente, sua OS #{numero} foi processada com sucesso.",
-    "template-documento": "template_os_padrao.docx",
-    adiantamento: true,
-    "conta-corrente": "123456",
-    categoria: "Manutenção",
-  },
-  {
-    _id: "2",
-    "kanban-omie": "PedidoVenda",
-    "base-omie": "66f169ec27834c6d3debd007",
-    "etapa-geracao": "Em Andamento",
-    "etapa-processado": "Aprovado",
-    "etapa-erro": "Rejeitado",
-    "enviar-email": true,
-    "template-assunto-email": "Proposta Comercial - {cliente}",
-    "template-corpo-email": "Segue em anexo nossa proposta comercial.",
-    "template-documento": "template_proposta.docx",
-    adiantamento: false,
-    "conta-corrente": "",
-    categoria: "",
-  },
-  {
-    _id: "3",
-    "kanban-omie": "PedidoVenda",
-    "base-omie": "66f169ec27834c6d3debd007",
-    "etapa-geracao": "Pendente",
-    "etapa-processado": "Em Processamento",
-    "etapa-erro": "Falha na Geração",
-    "enviar-email": false,
-    "template-assunto-email": "OS #{numero} - {cliente}",
-    "template-corpo-email":
-      "Prezado cliente, sua OS #{numero} foi processada com sucesso.",
-    "template-documento": "template_os_padrao.docx",
-    adiantamento: true,
-    "conta-corrente": "789012",
-    categoria: "Instalação",
   },
 ];
 
@@ -151,16 +103,28 @@ export function Triggers() {
   const { data } = useQuery({
     queryKey: ["triggers"],
     queryFn: async () => await api.get("gatilhos"),
+    keepPreviousData: true,
+  });
+
+  const { mutateAsync: updateTrigger } = useMutation({
+    mutationFn: async ({ id, body }) => await api.put(`/gatilhos/${id}`, body),
+    onSuccess: () => {
+      toast.success("Gatilho atualizado com sucesso");
+      queryClient.invalidateQueries(["triggers"]);
+    },
+    onError: () => {
+      toast.error("Erro ao atualizar gatilho");
+    },
   });
 
   console.log("[data]:", data?.data);
 
   return (
-    <Box>
+    <Box w="full" h="full" overflow="auto" className="custom-scrollbar">
       <Heading fontSize="md" color="gray.500" fontWeight="normal">
         Gatilhos
       </Heading>
-      <Box mt="8" overflowX="auto" scrollbarWidth="thin" spaceY="4">
+      <Box mt="8" spaceY="4">
         <CreateConfigForm
           trigger={
             <Button colorPalette="orange" variant="subtle" size="xs">
@@ -173,7 +137,9 @@ export function Triggers() {
           <Datagrid
             data={data?.data}
             columns={columns}
-            onUpdateData={(data) => console.log(data)}
+            onUpdateData={({ id, data }) => {
+              updateTrigger({ id, body: data });
+            }}
           />
         )}
       </Box>

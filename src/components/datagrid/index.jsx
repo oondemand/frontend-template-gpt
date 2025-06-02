@@ -7,7 +7,7 @@ import { TableHeader } from "./tableHeader";
 // import { VisibilityControlDialog } from "../vibilityControlDialog";
 // import { DebouncedInput } from "../DebouncedInput";
 // import { ExportData } from "./exportData";
-// import { Pagination } from "./pagination";
+import { Pagination } from "./pagination";
 // import { TableFooter } from "./tableFooter";
 
 export const Datagrid = ({
@@ -129,7 +129,6 @@ export const Datagrid = ({
 
         <Table.Root
           size="xs"
-          overflowY="scroll"
           colorScheme="gray"
           {...columnSizeVars}
           width={`${table.getTotalSize()}px`}
@@ -149,7 +148,7 @@ export const Datagrid = ({
 
           {/* <TableFooter table={table} /> */}
         </Table.Root>
-        {/* <Pagination table={table} /> */}
+        <Pagination table={table} />
       </Box>
     </>
   );

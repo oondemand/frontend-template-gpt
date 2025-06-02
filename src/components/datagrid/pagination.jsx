@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValueText,
 } from "../ui/select";
-import { DebouncedInput } from "../DebouncedInput";
+// import { DebouncedInput } from "../DebouncedInput";
 
 const pageSizeOptions = createListCollection({
   items: [
@@ -88,7 +88,7 @@ export const Pagination = ({ table }) => {
           </SelectContent>
         </SelectRoot>
 
-        <Flex flexDir="column" gap="1">
+        {/* <Flex flexDir="column" gap="1">
           <Text fontSize="sm" fontWeight="medium">
             Ir para a página:
           </Text>
@@ -102,7 +102,7 @@ export const Pagination = ({ table }) => {
               table.setPageIndex(page);
             }}
           />
-        </Flex>
+        </Flex> */}
       </Flex>
     </Flex>
   );

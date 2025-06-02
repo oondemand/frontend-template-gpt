@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { createListCollection } from "@chakra-ui/react";
 
 import {
@@ -9,40 +9,20 @@ import {
   SelectValueText,
 } from "../../ui/select";
 
-import { DEFAULT_ETAPAS_SETTINGS } from "../../../_constants/defaultConfigs";
-import { useQuery } from "@tanstack/react-query";
-import { SettingService } from "../../../services/settings";
+const etapasCollection = createListCollection({
+  items: [
+    { label: "10", value: "10" },
+    { label: "20", value: "20" },
+    { label: "30", value: "30" },
+    { label: "40", value: "40" },
+    { label: "50", value: "50" },
+    { label: "60", value: "60" },
+  ],
+});
 
-export const SelectEtapaCell = ({
-  getValue,
-  row,
-  column,
-  table,
-  options,
-  ...rest
-}) => {
+export const SelectEtapaCell = ({ getValue, row, column, table, ...rest }) => {
   const initialValue = getValue();
   const [value, setValue] = useState(initialValue);
-
-  const { data: etapasOmie } = useQuery({
-    queryKey: ["list-etapas", { baseOmieId: row.original?.["base-omie"] }],
-    queryFn: () => SettingService.listOmieStage(row.original?.["base-omie"]),
-    staleTime: Infinity,
-    enabled: !!row.original?.["base-omie"],
-  });
-
-  const etapasCollection = useMemo(() => {
-    const source = etapasOmie ?? DEFAULT_ETAPAS_SETTINGS;
-
-    const items = source.map((etapa) => ({
-      label: etapa.cDescricao
-        ? `${etapa.cDescricao} - ${etapa.cCodigo}`
-        : etapa.cCodigo,
-      value: etapa.cCodigo,
-    }));
-
-    return createListCollection({ items });
-  }, [etapasOmie]);
 
   const onBlur = async () => {
     if (value !== initialValue) {
