@@ -4,6 +4,7 @@ import { api } from "../../../../config/axios";
 import { Datagrid } from "../../../../components/datagrid";
 import { useDataGrid } from "../../../../hooks/useDataGrid";
 import { columns } from "./columns";
+import { TableBody } from "./tableBody";
 
 export function Tab1() {
   const { table, filters } = useDataGrid({
@@ -24,6 +25,7 @@ export function Tab1() {
         {data && (
           <Datagrid
             table={table}
+            TableBody={TableBody}
             rowCount={data?.data?.pagination?.totalItems}
             data={data?.data?.results}
           />

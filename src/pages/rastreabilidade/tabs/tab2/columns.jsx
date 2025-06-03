@@ -5,10 +5,10 @@ import { formatDateWithHours } from "../../../../utils/date";
 export const columns = [
   {
     accessorKey: "dataInicioProcessamento",
-    header: "Endpoint",
+    header: "Data",
     cell: (props) => {
       return (
-        <Text px="4" fontSize="sm">
+        <Text px="2" fontSize="sm">
           {formatDateWithHours(props.getValue())}
         </Text>
       );
