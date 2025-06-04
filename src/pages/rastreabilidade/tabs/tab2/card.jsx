@@ -113,6 +113,11 @@ export const DetailsCard = memo(({ data }) => {
             label="Adiantamento gerado"
           />
         )}
+
+        <StatusCard
+          checked={data?.processamentoConcluido}
+          label="Processamento concluído"
+        />
       </Flex>
       {data?.detalhesErro && (
         <AccordionRoot
