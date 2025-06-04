@@ -23,3 +23,8 @@ export const trakingStatusMap = {
   sucesso: "green",
   processando: "yellow",
 };
+
+export const PATH_BY_KANBAN_MAP = {
+  OrdemServiço: "ordem-servico",
+  PedidoVenda: "pedido-venda",
+};
