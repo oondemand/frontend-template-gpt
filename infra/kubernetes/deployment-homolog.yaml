@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: doc-custom-frontend-homolog
+  namespace: doc-custom-homolog
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: doc-custom-frontend-homolog
+  template:
+    metadata:
+      labels:
+        app: doc-custom-frontend-homolog
+    spec:
+      containers:
+        - name: doc-custom-frontend-homolog-container
+          image: ghcr.io/oondemand/frontend-template-gpt:${IMAGE_TAG}-homolog
+          ports:
+            - containerPort: 3001
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "0.1"
+            limits:
+              memory: "2048Mi"
+              cpu: "2"

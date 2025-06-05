@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: doc-custom-frontend-ingress-homolog
+  namespace: doc-custom-homolog
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-nginx
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - homolog.doc-custom.oondemand.com.br
+      secretName: app-tls
+  rules:
+    - host: homolog.doc-custom.oondemand.com.br
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: doc-custom-frontend-homolog-service
+                port:
+                  number: 80
