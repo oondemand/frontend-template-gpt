@@ -1,4 +1,4 @@
-name: Deploy Doc Custom front-end
+name: Deploy Doc Custom front-end homolog
 
 on:
   push:
