@@ -32,7 +32,7 @@ import { toast } from "sonner";
 import { FaturaService } from "../../services/fatura";
 import { IntegrationGptService } from "../../services/integration-gpt";
 import { useEffect, useState } from "react";
-import { Save } from "lucide-react";
+import { Kanban, Save } from "lucide-react";
 
 import { TemplateService } from "../../services/template";
 import { queryClient } from "../../config/react-query";
@@ -139,7 +139,8 @@ export function PreviewDialog({
       const { data } = await getOmieVarsMutation({
         body: {
           baseOmie: values.baseOmie[0],
-          os: values.os,
+          numero: values.numero,
+          kanban: values.kanban,
         },
       });
 
@@ -317,8 +318,6 @@ export function PreviewDialog({
   const onSubmit = async (values) => {
     await submitTypeMap[actionType](values);
   };
-
-  console.log(iaChat);
 
   useEffect(() => {
     setCodeVersion([templateEjs]);

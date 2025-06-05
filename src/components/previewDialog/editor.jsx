@@ -18,12 +18,14 @@ import { toast } from "sonner";
 import { SelectBaseOmie } from "../../components/selectBaseOmie";
 import { FaturaService } from "../../services/fatura";
 import { ExternalIframe } from "../iframe";
+import { Select } from "../select";
 
 export const Editor = ({ setActionType, codeVersion, previewError, data }) => {
   const {
     register,
     setValue,
     control,
+    watch,
     formState: { errors, isSubmitting },
   } = useFormContext();
 
@@ -33,6 +35,8 @@ export const Editor = ({ setActionType, codeVersion, previewError, data }) => {
   } = useMutation({
     mutationFn: FaturaService.getSystemVars,
   });
+
+  console.log(errors);
 
   const handleBaseOmieChange = async (value) => {
     if (value.length === 0) return;
@@ -84,14 +88,30 @@ export const Editor = ({ setActionType, codeVersion, previewError, data }) => {
             )}
           </Box>
           <Box>
+            <Select
+              // value={watch("kanban")}
+              placeholder="Selecione um kanban"
+              size="xs"
+              w="2xs"
+              onValueChange={({ value }) => {
+                setValue("kanban", value[0]);
+              }}
+              options={[
+                { label: "Pedido de venda", value: "PedidoVenda" },
+                { label: "Ordem de serviço (OS)", value: "OrdemServiço" },
+              ]}
+            />
+          </Box>
+
+          <Box>
             <Input
               w="32"
               size="xs"
-              placeholder="Numero da os..."
-              {...register("os")}
+              placeholder="Numero..."
+              {...register("numero")}
             />
             <Text fontSize="xs" color="red.500">
-              {errors?.os?.message}
+              {errors?.numero?.message}
             </Text>
           </Box>
           <Button

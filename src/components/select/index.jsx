@@ -20,10 +20,12 @@ export function Select({
   });
 
   return (
-    <Field.Root invalid={!!errors?.[name]} w="md">
-      <Field.Label fontSize="xs" color="gray.700">
-        {label}
-      </Field.Label>
+    <Field.Root invalid={!!errors?.[name]}>
+      {label && (
+        <Field.Label fontSize="xs" color="gray.700">
+          {label}
+        </Field.Label>
+      )}
 
       <SelectRoot
         onValueChange={({ value }) => props?.onChange?.(value)}
