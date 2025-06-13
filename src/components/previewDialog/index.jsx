@@ -140,7 +140,7 @@ export function PreviewDialog({
         body: {
           baseOmie: values.baseOmie[0],
           numero: values.numero,
-          kanban: values.kanban,
+          gatilho: values.gatilho[0],
         },
       });
 
@@ -152,7 +152,9 @@ export function PreviewDialog({
       }
     } catch (error) {
       console.log(error);
-      toast.error("Ouve um erro ao importar variáveis Omie!");
+      toast.error("Ouve um erro ao importar variáveis Omie!", {
+        description: error?.response?.data?.message,
+      });
     }
   };
 
@@ -273,8 +275,6 @@ export function PreviewDialog({
 
       const text = response.data.data.response.replace(regex, "");
 
-      console.log(response.data.data);
-
       updateChatIa({ type: "bot", text, details: response.data.data });
 
       if (response.status === 200) {
@@ -293,13 +293,12 @@ export function PreviewDialog({
         body: {
           ...values,
           baseOmie: values.baseOmie[0],
+          gatilho: values.gatilho[0],
         },
       });
 
-      if (response.status === 200) {
-        toast.success("Tudo certo emails sendo enviados!");
-        setValue("emailList", "");
-      }
+      toast.success("Tudo certo emails sendo enviados!");
+      setValue("emailList", "");
     } catch (error) {
       console.log(error);
       toast.error("Ouve um erro ao enviar emails");

@@ -23,13 +23,14 @@ const saveSchema = z.object({
 const importOsSchema = z.object({
   baseOmie: z.string().min(1, "Base omie é obrigatória").array(),
   numero: z.string().min(1, "Digite o número"),
-  kanban: z.string().min(1, "Digite o valor da kanban"),
+  gatilho: z.string().min(1, "Gatilho é obrigatório").array(),
 });
 
 const enviarFaturaSchema = z.object({
   baseOmie: z.string().min(1, "Base omie é obrigatória").array(),
   omieVar: z.string(),
   emailList: z.string(),
+  gatilho: z.string().min(1, "Gatilho é obrigatório").array(),
 });
 
 export const validation = {

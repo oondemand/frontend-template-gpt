@@ -5,6 +5,11 @@ const listGatilhos = async () => {
   return data;
 };
 
+const listTodosGatilhos = async () => {
+  const { data } = await api.get("/gatilhos/todos");
+  return data;
+};
+
 const getGatilho = async ({ id }) => {
   const { data } = await api.get(`/gatilhos/${id}`);
   return data;
@@ -28,4 +33,5 @@ export const GatilhoService = {
   createGatilho,
   updateGatilho,
   deleteGatilho,
+  listTodosGatilhos,
 };

@@ -18,7 +18,7 @@ import { toast } from "sonner";
 import { SelectBaseOmie } from "../../components/selectBaseOmie";
 import { FaturaService } from "../../services/fatura";
 import { ExternalIframe } from "../iframe";
-import { Select } from "../select";
+import { SelectGatilho } from "../selectGatilho";
 
 export const Editor = ({ setActionType, codeVersion, previewError, data }) => {
   const {
@@ -35,8 +35,6 @@ export const Editor = ({ setActionType, codeVersion, previewError, data }) => {
   } = useMutation({
     mutationFn: FaturaService.getSystemVars,
   });
-
-  console.log(errors);
 
   const handleBaseOmieChange = async (value) => {
     if (value.length === 0) return;
@@ -87,20 +85,28 @@ export const Editor = ({ setActionType, codeVersion, previewError, data }) => {
               </Text>
             )}
           </Box>
+
           <Box>
-            <Select
-              // value={watch("kanban")}
-              placeholder="Selecione um kanban"
-              size="xs"
-              w="2xs"
-              onValueChange={({ value }) => {
-                setValue("kanban", value[0]);
-              }}
-              options={[
-                { label: "Pedido de venda", value: "PedidoVenda" },
-                { label: "Ordem de serviço (OS)", value: "OrdemServiço" },
-              ]}
+            <Controller
+              control={control}
+              name="gatilho"
+              render={({ field }) => (
+                <SelectGatilho
+                  name={field.name}
+                  value={field.value}
+                  onValueChange={({ value }) => {
+                    field.onChange(value);
+                  }}
+                  w="2xs"
+                  size="xs"
+                />
+              )}
             />
+            {errors?.gatilho && (
+              <Text ml="1" fontSize="xs" color="red.500">
+                Selecione um gatilho
+              </Text>
+            )}
           </Box>
 
           <Box>
