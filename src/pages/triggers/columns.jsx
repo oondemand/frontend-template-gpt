@@ -4,6 +4,7 @@ import { SelectCell } from "../../components/datagrid/cells/select";
 import { SelectEtapaCell } from "../../components/datagrid/cells/selectEtapaCell";
 import { SelectBaseOmieCell } from "../../components/datagrid/cells/selectBaseOmie";
 import { SelectTemplateCell } from "../../components/datagrid/cells/selectTemplateCell";
+import { DefaultCell } from "../../components/datagrid/cells/default";
 import { CreateConfigForm } from "./dialog";
 import { SwitchCell } from "../../components/datagrid/cells/switchCelll";
 import { PencilIcon } from "lucide-react";
@@ -28,6 +29,11 @@ export const columns = [
         <DocAction {...props} />
       </>
     ),
+  },
+  {
+    accessorKey: "_id",
+    header: "Id",
+    cell: DefaultCell,
   },
   {
     accessorKey: "kanbanOmie",
