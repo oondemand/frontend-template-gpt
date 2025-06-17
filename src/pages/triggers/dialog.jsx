@@ -129,30 +129,23 @@ export const CreateConfigForm = ({ defaultValues, trigger }) => {
                   onValueChange={(e) => form.setValue("baseOmie", e.value)}
                 />
               </Flex>
-              <Flex gap="4" mt="4">
-                <TextInput
-                  label="Categoria"
-                  color="gray.700"
-                  fontSize="xs"
-                  w="md"
-                  {...form.register("categoria")}
-                />
-              </Flex>
               <Flex w="full" gap="8" mt="4">
-                <Box>
-                  <Text color="gray.700" mb="1.5" fontSize="xs">
-                    Adiantamento
-                  </Text>
-                  <Switch
-                    checked={form.watch("adiantamento")}
-                    onCheckedChange={({ checked }) =>
-                      form.setValue("adiantamento", checked)
-                    }
-                    colorPalette="orange"
-                    fontSize="xs"
-                    w="full"
-                  />
-                </Box>
+                {form.watch("kanbanOmie") === "OrdemServiço" && (
+                  <Box>
+                    <Text color="gray.700" mb="1.5" fontSize="xs">
+                      Adiantamento
+                    </Text>
+                    <Switch
+                      checked={form.watch("adiantamento")}
+                      onCheckedChange={({ checked }) =>
+                        form.setValue("adiantamento", checked)
+                      }
+                      colorPalette="orange"
+                      fontSize="xs"
+                      w="full"
+                    />
+                  </Box>
+                )}
                 <Box>
                   <Text color="gray.700" mb="1.5" fontSize="xs">
                     Enviar email

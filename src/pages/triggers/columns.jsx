@@ -89,17 +89,6 @@ export const columns = [
     cell: SelectTemplateCell,
   },
   {
-    accessorKey: "categoria",
-    header: "Categoria",
-    cell: (props) => {
-      if (props.row.original?.["kanbanOmie"] === "OrdemServiço") {
-        return <DefaultEditableCell {...props} />;
-      }
-
-      return null;
-    },
-  },
-  {
     accessorKey: "adiantamento",
     header: "Adiantamento",
     cell: (props) => {
