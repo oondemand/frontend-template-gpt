@@ -74,38 +74,39 @@ export function TemplateForm({ onSubmit, formId, data, dialogId }) {
     defaultValues: {
       ...data,
       status: data?.status ? [data.status] : ["ativo"],
+      omieVar: data?.omieVar ? JSON.stringify(data.omieVar, null, 2) : "{}",
     },
   });
 
-  const {
-    mutateAsync: getOmieVarsMutation,
-    data: omieData,
-    reset,
-    isLoading,
-  } = useMutation({
-    mutationFn: FaturaService.getOmieVars,
-  });
+  // const {
+  //   mutateAsync: getOmieVarsMutation,
+  //   data: omieData,
+  //   reset,
+  //   isLoading,
+  // } = useMutation({
+  //   mutationFn: FaturaService.getOmieVars,
+  // });
 
-  const onImportOmieVariables = async ({ baseOmie, os }) => {
-    try {
-      const { data } = await getOmieVarsMutation({
-        body: {
-          baseOmie: baseOmie[0],
-          os,
-        },
-      });
+  // const onImportOmieVariables = async ({ baseOmie, os }) => {
+  //   try {
+  //     const { data } = await getOmieVarsMutation({
+  //       body: {
+  //         baseOmie: baseOmie[0],
+  //         os,
+  //       },
+  //     });
 
-      if (data) {
-        setValue("omieVar", JSON.stringify(data, null, 2));
-        toast.success("Importação feita com sucesso!", {
-          description: "Valores atualizados atualizado!",
-        });
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error("Ouve um erro ao importar variáveis Omie!");
-    }
-  };
+  //     if (data) {
+  //       setValue("omieVar", JSON.stringify(data, null, 2));
+  //       toast.success("Importação feita com sucesso!", {
+  //         description: "Valores atualizados atualizado!",
+  //       });
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //     toast.error("Ouve um erro ao importar variáveis Omie!");
+  //   }
+  // };
 
   return (
     <>
@@ -170,10 +171,10 @@ export function TemplateForm({ onSubmit, formId, data, dialogId }) {
           <Box>
             <Flex alignItems="center" gap="4" mb="2">
               <Text color="orange.600">Variáveis OMIE (JSON)</Text>
-              <ImportOmieVariables
+              {/* <ImportOmieVariables
                 onImportOmieVariables={onImportOmieVariables}
                 isLoading={isLoading}
-              />
+              /> */}
             </Flex>
             <Textarea fontSize="sm" h="56" {...register("omieVar")} />
             {errors.omieVar?.message && (

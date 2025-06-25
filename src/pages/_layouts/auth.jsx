@@ -27,6 +27,11 @@ const routes = [
     rules: ["admin-tenant", "admin"],
   },
   {
+    name: "Gatilhos",
+    path: "/gatilhos",
+    rules: ["admin-tenant", "admin"],
+  },
+  {
     name: "Configurações",
     path: "/settings",
     rules: ["admin-tenant", "admin"],
@@ -34,11 +39,6 @@ const routes = [
   {
     name: "Rastreabilidade",
     path: "/settings/rastreabilidade",
-    rules: ["admin-tenant", "admin"],
-  },
-  {
-    name: "Gatilhos",
-    path: "/gatilhos",
     rules: ["admin-tenant", "admin"],
   },
   { name: "Usuários", path: "/usuarios", rules: ["admin-tenant", "admin"] },

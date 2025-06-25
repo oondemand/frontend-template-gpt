@@ -14,7 +14,7 @@ import { GatilhoService } from "../../services/gatilho";
 
 export function SelectGatilho({ label, ...props }) {
   const { data: gatilhos } = useQuery({
-    queryKey: ["list-todos-gatilhos"],
+    queryKey: ["triggers"],
     queryFn: GatilhoService.listTodosGatilhos,
     staleTime: 1000 * 60 * 10, // 10 minutos
   });

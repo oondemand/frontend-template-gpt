@@ -34,7 +34,7 @@ export const SelectTemplateCell = ({
     return createListCollection({
       items:
         templates?.map((e) => {
-          return { label: e.nome, value: e._id };
+          return { label: e.codigo, value: e._id };
         }) ?? [],
     });
   }, [templates]);
