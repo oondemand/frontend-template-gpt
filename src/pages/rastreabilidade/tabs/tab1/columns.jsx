@@ -1,4 +1,7 @@
+import { methodsColorMap } from "../../../../_constants/maps";
+import { BadgeCell } from "../../../../components/datagrid/cells/badgeCell";
 import { DefaultCell } from "../../../../components/datagrid/cells/default";
+import { getStatusColor } from "../../../../utils";
 import { formatDateWithHours } from "../../../../utils/date";
 import { Text } from "@chakra-ui/react";
 
@@ -22,7 +25,9 @@ export const columns = [
   {
     accessorKey: "metodo",
     header: "Método",
-    cell: DefaultCell,
+    cell: (props) => (
+      <BadgeCell color={methodsColorMap[props.getValue()]} {...props} />
+    ),
   },
   {
     accessorKey: "endpoint",
@@ -32,6 +37,8 @@ export const columns = [
   {
     accessorKey: "statusResposta",
     header: "Status",
-    cell: DefaultCell,
+    cell: (props) => (
+      <BadgeCell color={getStatusColor(props.getValue())} {...props} />
+    ),
   },
 ];

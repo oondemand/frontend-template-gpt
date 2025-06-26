@@ -55,17 +55,17 @@ export const columns = [
   },
   {
     accessorKey: "etapaGeracao",
-    header: "Etapa de Geração",
+    header: "Etapa Geração",
     cell: SelectEtapaCell,
   },
   {
     accessorKey: "etapaProcessado",
-    header: "Etapa de Processado",
+    header: "Etapa Processado",
     cell: SelectEtapaCell,
   },
   {
     accessorKey: "etapaErro",
-    header: "Etapa de Erro",
+    header: "Etapa Erro",
     cell: SelectEtapaCell,
   },
   {

@@ -172,7 +172,7 @@ export const CreateConfigForm = ({ defaultValues, trigger }) => {
                 <Select
                   errors={form.formState.errors}
                   name="etapaGeracao"
-                  label="Etapa geração"
+                  label="Etapa Geração"
                   options={etapaOptions}
                   value={[form.watch("etapaGeracao")]}
                   onValueChange={(e) =>
@@ -183,7 +183,7 @@ export const CreateConfigForm = ({ defaultValues, trigger }) => {
                 <Select
                   errors={form.formState.errors}
                   name="etapaProcessado"
-                  label="Etapa processando"
+                  label="Etapa Processado"
                   options={etapaOptions}
                   value={[form.watch("etapaProcessado")]}
                   onValueChange={(e) =>
@@ -194,7 +194,7 @@ export const CreateConfigForm = ({ defaultValues, trigger }) => {
                 <Select
                   errors={form.formState.errors}
                   name="etapaErro"
-                  label="Etapa erro"
+                  label="Etapa Erro"
                   options={etapaOptions}
                   value={[form.watch("etapaErro")]}
                   onValueChange={(e) => form.setValue("etapaErro", e.value[0])}
