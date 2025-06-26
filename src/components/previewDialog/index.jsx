@@ -329,7 +329,7 @@ export function PreviewDialog({
           <DialogBody p="2" h="full" asChild>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Flex h="full">
-                <Flex
+                {/* <Flex
                   alignItems="center"
                   position="absolute"
                   top="2"
@@ -432,7 +432,7 @@ export function PreviewDialog({
                   </Box>
                 </Flex>
 
-                <Separator orientation="vertical" />
+                <Separator orientation="vertical" /> */}
 
                 <Editor
                   setActionType={setActionType}
@@ -454,11 +454,11 @@ export function PreviewDialog({
                   disabled={isSubmitting}
                   type="submit"
                   onClick={() => setActionType("SAVE")}
-                  variant="subtle"
+                  variant="surface"
                   size="sm"
+                  colorPalette="black"
                 >
                   <Save />
-                  Salvar
                 </Button>
                 <DialogCloseTrigger
                   position="static"

@@ -39,7 +39,7 @@ const routes = [
   {
     name: "Rastreabilidade",
     path: "/settings/rastreabilidade",
-    rules: ["admin-tenant", "admin"],
+    rules: ["admin-tenant", "admin", "usuario"],
   },
   { name: "Usuários", path: "/usuarios", rules: ["admin-tenant", "admin"] },
 ];
