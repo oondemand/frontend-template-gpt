@@ -13,7 +13,7 @@ import { useTenant } from "../../hooks/tenant";
 import { Airplay } from "lucide-react";
 
 const routes = [
-  { name: "Home", path: "/", rules: ["admin-tenant", "admin", "usuario"] },
+  { name: "Dashboard", path: "/", rules: ["admin-tenant", "admin", "usuario"] },
   { name: "Includes", path: "/includes", rules: ["admin-tenant", "admin"] },
   { name: "Templates", path: "/templates", rules: ["admin-tenant", "admin"] },
   {
