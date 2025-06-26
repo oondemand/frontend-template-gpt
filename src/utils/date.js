@@ -14,3 +14,25 @@ export function formatDateWithHours(isoString) {
 
   return `${horas}:${minutos} ${dia}/${mes}/${ano}`;
 }
+
+export function mesAnoExtenso(data = new Date()) {
+  const meses = [
+    "janeiro",
+    "fevereiro",
+    "março",
+    "abril",
+    "maio",
+    "junho",
+    "julho",
+    "agosto",
+    "setembro",
+    "outubro",
+    "novembro",
+    "dezembro",
+  ];
+
+  const mes = meses[data.getMonth()];
+  const ano = data.getFullYear();
+
+  return `${mes} ${ano}`;
+}

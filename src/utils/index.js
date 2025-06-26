@@ -4,3 +4,7 @@ export const getStatusColor = (status) => {
   if (status >= 400) return "red";
   return "gray";
 };
+
+export const toUpperFirstCase = (str) => {
+  return `${str?.substring(0, 1)?.toUpperCase() + str?.substring(1)}`;
+};
