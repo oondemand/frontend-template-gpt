@@ -2,89 +2,80 @@ import { createListCollection } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { SettingService } from "../../services/settings";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 
 import {
   SelectContent,
   SelectItem,
-  SelectLabel,
   SelectRoot,
   SelectTrigger,
   SelectValueText,
 } from "../ui/select";
 
-import { Box } from "@chakra-ui/react";
+import { Field } from "@chakra-ui/react";
 import { DEFAULT_ETAPAS_SETTINGS } from "../../_constants/defaultConfigs";
+import { formatarEtapasOmie } from "../../utils";
+
+const filtrarEtapasPorKanban = (kanban, etapas) => {
+  const keyMap = {
+    OrdemServiço: "Venda de Serviço",
+    PedidoVenda: "Venda de Produto",
+  };
+
+  if (!kanban || !etapas || !keyMap[kanban]) return [];
+
+  const etapasFiltradas = etapas?.filter(
+    (e) => e?.cDescOperacao === keyMap[kanban]
+  );
+
+  return formatarEtapasOmie({ etapas: etapasFiltradas });
+};
 
 export function SelectEtapa({
   label,
   placeholder,
-  defaultValue,
   clearable,
-  baseOmieId,
-  onChange,
+  kanban,
+  name,
+  errors,
   ...props
 }) {
-  const [value, setValue] = useState([defaultValue]);
-
   const { data: etapasOmie } = useQuery({
-    queryKey: ["list-etapas", { baseOmieId }],
-    queryFn: () => SettingService.listOmieStage(baseOmieId),
+    queryKey: ["list-etapas", kanban],
+    queryFn: () => SettingService.listOmieStage(),
     staleTime: Infinity,
-    enabled: !!baseOmieId,
   });
 
   const etapasCollection = useMemo(() => {
-    const source = etapasOmie ?? DEFAULT_ETAPAS_SETTINGS;
+    const source = etapasOmie
+      ? filtrarEtapasPorKanban(kanban, etapasOmie)
+      : DEFAULT_ETAPAS_SETTINGS;
 
     const items = source.map((etapa) => ({
       label: etapa.cDescricao
-        ? `${etapa.cDescricao} - ${etapa.cCodigo}`
+        ? `${etapa.cCodigo} - ${etapa.cDescricao}`
         : etapa.cCodigo,
       value: etapa.cCodigo,
     }));
 
     return createListCollection({ items });
-  }, [etapasOmie, baseOmieId]);
-
-  useEffect(() => {
-    setValue([defaultValue]);
-  }, [defaultValue, baseOmieId]);
+  }, [etapasOmie, kanban]);
 
   return (
-    <Box>
-      <SelectRoot
-        value={value}
-        rounded="xs"
-        collection={etapasCollection}
-        onValueChange={(e) => {
-          setValue((prev) => {
-            onChange?.({
-              target: {
-                name: props.name,
-                value: e.value[0],
-                defaultValue: prev[0],
-              },
-            });
-
-            return e.value;
-          });
-        }}
-        {...props}
-      >
-        {label && (
-          <SelectLabel mb="-2" fontSize="xs" color="gray.700">
-            {label}
-          </SelectLabel>
-        )}
+    <Field.Root invalid={!!errors?.[name]}>
+      {label && (
+        <Field.Label fontSize="xs" color="gray.700">
+          {label}
+        </Field.Label>
+      )}
+      <SelectRoot collection={etapasCollection} {...props}>
         <SelectTrigger clearable={clearable}>
-          <SelectValueText />
+          <SelectValueText placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent zIndex={9999}>
           {etapasCollection?.items?.map((etapas) => (
             <SelectItem
               cursor="pointer"
-              rounded="sm"
               _hover={{ bg: "gray.100" }}
               item={etapas}
               key={etapas.value}
@@ -94,6 +85,10 @@ export function SelectEtapa({
           ))}
         </SelectContent>
       </SelectRoot>
-    </Box>
+
+      {errors?.[name] && (
+        <Field.ErrorText>{errors?.[name]?.message}</Field.ErrorText>
+      )}
+    </Field.Root>
   );
 }

@@ -25,6 +25,7 @@ import { toast } from "sonner";
 import { queryClient } from "../../config/react-query";
 import { useEffect } from "react";
 import { Save } from "lucide-react";
+import { SelectEtapa } from "../../components/selectEtapa";
 
 export const schema = z.object({
   kanbanOmie: z.enum(["OrdemServiço", "PedidoVenda"]),
@@ -168,35 +169,38 @@ export const CreateConfigForm = ({ defaultValues, trigger }) => {
                 Etapas
               </Text>
 
-              <Flex gap="4">
-                <Select
+              <Flex gap="4" flexDir="column">
+                <SelectEtapa
                   errors={form.formState.errors}
                   name="etapaGeracao"
                   label="Etapa Geração"
                   options={etapaOptions}
                   value={[form.watch("etapaGeracao")]}
+                  kanban={form.watch("kanbanOmie")}
                   onValueChange={(e) =>
                     form.setValue("etapaGeracao", e.value[0])
                   }
                 />
 
-                <Select
+                <SelectEtapa
                   errors={form.formState.errors}
                   name="etapaProcessado"
                   label="Etapa Processado"
                   options={etapaOptions}
                   value={[form.watch("etapaProcessado")]}
+                  kanban={form.watch("kanbanOmie")}
                   onValueChange={(e) =>
                     form.setValue("etapaProcessado", e.value[0])
                   }
                 />
 
-                <Select
+                <SelectEtapa
                   errors={form.formState.errors}
                   name="etapaErro"
                   label="Etapa Erro"
                   options={etapaOptions}
                   value={[form.watch("etapaErro")]}
+                  kanban={form.watch("kanbanOmie")}
                   onValueChange={(e) => form.setValue("etapaErro", e.value[0])}
                 />
               </Flex>
@@ -239,6 +243,16 @@ export const CreateConfigForm = ({ defaultValues, trigger }) => {
                 />
               </Flex>
             </DashedBox>
+
+            {/* <SelectEtapa
+              errors={form.formState.errors}
+              name="etapaErro"
+              label="Etapa Erro"
+              options={etapaOptions}
+              value={[form.watch("etapaErro")]}
+              onValueChange={(e) => form.setValue("etapaErro", e.value[0])}
+              kanban={form.watch("kanbanOmie")}
+            /> */}
           </form>
         </DialogBody>
         <DialogCloseTrigger
