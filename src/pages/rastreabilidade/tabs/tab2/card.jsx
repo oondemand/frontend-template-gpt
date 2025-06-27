@@ -107,7 +107,7 @@ export const DetailsCard = memo(({ data }) => {
           </AccordionRoot>
         )}
 
-        {data?.kanban === "OrdemServiço" && (
+        {data?.kanban === "OrdemServico" && (
           <StatusCard
             checked={data?.adiantamentoGerado}
             label="Adiantamento gerado"

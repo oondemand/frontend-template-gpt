@@ -87,7 +87,7 @@ export function Home() {
           <Text h="60px" color="orange.400" fontSize="6xl" fontWeight="bold">
             {
               data?.quantidadePorKanbanEStatus?.find(
-                (e) => e?.kanban === "OrdemServiço"
+                (e) => e?.kanban === "OrdemServico"
               )?.total
             }
           </Text>
@@ -226,7 +226,7 @@ export function Home() {
             </Table.Header>
             <Table.Body>
               {data?.quantidadePorKanbanEStatus
-                ?.find((e) => e?.kanban === "OrdemServiço")
+                ?.find((e) => e?.kanban === "OrdemServico")
                 ?.porStatus.map((item) => (
                   <Table.Row>
                     <Table.Cell border="none">

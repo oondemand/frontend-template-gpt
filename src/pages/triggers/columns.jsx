@@ -42,7 +42,7 @@ export const columns = [
       <SelectCell
         {...props}
         options={[
-          { label: "Ordem de Serviço", value: "OrdemServiço" },
+          { label: "Ordem de Serviço", value: "OrdemServico" },
           { label: "Pedido de Venda", value: "PedidoVenda" },
         ]}
       />
@@ -92,7 +92,7 @@ export const columns = [
     accessorKey: "adiantamento",
     header: "Adiantamento",
     cell: (props) => {
-      if (props.row.original?.["kanbanOmie"] === "OrdemServiço") {
+      if (props.row.original?.["kanbanOmie"] === "OrdemServico") {
         return <SwitchCell {...props} />;
       }
 

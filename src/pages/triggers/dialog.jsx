@@ -28,7 +28,7 @@ import { Save } from "lucide-react";
 import { SelectEtapa } from "../../components/selectEtapa";
 
 export const schema = z.object({
-  kanbanOmie: z.enum(["OrdemServiço", "PedidoVenda"]),
+  kanbanOmie: z.enum(["OrdemServico", "PedidoVenda"]),
   baseOmie: z.string().array().optional(),
   etapaGeracao: z.string().optional(),
   etapaProcessado: z.string().optional(),
@@ -51,8 +51,8 @@ const etapaOptions = [
 ];
 
 const kanbanOptions = [
-  { label: "OrdemServiço", value: "OrdemServiço" },
-  { label: "PedidoVenda", value: "PedidoVenda" },
+  { label: "Ordem de Serviço", value: "OrdemServico" },
+  { label: "Pedido de Venda", value: "PedidoVenda" },
 ];
 
 export const CreateConfigForm = ({ defaultValues, trigger }) => {
@@ -131,7 +131,7 @@ export const CreateConfigForm = ({ defaultValues, trigger }) => {
                 />
               </Flex>
               <Flex w="full" gap="8" mt="4">
-                {form.watch("kanbanOmie") === "OrdemServiço" && (
+                {form.watch("kanbanOmie") === "OrdemServico" && (
                   <Box>
                     <Text color="gray.700" mb="1.5" fontSize="xs">
                       Adiantamento

@@ -25,6 +25,6 @@ export const trakingStatusMap = {
 };
 
 export const PATH_BY_KANBAN_MAP = {
-  OrdemServiço: "ordem-servico",
+  OrdemServico: "ordem-servico",
   PedidoVenda: "pedido-venda",
 };

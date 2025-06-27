@@ -46,7 +46,7 @@ export const formatarEtapasOmie = ({ etapas }) => {
 
 export const filtrarEtapasPorKanban = (kanban, etapas) => {
   const ETAPA_KEY_KANBAN_MAP = {
-    OrdemServiço: "Venda de Serviço",
+    OrdemServico: "Venda de Serviço",
     PedidoVenda: "Venda de Produto",
   };
 

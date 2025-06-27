@@ -13,8 +13,8 @@ import { Box } from "@chakra-ui/react";
 
 const kanbanOmieCollection = createListCollection({
   items: [
-    { label: "OrdemServiço", value: "OrdemServiço" },
-    { label: "PedidoVenda", value: "PedidoVenda" },
+    { label: "Ordem de Serviço", value: "OrdemServico" },
+    { label: "Pedido de Venda", value: "PedidoVenda" },
   ],
 });
 
