@@ -23,9 +23,9 @@ export function SelectGatilho({ label, ...props }) {
     items:
       gatilhos?.map((e) => {
         return {
-          label: `${e?._id.substring(0, 6)} - ${e?.kanbanOmie} | ${
+          label: `${e?._id.substring(0, 6)} - ${e?.kanbanOmie} - ${
             e?.etapaGeracao
-          } - ${e?.etapaProcessado} - ${e?.etapaErro}`,
+          }`,
           value: e?._id,
         };
       }) ?? [],
