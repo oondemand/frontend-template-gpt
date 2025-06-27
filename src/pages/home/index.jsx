@@ -1,21 +1,8 @@
-import {
-  Button,
-  Flex,
-  Box,
-  Text,
-  Heading,
-  Center,
-  VStack,
-  Table,
-} from "@chakra-ui/react";
-import { env } from "../../config/env";
-import { useTenant } from "../../hooks/tenant";
-import { useClipboard } from "../../hooks/useClipboard";
+import { Flex, Box, Text, Center, Table } from "@chakra-ui/react";
 
-import { Copy, Clipboard, FileSliders, Paperclip } from "lucide-react";
+import { Paperclip } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "../../config/axios";
-import { mesAnoExtenso } from "../../utils/date";
 import { toUpperFirstCase } from "../../utils";
 
 export function Home() {
@@ -26,8 +13,6 @@ export function Home() {
       return response.data;
     },
   });
-
-  console.log("Data", data);
 
   return (
     <Box rounded="md" bg="white" h="full" py="2">

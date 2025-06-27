@@ -10,14 +10,14 @@ import { Check, Dock } from "lucide-react";
 import { useClipboard } from "../../../hooks/useClipboard";
 import { env } from "../../../config/env";
 import { Copy, Clipboard } from "lucide-react";
-import { PATH_BY_KANBAN_MAP } from "../../../_constants/maps";
+import { PATH_TO_CREATE_BACKEND_URL } from "../../../_constants/maps";
 
 export const DocAction = ({ row }) => {
   const { copyToClipboard, copied } = useClipboard();
 
   const generateUrl = () => {
     return `${env.VITE_API_URL}/webhooks/${
-      PATH_BY_KANBAN_MAP[row?.original?.kanbanOmie]
+      PATH_TO_CREATE_BACKEND_URL[row?.original?.kanbanOmie]
     }/${row?.original?._id}`;
   };
 

@@ -24,7 +24,8 @@ export const trakingStatusMap = {
   processando: "yellow",
 };
 
-export const PATH_BY_KANBAN_MAP = {
+export const PATH_TO_CREATE_BACKEND_URL = {
   OrdemServico: "ordem-servico",
   PedidoVenda: "pedido-venda",
+  CRM: "crm",
 };

@@ -1,3 +1,5 @@
+import { DEFAULT_ETAPAS_SETTINGS } from "../_constants/defaultConfigs";
+
 export const getStatusColor = (status) => {
   if (status >= 200 && status < 300) return "green";
   if (status >= 300 && status < 400) return "yellow";
@@ -48,9 +50,11 @@ export const filtrarEtapasPorKanban = (kanban, etapas) => {
   const ETAPA_KEY_KANBAN_MAP = {
     OrdemServico: "Venda de Serviço",
     PedidoVenda: "Venda de Produto",
+    // CRM: "",
   };
 
-  if (!kanban || !etapas || !ETAPA_KEY_KANBAN_MAP[kanban]) return [];
+  if (!kanban || !etapas || !ETAPA_KEY_KANBAN_MAP[kanban])
+    return DEFAULT_ETAPAS_SETTINGS;
 
   const etapasFiltradas = etapas?.filter(
     (e) => e?.cDescOperacao === ETAPA_KEY_KANBAN_MAP[kanban]

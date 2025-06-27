@@ -28,7 +28,7 @@ import { Save } from "lucide-react";
 import { SelectEtapa } from "../../components/selectEtapa";
 
 export const schema = z.object({
-  kanbanOmie: z.enum(["OrdemServico", "PedidoVenda"]),
+  kanbanOmie: z.enum(["OrdemServico", "PedidoVenda", "CRM"]),
   baseOmie: z.string().array().optional(),
   etapaGeracao: z.string().optional(),
   etapaProcessado: z.string().optional(),
@@ -53,6 +53,7 @@ const etapaOptions = [
 const kanbanOptions = [
   { label: "Ordem de Serviço", value: "OrdemServico" },
   { label: "Pedido de Venda", value: "PedidoVenda" },
+  { label: "CRM", value: "CRM" },
 ];
 
 export const CreateConfigForm = ({ defaultValues, trigger }) => {

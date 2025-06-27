@@ -15,6 +15,7 @@ const kanbanOmieCollection = createListCollection({
   items: [
     { label: "Ordem de Serviço", value: "OrdemServico" },
     { label: "Pedido de Venda", value: "PedidoVenda" },
+    { label: "CRM", value: "CRM" },
   ],
 });
 

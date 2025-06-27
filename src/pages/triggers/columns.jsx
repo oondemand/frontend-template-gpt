@@ -44,6 +44,7 @@ export const columns = [
         options={[
           { label: "Ordem de Serviço", value: "OrdemServico" },
           { label: "Pedido de Venda", value: "PedidoVenda" },
+          { label: "CRM", value: "CRM" },
         ]}
       />
     ),
