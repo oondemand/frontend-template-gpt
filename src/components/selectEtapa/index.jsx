@@ -14,22 +14,7 @@ import {
 
 import { Field } from "@chakra-ui/react";
 import { DEFAULT_ETAPAS_SETTINGS } from "../../_constants/defaultConfigs";
-import { formatarEtapasOmie } from "../../utils";
-
-const filtrarEtapasPorKanban = (kanban, etapas) => {
-  const keyMap = {
-    OrdemServiço: "Venda de Serviço",
-    PedidoVenda: "Venda de Produto",
-  };
-
-  if (!kanban || !etapas || !keyMap[kanban]) return [];
-
-  const etapasFiltradas = etapas?.filter(
-    (e) => e?.cDescOperacao === keyMap[kanban]
-  );
-
-  return formatarEtapasOmie({ etapas: etapasFiltradas });
-};
+import { filtrarEtapasPorKanban } from "../../utils";
 
 export function SelectEtapa({
   label,

@@ -169,7 +169,7 @@ export const CreateConfigForm = ({ defaultValues, trigger }) => {
                 Etapas
               </Text>
 
-              <Flex gap="4" flexDir="column">
+              <Flex gap="2.5" flexDir="column">
                 <SelectEtapa
                   errors={form.formState.errors}
                   name="etapaGeracao"
@@ -243,16 +243,6 @@ export const CreateConfigForm = ({ defaultValues, trigger }) => {
                 />
               </Flex>
             </DashedBox>
-
-            {/* <SelectEtapa
-              errors={form.formState.errors}
-              name="etapaErro"
-              label="Etapa Erro"
-              options={etapaOptions}
-              value={[form.watch("etapaErro")]}
-              onValueChange={(e) => form.setValue("etapaErro", e.value[0])}
-              kanban={form.watch("kanbanOmie")}
-            /> */}
           </form>
         </DialogBody>
         <DialogCloseTrigger

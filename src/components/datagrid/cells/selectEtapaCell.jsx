@@ -1,5 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { createListCollection } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
+import { SettingService } from "../../../services/settings";
+import { DEFAULT_ETAPAS_SETTINGS } from "../../../_constants/defaultConfigs";
+import { filtrarEtapasPorKanban } from "../../../utils";
 
 import {
   SelectContent,
@@ -9,20 +13,30 @@ import {
   SelectValueText,
 } from "../../ui/select";
 
-const etapasCollection = createListCollection({
-  items: [
-    { label: "10", value: "10" },
-    { label: "20", value: "20" },
-    { label: "30", value: "30" },
-    { label: "40", value: "40" },
-    { label: "50", value: "50" },
-    { label: "60", value: "60" },
-  ],
-});
-
 export const SelectEtapaCell = ({ getValue, row, column, table, ...rest }) => {
   const initialValue = getValue();
   const [value, setValue] = useState(initialValue);
+
+  const { data: etapasOmie } = useQuery({
+    queryKey: ["list-etapas", row.original?.kanbanOmie],
+    queryFn: () => SettingService.listOmieStage(),
+    staleTime: Infinity,
+  });
+
+  const etapasCollection = useMemo(() => {
+    const source = etapasOmie
+      ? filtrarEtapasPorKanban(row.original?.kanbanOmie, etapasOmie)
+      : DEFAULT_ETAPAS_SETTINGS;
+
+    const items = source.map((etapa) => ({
+      label: etapa.cDescricao
+        ? `${etapa.cCodigo} - ${etapa.cDescricao}`
+        : etapa.cCodigo,
+      value: etapa.cCodigo,
+    }));
+
+    return createListCollection({ items });
+  }, [etapasOmie, row.original?.kanbanOmie]);
 
   const onBlur = async () => {
     if (value !== initialValue) {

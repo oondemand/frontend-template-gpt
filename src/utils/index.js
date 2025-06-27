@@ -43,3 +43,18 @@ export const formatarEtapasOmie = ({ etapas }) => {
 
   return Array.from(map.values());
 };
+
+export const filtrarEtapasPorKanban = (kanban, etapas) => {
+  const ETAPA_KEY_KANBAN_MAP = {
+    OrdemServiço: "Venda de Serviço",
+    PedidoVenda: "Venda de Produto",
+  };
+
+  if (!kanban || !etapas || !ETAPA_KEY_KANBAN_MAP[kanban]) return [];
+
+  const etapasFiltradas = etapas?.filter(
+    (e) => e?.cDescOperacao === ETAPA_KEY_KANBAN_MAP[kanban]
+  );
+
+  return formatarEtapasOmie({ etapas: etapasFiltradas });
+};
