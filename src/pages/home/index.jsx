@@ -81,6 +81,26 @@ export function Home() {
             por Ordem de serviço
           </Text>
         </Box>
+
+        <Box
+          py="2"
+          pb="6"
+          px="8"
+          rounded="lg"
+          border="1px dashed"
+          borderColor="orange.200"
+        >
+          <Text h="60px" color="orange.400" fontSize="6xl" fontWeight="bold">
+            {
+              data?.quantidadePorKanbanEStatus?.find((e) => e?.kanban === "CRM")
+                ?.total
+            }
+          </Text>
+          <Text mt="4" color="gray.400" fontSize="sm" fontWeight="semibold">
+            Documentos gerados <br />
+            por CRM
+          </Text>
+        </Box>
       </Flex>
 
       <Box borderBottom="1px dashed" w="full" borderColor="gray.200" />
@@ -212,6 +232,53 @@ export function Home() {
             <Table.Body>
               {data?.quantidadePorKanbanEStatus
                 ?.find((e) => e?.kanban === "OrdemServico")
+                ?.porStatus.map((item) => (
+                  <Table.Row>
+                    <Table.Cell border="none">
+                      {toUpperFirstCase(item?.status)}
+                    </Table.Cell>
+                    <Table.Cell border="none">{item?.quantidade}</Table.Cell>
+                  </Table.Row>
+                ))}
+            </Table.Body>
+          </Table.Root>
+        </Box>
+
+        <Box
+          bg="white"
+          p="4"
+          rounded="lg"
+          border="1px dashed"
+          borderColor="orange.200"
+        >
+          <Text color="orange.400" fontWeight="semibold">
+            Documentos por status <br />
+            CRM
+          </Text>
+          <Table.Root mt="4">
+            <Table.Header>
+              <Table.Row>
+                <Table.ColumnHeader
+                  fontSize="xs"
+                  color="gray.600"
+                  fontWeight="light"
+                  py="0.5"
+                >
+                  STATUS
+                </Table.ColumnHeader>
+                <Table.ColumnHeader
+                  fontSize="xs"
+                  color="gray.600"
+                  fontWeight="light"
+                  py="0.5"
+                >
+                  QUANTIDADE
+                </Table.ColumnHeader>
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
+              {data?.quantidadePorKanbanEStatus
+                ?.find((e) => e?.kanban === "CRM")
                 ?.porStatus.map((item) => (
                   <Table.Row>
                     <Table.Cell border="none">

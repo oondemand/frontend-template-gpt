@@ -14,11 +14,9 @@ import {
 
 import { Field } from "@chakra-ui/react";
 import { DEFAULT_ETAPAS_SETTINGS } from "../../_constants/defaultConfigs";
-import { filtrarEtapasPorKanban } from "../../utils";
 
 export function SelectEtapa({
   label,
-  placeholder,
   clearable,
   kanban,
   name,
@@ -32,15 +30,11 @@ export function SelectEtapa({
   });
 
   const etapasCollection = useMemo(() => {
-    const source = etapasOmie
-      ? filtrarEtapasPorKanban(kanban, etapasOmie)
-      : DEFAULT_ETAPAS_SETTINGS;
+    const source = etapasOmie ? etapasOmie[kanban] : DEFAULT_ETAPAS_SETTINGS;
 
     const items = source.map((etapa) => ({
-      label: etapa.cDescricao
-        ? `${etapa.cCodigo} - ${etapa.cDescricao}`
-        : etapa.cCodigo,
-      value: etapa.cCodigo,
+      label: `${etapa.codigo} - ${etapa.descricao}`,
+      value: etapa.codigo,
     }));
 
     return createListCollection({ items });
@@ -55,7 +49,7 @@ export function SelectEtapa({
       )}
       <SelectRoot collection={etapasCollection} {...props}>
         <SelectTrigger clearable={clearable}>
-          <SelectValueText placeholder={placeholder} />
+          <SelectValueText placeholder="Selecione uma etapa" />
         </SelectTrigger>
         <SelectContent zIndex={9999}>
           {etapasCollection?.items?.map((etapas) => (

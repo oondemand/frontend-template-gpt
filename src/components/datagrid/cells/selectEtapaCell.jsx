@@ -3,7 +3,6 @@ import { createListCollection } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { SettingService } from "../../../services/settings";
 import { DEFAULT_ETAPAS_SETTINGS } from "../../../_constants/defaultConfigs";
-import { filtrarEtapasPorKanban } from "../../../utils";
 
 import {
   SelectContent,
@@ -25,14 +24,12 @@ export const SelectEtapaCell = ({ getValue, row, column, table, ...rest }) => {
 
   const etapasCollection = useMemo(() => {
     const source = etapasOmie
-      ? filtrarEtapasPorKanban(row.original?.kanbanOmie, etapasOmie)
+      ? etapasOmie[row.original?.kanbanOmie]
       : DEFAULT_ETAPAS_SETTINGS;
 
     const items = source.map((etapa) => ({
-      label: etapa.cDescricao
-        ? `${etapa.cCodigo} - ${etapa.cDescricao}`
-        : etapa.cCodigo,
-      value: etapa.cCodigo,
+      label: `${etapa.codigo} - ${etapa.descricao}`,
+      value: etapa.codigo,
     }));
 
     return createListCollection({ items });

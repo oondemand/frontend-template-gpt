@@ -58,7 +58,10 @@ const kanbanOptions = [
 
 export const CreateConfigForm = ({ defaultValues, trigger }) => {
   const form = useForm({
-    defaultValues,
+    defaultValues: {
+      ...defaultValues,
+      kanbanOmie: defaultValues?.kanbanOmie || "OrdemServico",
+    },
     resolver: zodResolver(schema),
   });
 
