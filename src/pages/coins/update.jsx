@@ -55,7 +55,9 @@ export function UpdateCoins() {
         toast.success("Moeda atualizada com sucesso!");
       }
     } catch (error) {
-      toast.error("Ouve um erro ao atualizar moeda!");
+      toast.error("Ouve um erro ao atualizar moeda!", {
+        description: error?.response?.data,
+      });
     }
   };
 

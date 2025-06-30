@@ -203,7 +203,7 @@ export function PromptForm({ onSubmit, formId, data }) {
             </Text>
           )}
         </Box>
-        <VariablesDialog />
+        {/* <VariablesDialog /> */}
       </Flex>
     </form>
   );

@@ -41,7 +41,9 @@ function _CreateCoins() {
         toast.success("Moeda criada com sucesso!");
       }
     } catch (error) {
-      toast.error("Ouve um erro ao criar moeda!");
+      toast.error("Ouve um erro ao criar moeda!", {
+        description: error?.response?.data,
+      });
     }
   };
 
@@ -63,4 +65,4 @@ function _CreateCoins() {
   );
 }
 
-export const CreateCoins = withRestriction(["padrao"], _CreateCoins);
+export const CreateCoins = _CreateCoins;

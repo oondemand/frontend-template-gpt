@@ -1,31 +1,12 @@
-import {
-  Box,
-  Flex,
-  Heading,
-  Input,
-  Tabs,
-  Text,
-  Button,
-  IconButton,
-} from "@chakra-ui/react";
-import { useQuery, useMutation } from "@tanstack/react-query";
-import { queryClient } from "../../config/react-query";
+import { Box, Heading, Tabs } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
 import { SettingService } from "../../services/settings";
-import { toast } from "sonner";
-import { FlushedInput } from "./input";
-import { SelectTemplate } from "../../components/selectTemplate";
-import { useState } from "react";
-import { Trash } from "lucide-react";
 import { Tab1 } from "./tabs/tab1";
 import { Tab2 } from "./tabs/tab2";
 import { BaseOmieService } from "../../services/baseOmie";
 
 export function Settings() {
-  const {
-    data: settings,
-    error,
-    isLoading,
-  } = useQuery({
+  const { data: settings } = useQuery({
     queryKey: ["list-settings"],
     queryFn: SettingService.listSettings,
   });

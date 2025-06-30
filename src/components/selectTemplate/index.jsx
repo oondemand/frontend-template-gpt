@@ -23,40 +23,38 @@ export function SelectTemplate({ label, placeholder, defaultValue, ...props }) {
   const templateCollection = createListCollection({
     items:
       templates?.map((e) => {
-        return { label: e.codigo, value: e?.codigo };
+        return { label: e.codigo, value: e?._id };
       }) ?? [],
   });
 
   return (
-    <Box>
-      <SelectRoot
-        defaultValue={[defaultValue]}
-        rounded="xs"
-        collection={templateCollection}
-        {...props}
-      >
-        {label && (
-          <SelectLabel mb="-2" fontSize="xs" color="gray.700">
-            {label}
-          </SelectLabel>
-        )}
-        <SelectTrigger>
-          <SelectValueText />
-        </SelectTrigger>
-        <SelectContent zIndex={9999}>
-          {templateCollection?.items?.map((template) => (
-            <SelectItem
-              cursor="pointer"
-              rounded="sm"
-              _hover={{ bg: "gray.100" }}
-              item={template}
-              key={template.value}
-            >
-              {template.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </SelectRoot>
-    </Box>
+    <SelectRoot
+      defaultValue={[defaultValue]}
+      rounded="xs"
+      collection={templateCollection}
+      {...props}
+    >
+      {label && (
+        <SelectLabel fontSize="xs" color="gray.700">
+          {label}
+        </SelectLabel>
+      )}
+      <SelectTrigger>
+        <SelectValueText />
+      </SelectTrigger>
+      <SelectContent zIndex={9999}>
+        {templateCollection?.items?.map((template) => (
+          <SelectItem
+            cursor="pointer"
+            rounded="sm"
+            _hover={{ bg: "gray.100" }}
+            item={template}
+            key={template.value}
+          >
+            {template.label}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </SelectRoot>
   );
 }

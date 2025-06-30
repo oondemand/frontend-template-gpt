@@ -48,7 +48,9 @@ export function _CloneCoins() {
         toast.success("Moeda criada com sucesso!");
       }
     } catch (error) {
-      toast.error("Ouve um erro ao criar moeda!");
+      toast.error("Ouve um erro ao criar moeda!", {
+        description: error?.response?.data,
+      });
     }
   };
 
@@ -72,4 +74,4 @@ export function _CloneCoins() {
   );
 }
 
-export const CloneCoins = withRestriction(["padrao"], _CloneCoins);
+export const CloneCoins = withRestriction(["usuario"], _CloneCoins);

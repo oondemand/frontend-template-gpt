@@ -29,30 +29,28 @@ export function SelectBaseOmie({ label, ...props }) {
   });
 
   return (
-    <Box>
-      <SelectRoot rounded="md" collection={baseOmiesCollection} {...props}>
-        {label && (
-          <SelectLabel fontSize="md" color="orange.500">
-            {label}
-          </SelectLabel>
-        )}
-        <SelectTrigger>
-          <SelectValueText placeholder="Selecione base omie" />
-        </SelectTrigger>
-        <SelectContent zIndex={9999}>
-          {baseOmiesCollection?.items?.map((baseOmie) => (
-            <SelectItem
-              cursor="pointer"
-              rounded="sm"
-              _hover={{ bg: "gray.100" }}
-              item={baseOmie}
-              key={baseOmie.value}
-            >
-              {baseOmie.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </SelectRoot>
-    </Box>
+    <SelectRoot collection={baseOmiesCollection} {...props}>
+      {label && (
+        <SelectLabel fontSize="xs" color="gray.700">
+          {label}
+        </SelectLabel>
+      )}
+      <SelectTrigger>
+        <SelectValueText placeholder="Selecione base omie" />
+      </SelectTrigger>
+      <SelectContent zIndex={9999}>
+        {baseOmiesCollection?.items?.map((baseOmie) => (
+          <SelectItem
+            cursor="pointer"
+            rounded="sm"
+            _hover={{ bg: "gray.100" }}
+            item={baseOmie}
+            key={baseOmie.value}
+          >
+            {baseOmie.label}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </SelectRoot>
   );
 }

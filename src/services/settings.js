@@ -35,10 +35,8 @@ const listOmieCategories = async (baseOmieId) => {
   return data;
 };
 
-const listOmieStage = async (baseOmieId) => {
-  const { data } = await api.get(
-    `configuracoes/listar-etapas-omie/${baseOmieId}`
-  );
+const listOmieStage = async () => {
+  const { data } = await api.get(`configuracoes/listar-etapas-omie`);
 
   return data;
 };

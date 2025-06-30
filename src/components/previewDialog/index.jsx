@@ -32,7 +32,7 @@ import { toast } from "sonner";
 import { FaturaService } from "../../services/fatura";
 import { IntegrationGptService } from "../../services/integration-gpt";
 import { useEffect, useState } from "react";
-import { Save } from "lucide-react";
+import { Kanban, Save } from "lucide-react";
 
 import { TemplateService } from "../../services/template";
 import { queryClient } from "../../config/react-query";
@@ -139,7 +139,8 @@ export function PreviewDialog({
       const { data } = await getOmieVarsMutation({
         body: {
           baseOmie: values.baseOmie[0],
-          os: values.os,
+          numero: values.numero,
+          gatilho: values.gatilho[0],
         },
       });
 
@@ -151,7 +152,9 @@ export function PreviewDialog({
       }
     } catch (error) {
       console.log(error);
-      toast.error("Ouve um erro ao importar variáveis Omie!");
+      toast.error("Ouve um erro ao importar variáveis Omie!", {
+        description: error?.response?.data?.message,
+      });
     }
   };
 
@@ -272,8 +275,6 @@ export function PreviewDialog({
 
       const text = response.data.data.response.replace(regex, "");
 
-      console.log(response.data.data);
-
       updateChatIa({ type: "bot", text, details: response.data.data });
 
       if (response.status === 200) {
@@ -292,13 +293,12 @@ export function PreviewDialog({
         body: {
           ...values,
           baseOmie: values.baseOmie[0],
+          gatilho: values.gatilho[0],
         },
       });
 
-      if (response.status === 200) {
-        toast.success("Tudo certo emails sendo enviados!");
-        setValue("emailList", "");
-      }
+      toast.success("Tudo certo emails sendo enviados!");
+      setValue("emailList", "");
     } catch (error) {
       console.log(error);
       toast.error("Ouve um erro ao enviar emails");
@@ -318,8 +318,6 @@ export function PreviewDialog({
     await submitTypeMap[actionType](values);
   };
 
-  console.log(iaChat);
-
   useEffect(() => {
     setCodeVersion([templateEjs]);
   }, [templateEjs]);
@@ -331,7 +329,7 @@ export function PreviewDialog({
           <DialogBody p="2" h="full" asChild>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Flex h="full">
-                <Flex
+                {/* <Flex
                   alignItems="center"
                   position="absolute"
                   top="2"
@@ -434,7 +432,7 @@ export function PreviewDialog({
                   </Box>
                 </Flex>
 
-                <Separator orientation="vertical" />
+                <Separator orientation="vertical" /> */}
 
                 <Editor
                   setActionType={setActionType}
@@ -456,11 +454,11 @@ export function PreviewDialog({
                   disabled={isSubmitting}
                   type="submit"
                   onClick={() => setActionType("SAVE")}
-                  variant="subtle"
+                  variant="surface"
                   size="sm"
+                  colorPalette="black"
                 >
                   <Save />
-                  Salvar
                 </Button>
                 <DialogCloseTrigger
                   position="static"

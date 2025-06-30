@@ -7,7 +7,6 @@ import {
   IconButton,
 } from "@chakra-ui/react";
 
-import { IaChat } from "../../components/iaChat";
 import { TemplateForm } from "./form";
 
 import { TemplateService } from "../../services/template";

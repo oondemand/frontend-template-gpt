@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("authToken", data.token);
       await loadContext();
 
-      if (data.usuario.tipo === "master") {
+      if (data.usuario.tipo === "admin") {
         return { success: true, multiTenant: true };
       }
 

@@ -16,33 +16,23 @@ export const DEFAULT_SYSTEM_SETTINGS = [
 
 export const DEFAULT_ETAPAS_SETTINGS = [
   {
-    cCodigo: "10",
-    cDescrPadrao: "Ordem de Serviço",
-    cDescricao: "Segunda etapa",
-    cInativo: "N",
+    codigo: "10",
+    descricao: "Segunda etapa",
   },
   {
-    cCodigo: "20",
-    cDescrPadrao: "Em Execução",
-    cDescricao: "Terceira etapa",
-    cInativo: "N",
+    codigo: "20",
+    descricao: "Terceira etapa",
   },
   {
-    cCodigo: "30",
-    cDescrPadrao: "Executada",
-    cDescricao: "Quarta etapa",
-    cInativo: "N",
+    codigo: "30",
+    descricao: "Quarta etapa",
   },
   {
-    cCodigo: "40",
-    cDescrPadrao: "Executada",
-    cDescricao: "Quinta etapa",
-    cInativo: "N",
+    codigo: "40",
+    descricao: "Quinta etapa",
   },
   {
-    cCodigo: "50",
-    cDescrPadrao: "Faturar",
-    cDescricao: "Sexta etapa",
-    cInativo: "N",
+    codigo: "50",
+    descricao: "Sexta etapa",
   },
 ];

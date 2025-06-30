@@ -1,6 +1,5 @@
 import { Box, Heading, Button, Flex } from "@chakra-ui/react";
 
-import { IaChat } from "../../components/iaChat";
 import { IncludeForm } from "./form";
 import { IncludeService } from "../../services/include";
 import { useMutation, useQuery } from "@tanstack/react-query";

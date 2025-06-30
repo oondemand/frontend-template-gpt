@@ -8,9 +8,9 @@ import { useEffect } from "react";
 import { Server } from "lucide-react";
 
 const routes = [
-  { name: "Usuários", path: "/adm/usuarios", rules: ["master"] },
-  { name: "Tenants", path: "/adm/tenants", rules: ["master"] },
-  { name: "Assistentes", path: "/adm/assistentes", rules: ["master"] },
+  { name: "Usuários", path: "/adm/usuarios", rules: ["admin"] },
+  { name: "Tenants", path: "/adm/tenants", rules: ["admin"] },
+  { name: "Assistentes", path: "/adm/assistentes", rules: ["admin"] },
 ];
 
 export function MasterLayout() {
@@ -27,17 +27,17 @@ export function MasterLayout() {
     return <Navigate to="/login" />;
   }
 
-  if (user?.tipo !== "master" && isLoading === false) {
+  if (user?.tipo !== "admin" && isLoading === false) {
     return <Navigate to="/" />;
   }
 
-  if (user?.tipo === "master" && isLoading === false) {
+  if (user?.tipo === "admin" && isLoading === false) {
     return (
       <Grid templateColumns="repeat(8, 1fr)" bg="gray.50" minH="vh" minW="vw">
         <GridItem colSpan={1}>
           <Navbar.root navItems={routes} title="Painel do administrador">
             <Navbar.footer>
-              {user?.tipo === "master" && (
+              {user?.tipo === "admin" && (
                 <Button
                   onClick={() =>
                     navigate("/multi-tenant", { viewTransition: true })
