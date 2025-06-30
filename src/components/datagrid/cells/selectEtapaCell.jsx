@@ -28,7 +28,7 @@ export const SelectEtapaCell = ({ getValue, row, column, table, ...rest }) => {
       : DEFAULT_ETAPAS_SETTINGS;
 
     const items = source.map((etapa) => ({
-      label: `${etapa.codigo} - ${etapa.descricao}`,
+      label: `${etapa.descricao}`,
       value: etapa.codigo,
     }));
 

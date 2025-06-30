@@ -33,7 +33,7 @@ export function SelectEtapa({
     const source = etapasOmie ? etapasOmie[kanban] : DEFAULT_ETAPAS_SETTINGS;
 
     const items = source.map((etapa) => ({
-      label: `${etapa.codigo} - ${etapa.descricao}`,
+      label: etapa.descricao,
       value: etapa.codigo,
     }));
 
