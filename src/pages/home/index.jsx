@@ -49,11 +49,9 @@ export function Home() {
           borderColor="orange.200"
         >
           <Text h="60px" color="orange.400" fontSize="6xl" fontWeight="bold">
-            {
-              data?.quantidadePorKanbanEStatus?.find(
-                (e) => e?.kanban === "PedidoVenda"
-              )?.total
-            }
+            {data?.quantidadePorKanbanEStatus?.find(
+              (e) => e?.kanban === "PedidoVenda"
+            )?.total ?? 0}
           </Text>
           <Text mt="4" color="gray.400" fontSize="sm" fontWeight="semibold">
             Documentos gerados <br />
@@ -70,11 +68,9 @@ export function Home() {
           borderColor="orange.200"
         >
           <Text h="60px" color="orange.400" fontSize="6xl" fontWeight="bold">
-            {
-              data?.quantidadePorKanbanEStatus?.find(
-                (e) => e?.kanban === "OrdemServico"
-              )?.total
-            }
+            {data?.quantidadePorKanbanEStatus?.find(
+              (e) => e?.kanban === "OrdemServico"
+            )?.total ?? 0}
           </Text>
           <Text mt="4" color="gray.400" fontSize="sm" fontWeight="semibold">
             Documentos gerados <br />
@@ -91,10 +87,8 @@ export function Home() {
           borderColor="orange.200"
         >
           <Text h="60px" color="orange.400" fontSize="6xl" fontWeight="bold">
-            {
-              data?.quantidadePorKanbanEStatus?.find((e) => e?.kanban === "CRM")
-                ?.total
-            }
+            {data?.quantidadePorKanbanEStatus?.find((e) => e?.kanban === "CRM")
+              ?.total ?? 0}
           </Text>
           <Text mt="4" color="gray.400" fontSize="sm" fontWeight="semibold">
             Documentos gerados <br />
@@ -150,146 +144,156 @@ export function Home() {
           </Table.Root>
         </Box>
 
-        <Box
-          bg="white"
-          p="4"
-          rounded="lg"
-          border="1px dashed"
-          borderColor="orange.200"
-        >
-          <Text color="orange.400" fontWeight="semibold">
-            Documentos por status <br />
-            Pedido de Venda
-          </Text>
-          <Table.Root mt="4">
-            <Table.Header>
-              <Table.Row>
-                <Table.ColumnHeader
-                  fontSize="xs"
-                  color="gray.600"
-                  fontWeight="light"
-                  py="0.5"
-                >
-                  STATUS
-                </Table.ColumnHeader>
-                <Table.ColumnHeader
-                  fontSize="xs"
-                  color="gray.600"
-                  fontWeight="light"
-                  py="0.5"
-                >
-                  QUANTIDADE
-                </Table.ColumnHeader>
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              {data?.quantidadePorKanbanEStatus
-                ?.find((e) => e?.kanban === "PedidoVenda")
-                ?.porStatus.map((item) => (
-                  <Table.Row>
-                    <Table.Cell border="none">
-                      {toUpperFirstCase(item?.status)}
-                    </Table.Cell>
-                    <Table.Cell border="none">{item?.quantidade}</Table.Cell>
-                  </Table.Row>
-                ))}
-            </Table.Body>
-          </Table.Root>
-        </Box>
+        {data?.quantidadePorKanbanEStatus?.some(
+          (e) => e?.kanban === "PedidoVenda"
+        ) && (
+          <Box
+            bg="white"
+            p="4"
+            rounded="lg"
+            border="1px dashed"
+            borderColor="orange.200"
+          >
+            <Text color="orange.400" fontWeight="semibold">
+              Documentos por status <br />
+              Pedido de Venda
+            </Text>
+            <Table.Root mt="4">
+              <Table.Header>
+                <Table.Row>
+                  <Table.ColumnHeader
+                    fontSize="xs"
+                    color="gray.600"
+                    fontWeight="light"
+                    py="0.5"
+                  >
+                    STATUS
+                  </Table.ColumnHeader>
+                  <Table.ColumnHeader
+                    fontSize="xs"
+                    color="gray.600"
+                    fontWeight="light"
+                    py="0.5"
+                  >
+                    QUANTIDADE
+                  </Table.ColumnHeader>
+                </Table.Row>
+              </Table.Header>
+              <Table.Body>
+                {data?.quantidadePorKanbanEStatus
+                  ?.find((e) => e?.kanban === "PedidoVenda")
+                  ?.porStatus.map((item) => (
+                    <Table.Row>
+                      <Table.Cell border="none">
+                        {toUpperFirstCase(item?.status)}
+                      </Table.Cell>
+                      <Table.Cell border="none">{item?.quantidade}</Table.Cell>
+                    </Table.Row>
+                  ))}
+              </Table.Body>
+            </Table.Root>
+          </Box>
+        )}
 
-        <Box
-          bg="white"
-          p="4"
-          rounded="lg"
-          border="1px dashed"
-          borderColor="orange.200"
-        >
-          <Text color="orange.400" fontWeight="semibold">
-            Documentos por status <br />
-            Ordem de Serviço
-          </Text>
-          <Table.Root mt="4">
-            <Table.Header>
-              <Table.Row>
-                <Table.ColumnHeader
-                  fontSize="xs"
-                  color="gray.600"
-                  fontWeight="light"
-                  py="0.5"
-                >
-                  STATUS
-                </Table.ColumnHeader>
-                <Table.ColumnHeader
-                  fontSize="xs"
-                  color="gray.600"
-                  fontWeight="light"
-                  py="0.5"
-                >
-                  QUANTIDADE
-                </Table.ColumnHeader>
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              {data?.quantidadePorKanbanEStatus
-                ?.find((e) => e?.kanban === "OrdemServico")
-                ?.porStatus.map((item) => (
-                  <Table.Row>
-                    <Table.Cell border="none">
-                      {toUpperFirstCase(item?.status)}
-                    </Table.Cell>
-                    <Table.Cell border="none">{item?.quantidade}</Table.Cell>
-                  </Table.Row>
-                ))}
-            </Table.Body>
-          </Table.Root>
-        </Box>
+        {data?.quantidadePorKanbanEStatus?.some(
+          (e) => e?.kanban === "OrdemServico"
+        ) && (
+          <Box
+            bg="white"
+            p="4"
+            rounded="lg"
+            border="1px dashed"
+            borderColor="orange.200"
+          >
+            <Text color="orange.400" fontWeight="semibold">
+              Documentos por status <br />
+              Ordem de Serviço
+            </Text>
+            <Table.Root mt="4">
+              <Table.Header>
+                <Table.Row>
+                  <Table.ColumnHeader
+                    fontSize="xs"
+                    color="gray.600"
+                    fontWeight="light"
+                    py="0.5"
+                  >
+                    STATUS
+                  </Table.ColumnHeader>
+                  <Table.ColumnHeader
+                    fontSize="xs"
+                    color="gray.600"
+                    fontWeight="light"
+                    py="0.5"
+                  >
+                    QUANTIDADE
+                  </Table.ColumnHeader>
+                </Table.Row>
+              </Table.Header>
+              <Table.Body>
+                {data?.quantidadePorKanbanEStatus
+                  ?.find((e) => e?.kanban === "OrdemServico")
+                  ?.porStatus.map((item) => (
+                    <Table.Row>
+                      <Table.Cell border="none">
+                        {toUpperFirstCase(item?.status)}
+                      </Table.Cell>
+                      <Table.Cell border="none">{item?.quantidade}</Table.Cell>
+                    </Table.Row>
+                  ))}
+              </Table.Body>
+            </Table.Root>
+          </Box>
+        )}
 
-        <Box
-          bg="white"
-          p="4"
-          rounded="lg"
-          border="1px dashed"
-          borderColor="orange.200"
-        >
-          <Text color="orange.400" fontWeight="semibold">
-            Documentos por status <br />
-            CRM
-          </Text>
-          <Table.Root mt="4">
-            <Table.Header>
-              <Table.Row>
-                <Table.ColumnHeader
-                  fontSize="xs"
-                  color="gray.600"
-                  fontWeight="light"
-                  py="0.5"
-                >
-                  STATUS
-                </Table.ColumnHeader>
-                <Table.ColumnHeader
-                  fontSize="xs"
-                  color="gray.600"
-                  fontWeight="light"
-                  py="0.5"
-                >
-                  QUANTIDADE
-                </Table.ColumnHeader>
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              {data?.quantidadePorKanbanEStatus
-                ?.find((e) => e?.kanban === "CRM")
-                ?.porStatus.map((item) => (
-                  <Table.Row>
-                    <Table.Cell border="none">
-                      {toUpperFirstCase(item?.status)}
-                    </Table.Cell>
-                    <Table.Cell border="none">{item?.quantidade}</Table.Cell>
-                  </Table.Row>
-                ))}
-            </Table.Body>
-          </Table.Root>
-        </Box>
+        {data?.quantidadePorKanbanEStatus?.some((e) => e?.kanban === "CRM") && (
+          <Box
+            bg="white"
+            p="4"
+            rounded="lg"
+            border="1px dashed"
+            borderColor="orange.200"
+          >
+            <Text color="orange.400" fontWeight="semibold">
+              Documentos por status <br />
+              CRM
+            </Text>
+            <Table.Root mt="4">
+              <Table.Header>
+                <Table.Row>
+                  <Table.ColumnHeader
+                    fontSize="xs"
+                    color="gray.600"
+                    fontWeight="light"
+                    py="0.5"
+                  >
+                    STATUS
+                  </Table.ColumnHeader>
+                  <Table.ColumnHeader
+                    fontSize="xs"
+                    color="gray.600"
+                    fontWeight="light"
+                    py="0.5"
+                  >
+                    QUANTIDADE
+                  </Table.ColumnHeader>
+                </Table.Row>
+              </Table.Header>
+              <Table.Body>
+                {data?.quantidadePorKanbanEStatus
+                  ?.find((e) => e?.kanban === "CRM")
+                  ?.porStatus.map((item) => (
+                    <Table.Row>
+                      <Table.Cell border="none">
+                        {toUpperFirstCase(item?.status)}
+                      </Table.Cell>
+                      <Table.Cell border="none">{item?.quantidade}</Table.Cell>
+                    </Table.Row>
+                  ))}
+              </Table.Body>
+            </Table.Root>
+          </Box>
+        )}
       </Flex>
     </Box>
   );
