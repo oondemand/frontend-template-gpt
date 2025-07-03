@@ -140,7 +140,7 @@ export function PromptForm({ onSubmit, formId, data }) {
                   <SelectValueText placeholder={field.value} />
                 </SelectTrigger>
                 <SelectContent zIndex={9999}>
-                  {options.items.map((status) => (
+                  {options.items?.map((status) => (
                     <SelectItem
                       cursor="pointer"
                       item={status}
@@ -184,7 +184,7 @@ export function PromptForm({ onSubmit, formId, data }) {
                 <SelectValueText placeholder={field.value} />
               </SelectTrigger>
               <SelectContent zIndex={9999}>
-                {optionsConteudo.items.map((status) => (
+                {optionsConteudo.items?.map((status) => (
                   <SelectItem cursor="pointer" item={status} key={status.value}>
                     {status.label}
                   </SelectItem>

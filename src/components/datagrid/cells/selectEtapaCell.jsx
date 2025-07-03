@@ -27,7 +27,7 @@ export const SelectEtapaCell = ({ getValue, row, column, table, ...rest }) => {
       ? etapasOmie[row.original?.kanbanOmie]
       : DEFAULT_ETAPAS_SETTINGS;
 
-    const items = source.map((etapa) => ({
+    const items = source?.map((etapa) => ({
       label: `${etapa.codigo} - ${etapa.descricao}`,
       value: etapa.codigo,
     }));
@@ -72,7 +72,7 @@ export const SelectEtapaCell = ({ getValue, row, column, table, ...rest }) => {
         <SelectValueText cursor="pointer" placeholder="Selecione uma etapa" />
       </SelectTrigger>
       <SelectContent onBlur={onBlur}>
-        {etapasCollection.items.map((framework) => (
+        {etapasCollection.items?.map((framework) => (
           <SelectItem
             cursor="pointer"
             rounded="sm"

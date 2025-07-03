@@ -7,7 +7,7 @@ import { queryClient } from "../../../../config/react-query";
 export const TableBody = memo(({ rows }) => {
   return (
     <Table.Body>
-      {rows.map((row) => (
+      {rows?.map((row) => (
         <Popover.Root
           lazyMount
           unmountOnExit
@@ -15,7 +15,7 @@ export const TableBody = memo(({ rows }) => {
           positioning={{ placement: "right-end" }}
         >
           <Table.Row>
-            {row.getVisibleCells().map((cell) => (
+            {row.getVisibleCells()?.map((cell) => (
               <Table.Cell
                 fontSize="md"
                 w={`calc(var(--col-${cell.column.id}-size) * 1px)`}

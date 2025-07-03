@@ -115,7 +115,7 @@ export function ListAssistant() {
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {assistants.map((assistant) => (
+              {assistants?.map((assistant) => (
                 <Table.Row key={assistant._id}>
                   <Table.Cell>{assistant.nome}</Table.Cell>
                   <Table.Cell>{assistant.descricao}</Table.Cell>

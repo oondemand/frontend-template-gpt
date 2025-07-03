@@ -41,7 +41,7 @@ export function CaracteristicasForm({
         item?.baseOmie?._id == baseOmie
       );
     })
-    .map(({ nome, codigo, valor, _id }) => ({ nome, codigo, valor, _id }));
+    ?.map(({ nome, codigo, valor, _id }) => ({ nome, codigo, valor, _id }));
 
   const [settings, setSettings] = useState(filteredData);
   const [codError, setCodError] = useState("");
@@ -89,7 +89,7 @@ export function CaracteristicasForm({
       });
 
       setSettings((prevSettings) =>
-        prevSettings.map((setting) =>
+        prevSettings?.map((setting) =>
           setting._id === data._id ? { ...setting, ...data } : setting
         )
       );
@@ -156,7 +156,7 @@ export function CaracteristicasForm({
         </Button>
       </Flex>
       <Box gap="4" mt="4">
-        {settings.map((e, i) => (
+        {settings?.map((e, i) => (
           <Flex key={e._id} gap="6" mb="4" alignItems="center">
             <Box>
               <AutocompleteInput
@@ -164,7 +164,7 @@ export function CaracteristicasForm({
                 suggestions={[
                   ...new Set(
                     initialSettings
-                      .map((e) => e.codigo)
+                      ?.map((e) => e.codigo)
                       .filter(
                         (codigo) =>
                           codigo !== "" &&

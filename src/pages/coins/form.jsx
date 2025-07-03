@@ -116,7 +116,7 @@ export function CoinsForm({ onSubmit, formId, data }) {
                   <SelectValueText placeholder={field.name} />
                 </SelectTrigger>
                 <SelectContent>
-                  {statusOptions.items.map((status) => (
+                  {statusOptions.items?.map((status) => (
                     <SelectItem item={status} key={status.value}>
                       {status.label}
                     </SelectItem>
@@ -147,7 +147,7 @@ export function CoinsForm({ onSubmit, formId, data }) {
                   <SelectValueText placeholder={field.name} />
                 </SelectTrigger>
                 <SelectContent>
-                  {countingOptions.items.map((tipoCotacao) => (
+                  {countingOptions.items?.map((tipoCotacao) => (
                     <SelectItem item={tipoCotacao} key={tipoCotacao.value}>
                       {tipoCotacao.label}
                     </SelectItem>

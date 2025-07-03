@@ -94,7 +94,7 @@ export function ListTenants() {
                 </Table.Row>
               </Table.Header>
               <Table.Body>
-                {tenants.map((tenant) => (
+                {tenants?.map((tenant) => (
                   <Table.Row key={tenant._id}>
                     <Table.Cell>{tenant.nome}</Table.Cell>
                     <Table.Cell>{tenant._id}</Table.Cell>

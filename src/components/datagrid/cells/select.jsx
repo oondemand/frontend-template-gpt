@@ -65,7 +65,7 @@ export const SelectCell = ({
         <SelectValueText cursor="pointer" placeholder="Select framework" />
       </SelectTrigger>
       <SelectContent onBlur={onBlur}>
-        {optionsCollection.items.map((framework) => (
+        {optionsCollection.items?.map((framework) => (
           <SelectItem
             cursor="pointer"
             rounded="sm"

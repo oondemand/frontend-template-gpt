@@ -111,7 +111,7 @@ export function BaseOmiesForm({ onSubmit, formId, data }) {
                 <SelectValueText placeholder={field.name} />
               </SelectTrigger>
               <SelectContent>
-                {statusOptions.items.map((status) => (
+                {statusOptions.items?.map((status) => (
                   <SelectItem item={status} key={status.value}>
                     {status.label}
                   </SelectItem>

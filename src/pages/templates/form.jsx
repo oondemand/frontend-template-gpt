@@ -137,7 +137,7 @@ export function TemplateForm({ onSubmit, formId, data, dialogId }) {
                     <SelectValueText placeholder={field.value} />
                   </SelectTrigger>
                   <SelectContent>
-                    {statusOptions.items.map((status) => (
+                    {statusOptions.items?.map((status) => (
                       <SelectItem item={status} key={status.value}>
                         {status.label}
                       </SelectItem>

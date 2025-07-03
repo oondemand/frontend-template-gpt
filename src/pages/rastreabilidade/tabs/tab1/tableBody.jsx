@@ -6,14 +6,14 @@ import { DetailsCard } from "./card";
 export const TableBody = memo(({ rows }) => {
   return (
     <Table.Body>
-      {rows.map((row) => (
+      {rows?.map((row) => (
         <Popover.Root
           lazyMount
           key={row.id}
           positioning={{ placement: "right-end" }}
         >
           <Table.Row>
-            {row.getVisibleCells().map((cell) => (
+            {row.getVisibleCells()?.map((cell) => (
               <Table.Cell
                 fontSize="md"
                 w={`calc(var(--col-${cell.column.id}-size) * 1px)`}

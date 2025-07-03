@@ -97,7 +97,7 @@ export function ListTemplates() {
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {templates.map((template) => (
+              {templates?.map((template) => (
                 <Table.Row key={template._id}>
                   <Table.Cell>{template.codigo}</Table.Cell>
                   <Table.Cell>{template.descricao}</Table.Cell>

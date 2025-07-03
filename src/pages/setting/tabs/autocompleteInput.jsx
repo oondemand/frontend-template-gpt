@@ -99,7 +99,7 @@ export const AutocompleteInput = ({
           zIndex={10}
           mt={1}
         >
-          {filteredSuggestions.map((item, index) => (
+          {filteredSuggestions?.map((item, index) => (
             <List.Item
               key={index}
               px={3}

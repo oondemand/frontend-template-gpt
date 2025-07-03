@@ -96,7 +96,7 @@ export function ListIncludes() {
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {includes.map((include) => (
+              {includes?.map((include) => (
                 <Table.Row key={include._id}>
                   <Table.Cell maxW="300px">
                     <Text truncate>{include?.codigo}</Text>

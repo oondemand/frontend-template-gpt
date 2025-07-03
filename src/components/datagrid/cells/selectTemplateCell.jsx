@@ -76,7 +76,7 @@ export const SelectTemplateCell = ({
         <SelectValueText cursor="pointer" placeholder="Selecione um template" />
       </SelectTrigger>
       <SelectContent onBlur={onBlur}>
-        {templatesCollection.items.map((item) => (
+        {templatesCollection.items?.map((item) => (
           <SelectItem
             cursor="pointer"
             rounded="sm"

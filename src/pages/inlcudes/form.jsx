@@ -119,7 +119,7 @@ export function IncludeForm({ onSubmit, formId, data }) {
                   <SelectValueText placeholder={field.value} />
                 </SelectTrigger>
                 <SelectContent>
-                  {statusOptions.items.map((status) => (
+                  {statusOptions.items?.map((status) => (
                     <SelectItem item={status} key={status.value}>
                       {status.label}
                     </SelectItem>

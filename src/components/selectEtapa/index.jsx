@@ -32,7 +32,7 @@ export function SelectEtapa({
   const etapasCollection = useMemo(() => {
     const source = etapasOmie ? etapasOmie[kanban] : DEFAULT_ETAPAS_SETTINGS;
 
-    const items = source.map((etapa) => ({
+    const items = source?.map((etapa) => ({
       label: etapa.descricao,
       value: etapa.codigo,
     }));

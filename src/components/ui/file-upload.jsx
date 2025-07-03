@@ -95,7 +95,7 @@ export const FileUploadList = React.forwardRef(function FileUploadList(
 
   return (
     <ChakraFileUpload.ItemGroup ref={ref} {...rest}>
-      {acceptedFiles.map((file) => (
+      {acceptedFiles?.map((file) => (
         <FileUploadItem
           key={file.name}
           file={file}

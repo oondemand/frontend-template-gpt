@@ -98,7 +98,7 @@ export function ListBaseOmies() {
                 </Table.Row>
               </Table.Header>
               <Table.Body>
-                {baseOmies.map((baseOmie) => (
+                {baseOmies?.map((baseOmie) => (
                   <Table.Row key={baseOmie._id}>
                     <Table.Cell>{baseOmie.nome}</Table.Cell>
                     <Table.Cell>{baseOmie.cnpj}</Table.Cell>
