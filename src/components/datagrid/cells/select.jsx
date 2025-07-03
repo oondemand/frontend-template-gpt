@@ -62,7 +62,7 @@ export const SelectCell = ({
         focusRingWidth="2px"
         rounded="sm"
       >
-        <SelectValueText cursor="pointer" placeholder="Select framework" />
+        <SelectValueText cursor="pointer" placeholder="Selecione uma opção" />
       </SelectTrigger>
       <SelectContent onBlur={onBlur}>
         {optionsCollection.items?.map((framework) => (
