@@ -76,7 +76,7 @@ export const SelectCode = ({ data, onChange, value, w = "sm" }) => {
           listStyleType="none"
           bg="white"
         >
-          {options.map((element, index) => {
+          {options?.map((element, index) => {
             return (
               <List.Item
                 p={2}

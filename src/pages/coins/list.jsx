@@ -105,7 +105,7 @@ export function ListCoins() {
                 </Table.Row>
               </Table.Header>
               <Table.Body>
-                {coins.map((coin) => (
+                {coins?.map((coin) => (
                   <Table.Row key={coin._id}>
                     <Table.Cell>{coin.simbolo}</Table.Cell>
                     <Table.Cell>{tipoCotacaoMap[coin.tipoCotacao]}</Table.Cell>

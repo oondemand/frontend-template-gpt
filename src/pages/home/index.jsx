@@ -182,7 +182,7 @@ export function Home() {
               <Table.Body>
                 {data?.quantidadePorKanbanEStatus
                   ?.find((e) => e?.kanban === "PedidoVenda")
-                  ?.porStatus.map((item) => (
+                  ?.porStatus?.map((item) => (
                     <Table.Row>
                       <Table.Cell border="none">
                         {toUpperFirstCase(item?.status)}
@@ -233,7 +233,7 @@ export function Home() {
               <Table.Body>
                 {data?.quantidadePorKanbanEStatus
                   ?.find((e) => e?.kanban === "OrdemServico")
-                  ?.porStatus.map((item) => (
+                  ?.porStatus?.map((item) => (
                     <Table.Row>
                       <Table.Cell border="none">
                         {toUpperFirstCase(item?.status)}
@@ -282,7 +282,7 @@ export function Home() {
               <Table.Body>
                 {data?.quantidadePorKanbanEStatus
                   ?.find((e) => e?.kanban === "CRM")
-                  ?.porStatus.map((item) => (
+                  ?.porStatus?.map((item) => (
                     <Table.Row>
                       <Table.Cell border="none">
                         {toUpperFirstCase(item?.status)}

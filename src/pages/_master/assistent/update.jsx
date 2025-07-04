@@ -236,7 +236,7 @@ export function UpdateAssistente() {
                 </Table.Row>
               </Table.Header>
               <Table.Body>
-                {prompts.map((prompt, i) => (
+                {prompts?.map((prompt, i) => (
                   <Table.Row key={prompt._id}>
                     <Table.Cell>{prompt.codigo}</Table.Cell>
                     <Table.Cell>{prompt.tipo}</Table.Cell>

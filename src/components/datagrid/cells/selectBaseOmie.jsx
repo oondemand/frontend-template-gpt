@@ -75,7 +75,7 @@ export const SelectBaseOmieCell = ({
         <SelectValueText cursor="pointer" placeholder="Selecione uma base" />
       </SelectTrigger>
       <SelectContent onBlur={onBlur}>
-        {baseOmiesCollection.items.map((framework) => (
+        {baseOmiesCollection.items?.map((framework) => (
           <SelectItem
             cursor="pointer"
             rounded="sm"

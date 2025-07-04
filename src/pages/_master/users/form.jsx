@@ -101,7 +101,7 @@ export function UsersForm({ onSubmit, formId, data, isCreating }) {
                   <SelectValueText placeholder={field.value} />
                 </SelectTrigger>
                 <SelectContent>
-                  {statusOptions.items.map((status) => (
+                  {statusOptions.items?.map((status) => (
                     <SelectItem item={status} key={status.value}>
                       {status.label}
                     </SelectItem>
@@ -129,7 +129,7 @@ export function UsersForm({ onSubmit, formId, data, isCreating }) {
                   <SelectValueText placeholder={field.value} />
                 </SelectTrigger>
                 <SelectContent>
-                  {tipeOptions.items.map((type) => (
+                  {tipeOptions.items?.map((type) => (
                     <SelectItem item={type} key={type.value}>
                       {type.label}
                     </SelectItem>

@@ -18,6 +18,8 @@ const chatSchema = z.object({
 
 const saveSchema = z.object({
   templateEjs: z.string().min(1, "templateEjs é obrigatório."),
+  omieVar: z.string(),
+  systemVar: z.string(),
 });
 
 const importOsSchema = z.object({

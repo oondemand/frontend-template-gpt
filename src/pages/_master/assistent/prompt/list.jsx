@@ -61,7 +61,7 @@ export function ListPrompts() {
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {prompts.map((prompt) => (
+              {prompts?.map((prompt) => (
                 <Table.Row key={prompt._id}>
                   <Table.Cell>{prompt.nome}</Table.Cell>
                   <Table.Cell>{prompt.tipo}</Table.Cell>

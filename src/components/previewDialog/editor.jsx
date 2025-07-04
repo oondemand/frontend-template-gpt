@@ -168,7 +168,7 @@ export const Editor = ({ setActionType, codeVersion, previewError, data }) => {
             </Collapsible.Trigger>
             <Flex>
               {codeVersion.length > 0 &&
-                codeVersion.map((e, i) => (
+                codeVersion?.map((e, i) => (
                   <Button
                     disabled={isSubmitting}
                     key={`btn-0${i}`}

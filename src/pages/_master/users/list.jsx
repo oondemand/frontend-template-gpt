@@ -95,7 +95,7 @@ export function ListUsers() {
                 </Table.Row>
               </Table.Header>
               <Table.Body>
-                {users.map((user) => (
+                {users?.map((user) => (
                   <Table.Row key={user._id}>
                     <Table.Cell>{user.nome}</Table.Cell>
                     <Table.Cell>{user._id}</Table.Cell>

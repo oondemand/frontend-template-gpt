@@ -116,7 +116,7 @@ export function AssistantForm({ onSubmit, formId, data }) {
                   <SelectValueText placeholder={field.value} />
                 </SelectTrigger>
                 <SelectContent zIndex={9999}>
-                  {modelsOptions.items.map((status) => (
+                  {modelsOptions.items?.map((status) => (
                     <SelectItem
                       cursor="pointer"
                       item={status}
