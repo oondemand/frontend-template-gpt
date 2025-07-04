@@ -159,6 +159,8 @@ export function PreviewDialog({
   };
 
   const onSaveSubmit = async (values) => {
+    console.log("VAL", values);
+
     try {
       const response = await updateTemplateMutation({
         id: templateId,
