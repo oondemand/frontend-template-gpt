@@ -23,9 +23,10 @@ export const SelectEtapaCell = ({ getValue, row, column, table, ...rest }) => {
   });
 
   const etapasCollection = useMemo(() => {
-    const source = etapasOmie
-      ? etapasOmie[row.original?.kanbanOmie]
-      : DEFAULT_ETAPAS_SETTINGS;
+    const source =
+      etapasOmie && etapasOmie[row.original?.kanbanOmie]
+        ? etapasOmie[row.original?.kanbanOmie]
+        : DEFAULT_ETAPAS_SETTINGS;
 
     const items = source?.map((etapa) => ({
       label: `${etapa.codigo} - ${etapa.descricao}`,
